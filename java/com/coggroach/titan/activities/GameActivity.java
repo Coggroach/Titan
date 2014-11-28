@@ -1,4 +1,4 @@
-package com.coggroach.minekeeper.activities;
+package com.coggroach.titan.activities;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -13,14 +13,13 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-//import com.coggroach.minekeeper.game.Difficulty;
-import com.coggroach.minekeeper.game.Game;
-import com.coggroach.minekeeper.game.MultiGoesGame;
-import com.coggroach.minekeeper.game.Options;
-import com.coggroach.minekeeper.game.RainbowGame;
-import com.coggroach.minekeeper.graphics.TileRenderer;
-import com.coggroach.minekeeper.tile.Tile;
-import com.coggroach.minekeeper.tile.TileColour;
+import com.coggroach.titan.game.Game;
+import com.coggroach.titan.game.MultiGoesGame;
+import com.coggroach.titan.game.Options;
+import com.coggroach.titan.game.RainbowGame;
+import com.coggroach.titan.graphics.TileRenderer;
+import com.coggroach.titan.tile.Tile;
+import com.coggroach.titan.tile.TileColour;
 
 import java.util.Random;
 
@@ -32,7 +31,6 @@ public class GameActivity extends Activity
     private Game game;
     private GLSurfaceView mGLView;
     private TileRenderer mGLRender;
-    private boolean updateRenderer;
 
     private View.OnTouchListener listener = new View.OnTouchListener()
     {

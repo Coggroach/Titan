@@ -1,6 +1,6 @@
-package com.coggroach.minekeeper.game;
+package com.coggroach.titan.game;
 
-import com.coggroach.minekeeper.R;
+import com.coggroach.titan.R;
 
 /**
  * Created by TARDIS on 20/11/2014.

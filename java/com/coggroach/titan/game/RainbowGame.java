@@ -1,4 +1,4 @@
-package com.coggroach.minekeeper.game;
+package com.coggroach.titan.game;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -8,9 +8,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.coggroach.minekeeper.graphics.TileRenderer;
-import com.coggroach.minekeeper.tile.Tile;
-import com.coggroach.minekeeper.tile.TileColour;
+import com.coggroach.titan.graphics.TileRenderer;
+import com.coggroach.titan.tile.Tile;
+import com.coggroach.titan.tile.TileColour;
 
 import org.w3c.dom.Text;
 

@@ -1,4 +1,4 @@
-package com.coggroach.minekeeper.graphics;
+package com.coggroach.titan.graphics;
 
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;

@@ -1,4 +1,4 @@
-package com.coggroach.minekeeper.graphics;
+package com.coggroach.titan.graphics;
 
 /**
  * Created by TARDIS on 13/11/2014.

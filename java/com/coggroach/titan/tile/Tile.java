@@ -1,4 +1,4 @@
-package com.coggroach.minekeeper.tile;
+package com.coggroach.titan.tile;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;

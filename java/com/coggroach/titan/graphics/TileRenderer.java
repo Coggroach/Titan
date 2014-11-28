@@ -1,14 +1,14 @@
-package com.coggroach.minekeeper.graphics;
+package com.coggroach.titan.graphics;
 
 import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 
-import com.coggroach.minekeeper.R;
-import com.coggroach.minekeeper.activities.GameActivity;
-import com.coggroach.minekeeper.common.ResourceReader;
-import com.coggroach.minekeeper.game.Options;
-import com.coggroach.minekeeper.tile.Tile;
+import com.coggroach.titan.R;
+import com.coggroach.titan.activities.GameActivity;
+import com.coggroach.titan.common.ResourceReader;
+import com.coggroach.titan.game.Options;
+import com.coggroach.titan.tile.Tile;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;

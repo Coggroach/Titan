@@ -1,7 +1,7 @@
-package com.coggroach.minekeeper.game;
+package com.coggroach.titan.game;
 
-import com.coggroach.minekeeper.tile.Tile;
-import com.coggroach.minekeeper.tile.TileColour;
+import com.coggroach.titan.tile.Tile;
+import com.coggroach.titan.tile.TileColour;
 
 /**
  * Created by TARDIS on 27/11/2014.
