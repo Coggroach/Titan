@@ -1,9 +1,9 @@
-package com.coggroach.minekeeper.graphics;
+package com.coggroach.titan.graphics;
 
 import android.content.Context;
 import android.util.Log;
 
-import com.coggroach.minekeeper.common.ResourceReader;
+import com.coggroach.titan.common.ResourceReader;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;

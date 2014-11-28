@@ -1,4 +1,4 @@
-package com.coggroach.minekeeper.tile;
+package com.coggroach.titan.tile;
 
 /**
  * Created by TARDIS on 23/11/2014.

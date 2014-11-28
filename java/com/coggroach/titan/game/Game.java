@@ -1,10 +1,10 @@
-package com.coggroach.minekeeper.game;
+package com.coggroach.titan.game;
 
 import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.coggroach.minekeeper.tile.Tile;
+import com.coggroach.titan.tile.Tile;
 
 import java.util.ArrayList;
 
