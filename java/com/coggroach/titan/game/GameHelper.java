@@ -75,6 +75,8 @@ public class GameHelper
         {
             i = 8;
         }
+        i += (Options.PALETTE_ID*9);
+
         switch (i)
         {
             case 0:
@@ -94,6 +96,24 @@ public class GameHelper
             case 7:
                 return TileColour.pink;
             case 8:
+                return TileColour.black;
+            case 9:
+                return TileColour.thermalBomb;
+            case 10:
+                return TileColour.thermalYellow;
+            case 11:
+                return TileColour.thermalGold;
+            case 12:
+                return TileColour.thermalOrange;
+            case 13:
+                return TileColour.thermalRed;
+            case 14:
+                return TileColour.thermalPink;
+            case 15:
+                return TileColour.thermalPurple;
+            case 16:
+                return TileColour.thermalBlue;
+            case 17:
                 return TileColour.black;
             default:
                 return TileColour.white;

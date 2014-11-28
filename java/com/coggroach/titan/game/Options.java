@@ -10,6 +10,7 @@ public class Options
     public static int width, height;
     public static int TEXTURE_ID = R.drawable.metal_texture_square;
     public static int GAMEMODE_ID = 1;
+    public static int PALETTE_ID = 1;
 
     public static int getWidth() {
         return width;

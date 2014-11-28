@@ -20,6 +20,20 @@ public class TileColour
     public static TileColour grey = new TileColour(0.45F, 0.45F, 0.45F, 1.0F);
     public static TileColour black = new TileColour(0.1F, 0.1F, 0.1F, 0.5F);
 
+    public static TileColour thermalBomb = new TileColour(1.0F, 1.0F, 0.0F, 0.5F);
+    public static TileColour thermalYellow = new TileColour(0.99609375F, 0.8671875F, 0.12890625F, 1.0F);
+    public static TileColour thermalGold = new TileColour(0.97265625F, 0.62109375F, 0.0078125F, 1.0F);
+    public static TileColour thermalOrange = new TileColour(0.90625F, 0.32421875F, 0.01171875F, 1.0F);
+    public static TileColour thermalRed = new TileColour(0.886718F, 0.234375F, 0.1640625F, 1.0F);
+    public static TileColour thermalPink = new TileColour(0.75390625F, 0.03125F, 0.53125F, 1.0F);
+    public static TileColour thermalPurple = new TileColour(0.3671875F, 0.0F, 0.58203125F, 1.0F);
+    public static TileColour thermalBlue = new TileColour(0.1328125F, 0.0F, 0.44921875F, 1.0F);
+
+    public TileColour(int i, int j, int k, int l)
+    {
+        this((float) i/255, (float) j/255, (float) k/255, (float) l/255);
+    }
+
     public TileColour(float i, float j, float k, float l)
     {
         this.R = i;
@@ -37,6 +51,5 @@ public class TileColour
     {
         return new float[] {R, G, B, A};
     }
-
 
 }
