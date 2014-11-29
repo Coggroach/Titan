@@ -41,8 +41,8 @@ public class MultiGoesGame extends Game
 
     protected MultiGoesGame(int w, int h)
     {
-        Options.width = 3;
-        Options.height = 3;
+        this.width = 3;
+        this.height = 3;
         this.start(w, h);
     }
 
@@ -58,14 +58,14 @@ public class MultiGoesGame extends Game
 
     public void incDifficulty()
     {
-        Options.width++;
-        Options.height++;
+        this.width++;
+        this.height++;
     }
 
     public void resetDifficulty()
     {
-        Options.width = 3;
-        Options.height = 3;
+        this.width = 3;
+        this.height = 3;
     }
 
     public void decLives()
@@ -186,13 +186,7 @@ public class MultiGoesGame extends Game
             //this.isRendering = true;
             this.isGameOn = true;
 
-
-            int w = Options.getWidth();
-            int h = Options.getHeight();
-
-            this.height = w;
-            this.width = h;
-            this.tiles = new Tile[w * h];
+            this.tiles = new Tile[width * height];
             for(int i = 0; i < tiles.length; i++)
             {
                 tiles[i] = new Tile(i, defaultColour);

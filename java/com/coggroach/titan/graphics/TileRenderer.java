@@ -6,6 +6,7 @@ import android.opengl.Matrix;
 
 import com.coggroach.titan.R;
 import com.coggroach.titan.activities.GameActivity;
+import com.coggroach.titan.common.AssetReader;
 import com.coggroach.titan.common.ResourceReader;
 import com.coggroach.titan.game.Options;
 import com.coggroach.titan.tile.Tile;
@@ -102,7 +103,7 @@ public class TileRenderer extends AbstractGLRenderer
         final int pointFragmentShaderHandle = compileShader(GLES20.GL_FRAGMENT_SHADER, pointFragmentShader);
         mPointProgramHandle = createAndLinkProgram(pointVertexShaderHandle, pointFragmentShaderHandle, new String[] {"a_Position"});
 
-        mTextureDataHandle = ResourceReader.loadTexture(context, Options.TEXTURE_ID);
+        mTextureDataHandle = AssetReader.loadTexture(context, Options.TEXTURE);
     }
 
     @Override

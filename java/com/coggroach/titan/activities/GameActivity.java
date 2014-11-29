@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,7 +33,7 @@ public class GameActivity extends Activity
     private Game game;
     private GLSurfaceView mGLView;
     private TileRenderer mGLRender;
-       
+
 
     private View.OnTouchListener listener = new View.OnTouchListener()
     {
@@ -62,8 +63,11 @@ public class GameActivity extends Activity
     {
         super.onCreate(savedInstanceState);
 
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+        getActionBar().hide();
+
         mGLView = new GLSurfaceView(this);
-        game = getGameFromId(Options.GAMEMODE_ID);
+        game = getGameFromId(Options.GAMEMODE);
         mGLRender = new TileRenderer(this);
         ActionBar.LayoutParams params = new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
