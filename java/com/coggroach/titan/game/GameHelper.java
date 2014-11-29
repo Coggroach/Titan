@@ -61,9 +61,14 @@ public class GameHelper
 
     protected static boolean setColourWithinBounds(Game game, int x, int y, int i)
     {
+        return setColourWithinBounds(game, x, y, new TileColour(750 - i * 50));
+    }
+
+    protected static boolean setColourWithinBounds(Game game, int x, int y, TileColour c)
+    {
         if(x >= 0 && x < game.getWidth() && y >= 0 && y < game.getHeight())
         {
-            game.getTile(x, y).setColour(getIndexedTileColour(i));
+            game.getTile(x, y).setColour(c);
             return true;
         }
         return false;

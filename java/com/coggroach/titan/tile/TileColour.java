@@ -36,40 +36,14 @@ public class TileColour
 
     public TileColour(int WaveLength)
     {
-        int min = WaveLengthMin;
-        boolean slope = false;
-        for(int i = 0; i < 6; i++)
-        {
-            if(withinRange(WaveLength, min, WaveLengthRanges[i]))
-            {
-                B = (BlueRanges[i] == 2) ? getColourFromWaveLength(WaveLength, slope, min, WaveLengthRanges[i]) : BlueRanges[i];
-                G = (GreenRanges[i] == 2) ? getColourFromWaveLength(WaveLength, slope, min, WaveLengthRanges[i]) : GreenRanges[i];
-                R = (RedRanges[i] == 2) ? getColourFromWaveLength(WaveLength, slope, min, WaveLengthRanges[i]) : RedRanges[i];
-            }
-            min += WaveLengthRanges[i];
-            slope = !slope;
-        }
+        float[] colours = Spectrum.WaveLengthToRGB(WaveLength);
+
+        this.R = colours[0];
+        this.G = colours[1];
+        this.B = colours[2];
+        this.A = 1.0F;
     }
 
-    //NanoMeters
-    private int[] WaveLengthRanges = {60, 50, 20, 70, 65, 35};
-    private int[] BlueRanges = {1, 1, 2, 0, 0, 0};
-    private int[] GreenRanges = {0, 2, 1, 1, 2, 0};
-    private int[] RedRanges = {2, 0, 0, 2, 1, 1};
-    private int WaveLengthMin = 380;
-
-    private boolean withinRange(int i, int min, int range)
-    {
-        return (i >= min && i < min + range);
-    }
-
-    private float getColourFromWaveLength(int WaveLength, boolean slope, int min, int range)
-    {
-        int m = slope ? 1 : -1;
-        min = slope ? min : min + range;
-
-        return (float) (m * (WaveLength - min)/range);
-    }
 
     public TileColour(float i, float j, float k, float l)
     {

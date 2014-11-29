@@ -42,7 +42,7 @@ public class RainbowGame extends Game
 
     public RainbowGame()
     {
-        this(Options.getWidth(), Options.getHeight());
+        this(7, 7);
     }
 
     protected RainbowGame(int w, int h)
@@ -149,7 +149,7 @@ public class RainbowGame extends Game
             int x = rand.nextInt(width);
             int y = rand.nextInt(height);
             this.getTile(x, y).getStats().setMine(true);
-            GameHelper.generateGrid(this, x, y, 10);
+            GameHelper.generateGrid(this, x, y, getWidth()*2);
         }
     }
 
@@ -195,13 +195,11 @@ public class RainbowGame extends Game
     }
 
     @Override
-    public void updateView(boolean b) {
-
-    }
+    public void updateView(boolean b) {}
 
     @Override
     public boolean getUpdateView() {
-        return true;
+        return false;
     }
 
     public boolean isGenerated()

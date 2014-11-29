@@ -3,6 +3,7 @@ package com.coggroach.titan.activities;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.media.SoundPool;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +32,7 @@ public class GameActivity extends Activity
     private Game game;
     private GLSurfaceView mGLView;
     private TileRenderer mGLRender;
+       
 
     private View.OnTouchListener listener = new View.OnTouchListener()
     {
