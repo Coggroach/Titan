@@ -18,7 +18,7 @@ import java.io.InputStreamReader;
 public class Options
 {
     public int PALETTE = 1;
-    public int GAMEMODE = 0;
+    public int GAMEMODE = 1;
     public boolean SOUND = false;
     public boolean MUSIC = false;
     public String ANIMATION = "Normal";

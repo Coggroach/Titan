@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.SoundEffectConstants;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -178,7 +179,7 @@ public class RainbowGame extends Game
     @Override
     public void onTouch(View v, MotionEvent event)
     {
-        if(event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE)
+        if(event.getAction() == MotionEvent.ACTION_DOWN)//|| event.getAction() == MotionEvent.ACTION_MOVE)
         {
             if((this.isGameOn()))
             {
@@ -193,6 +194,7 @@ public class RainbowGame extends Game
                         this.incScore();
                         this.getTile(iTile).getStats().setPressed(true);
                         this.updateScore();
+                        v.playSoundEffect(SoundEffectConstants.CLICK);
                     }
                     if(this.getTile(iTile).getStats().isMine())
                     {
