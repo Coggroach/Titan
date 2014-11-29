@@ -17,6 +17,7 @@ public abstract class Game
     protected int width, height;
     protected ArrayList<View> UIElements;
     protected View UILayout;
+    protected ArrayList<String> TextureList;
 
     public abstract boolean isRendering();
     public abstract void initUIElements(Context c);
@@ -91,4 +92,8 @@ public abstract class Game
         return UILayout;
     }
 
+    public ArrayList<String> getTextureList()
+    {
+        return TextureList;
+    }
 }

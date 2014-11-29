@@ -103,7 +103,7 @@ public class TileRenderer extends AbstractGLRenderer
         final int pointFragmentShaderHandle = compileShader(GLES20.GL_FRAGMENT_SHADER, pointFragmentShader);
         mPointProgramHandle = createAndLinkProgram(pointVertexShaderHandle, pointFragmentShaderHandle, new String[] {"a_Position"});
 
-        mTextureDataHandle = AssetReader.loadTexture(context, Options.TEXTURE);
+        mTextureDataHandle = AssetReader.loadTexture(context, ((GameActivity) context).getOptions().TEXTURE);
     }
 
     @Override

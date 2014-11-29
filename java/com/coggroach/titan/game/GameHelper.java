@@ -80,7 +80,7 @@ public class GameHelper
         {
             i = 8;
         }
-        i += (Options.PALETTE*9);
+        //i += (Options.PALETTE*9);
 
         switch (i)
         {

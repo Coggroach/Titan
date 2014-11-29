@@ -11,6 +11,7 @@ public class Tile
 {
     private TileColour colour;
     private TileStats stats;
+    private int textureId;
 
     private static final FloatBuffer mModelPositions;
     private static final FloatBuffer mModelNormals;
@@ -225,5 +226,14 @@ public class Tile
     protected void setStats(TileStats stats)
     {
         this.stats = stats;
+    }
+
+    public int getTextureId()
+    {
+        return textureId;
+    }
+
+    public void setTextureId(int textureId) {
+        this.textureId = textureId;
     }
 }

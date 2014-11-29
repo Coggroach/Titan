@@ -10,12 +10,12 @@ import com.coggroach.titan.common.AssetReader;
  */
 public class Options
 {
-    public static int PALETTE = 1;
-    public static String TEXTURE = "metal_texture_bordered.png";
-    public static int GAMEMODE = 0;
-    public static boolean SOUND = false;
-    public static boolean MUSIC = false;
-    public static String ANIMATION = "Normal";
+    public int PALETTE = 1;
+    public String TEXTURE = "metal_texture_bordered.png";
+    public int GAMEMODE = 0;
+    public boolean SOUND = false;
+    public boolean MUSIC = false;
+    public String ANIMATION = "Normal";
 
     public Options(Context c)
     {

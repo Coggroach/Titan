@@ -33,7 +33,7 @@ public class GameActivity extends Activity
     private Game game;
     private GLSurfaceView mGLView;
     private TileRenderer mGLRender;
-
+    private Options options;
 
     private View.OnTouchListener listener = new View.OnTouchListener()
     {
@@ -67,7 +67,10 @@ public class GameActivity extends Activity
         getActionBar().hide();
 
         mGLView = new GLSurfaceView(this);
-        game = getGameFromId(Options.GAMEMODE);
+        options = new Options(this);
+
+        game = getGameFromId(options.GAMEMODE);
+
         mGLRender = new TileRenderer(this);
         ActionBar.LayoutParams params = new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
@@ -100,5 +103,10 @@ public class GameActivity extends Activity
     public Game getGame()
     {
         return game;
+    }
+
+    public Options getOptions()
+    {
+        return options;
     }
 }

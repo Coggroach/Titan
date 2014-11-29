@@ -1,5 +1,5 @@
 --MineKeeper Options--
-S:TEXTURE=metal_texture_bordered.png;
+S:TEXTURE=bubbles_texture_bordered.png;
 I:GAMEMODE=1;
 B:SOUND=false;
 B:MUSIC=false;
