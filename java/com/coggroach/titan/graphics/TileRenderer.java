@@ -36,7 +36,8 @@ public class TileRenderer extends AbstractGLRenderer
 
     private int mProgramHandle;
     private int mPointProgramHandle;
-    private int mTextureDataHandle;
+    private int[] mTextureDataHandle;
+    private int mTextureDataLength;
 
     public TileRenderer(Context context)
     {
@@ -103,7 +104,12 @@ public class TileRenderer extends AbstractGLRenderer
         final int pointFragmentShaderHandle = compileShader(GLES20.GL_FRAGMENT_SHADER, pointFragmentShader);
         mPointProgramHandle = createAndLinkProgram(pointVertexShaderHandle, pointFragmentShaderHandle, new String[] {"a_Position"});
 
-        mTextureDataHandle = AssetReader.loadTexture(context, ((GameActivity) context).getOptions().TEXTURE);
+        mTextureDataLength = ((GameActivity) context).getGame().getTextureList().size();
+        mTextureDataHandle = new int[mTextureDataLength];
+        for(int i = 0; i < mTextureDataLength; i++)
+        {
+            mTextureDataHandle[i] = AssetReader.loadTexture(context, ((GameActivity) context).getGame().getTextureList().get(i));
+        }
     }
 
     @Override
@@ -130,13 +136,17 @@ public class TileRenderer extends AbstractGLRenderer
         mNormalHandle = GLES20.glGetAttribLocation(mProgramHandle, "a_Normal");
         mTextureCoordinateHandle = GLES20.glGetAttribLocation(mProgramHandle, "a_TexCoordinate");
         mUniformColorHandle = GLES20.glGetUniformLocation(mProgramHandle, "u_Color");
+    }
 
-        // Set the active texture unit to texture unit 0.
-        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-        // Bind the texture to this unit.
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextureDataHandle);
-        // Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.
-        GLES20.glUniform1i(mTextureUniformHandle, 0);
+    public void storeTextureLocations()
+    {
+        for(int i = 0; i < mTextureDataLength; i++)
+        {
+            // Set the active texture unit to texture unit 0.
+            GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + i);
+            // Bind the texture to this unit.
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextureDataHandle[i]);
+        }
     }
 
     public void onDrawFrame()
@@ -177,6 +187,7 @@ public class TileRenderer extends AbstractGLRenderer
     public void onDrawFrame(GL10 glUnused)
     {
         storeHandleLocations();
+        storeTextureLocations();
         onDrawFrame();
     }
 
@@ -197,6 +208,8 @@ public class TileRenderer extends AbstractGLRenderer
             GLES20.glEnableVertexAttribArray(mTextureCoordinateHandle);
 
             float[] colour = tile.getDrawingColour();
+            // Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.
+            GLES20.glUniform1i(mTextureUniformHandle, tile.getTextureId());
 
             GLES20.glUniform4fv(mUniformColorHandle, 1, colour, 0);
             Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);

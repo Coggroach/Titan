@@ -47,6 +47,7 @@ public class RainbowGame extends Game
 
     protected RainbowGame(int w, int h)
     {
+        this.initTextureList();
         this.start(w, h);
     }
 
@@ -54,6 +55,15 @@ public class RainbowGame extends Game
     public boolean isRendering()
     {
         return isRendering;
+    }
+
+    @Override
+    public void initTextureList()
+    {
+        this.TextureList = new ArrayList<String>();
+
+        this.TextureList.add("metal_texture_bordered.png");
+        this.TextureList.add("bomb_texture.png");
     }
 
     @Override
@@ -186,6 +196,8 @@ public class RainbowGame extends Game
                     }
                     if(this.getTile(iTile).getStats().isMine())
                     {
+                        this.getTile(iTile).setTextureId(1);
+                        this.getTile(iTile).setColour(defaultColour);
                         this.setGameOn(false);
                         this.updateStatus("Congratz, Click me to Continue!");
                     }
@@ -199,6 +211,15 @@ public class RainbowGame extends Game
 
     @Override
     public boolean getUpdateView() {
+        return false;
+    }
+
+    @Override
+    public void updateTextureBindings(boolean b) {}
+
+    @Override
+    public boolean getUpdateTextureBindings()
+    {
         return false;
     }
 

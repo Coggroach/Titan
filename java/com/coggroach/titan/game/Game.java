@@ -29,7 +29,9 @@ public abstract class Game
     public abstract void onTouch(View v, MotionEvent event);
     public abstract void updateView(boolean b);
     public abstract boolean getUpdateView();
-
+    public abstract void updateTextureBindings(boolean b);
+    public abstract boolean getUpdateTextureBindings();
+    public abstract void initTextureList();
 
     public Tile getTile(int x, int y)
     {

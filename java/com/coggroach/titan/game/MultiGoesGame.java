@@ -41,8 +41,7 @@ public class MultiGoesGame extends Game
 
     protected MultiGoesGame(int w, int h)
     {
-        this.width = 3;
-        this.height = 3;
+        this.initTextureList();
         this.start(w, h);
     }
 
@@ -77,6 +76,15 @@ public class MultiGoesGame extends Game
     public boolean isRendering()
     {
         return isRendering;
+    }
+
+    @Override
+    public void initTextureList()
+    {
+        this.TextureList = new ArrayList<String>();
+
+        this.TextureList.add("metal_texture_bordered.png");
+        this.TextureList.add("bomb_texture.png");
     }
 
     @Override
@@ -252,6 +260,8 @@ public class MultiGoesGame extends Game
                     }
                     if(this.getTile(iTile).getStats().isMine())
                     {
+                        this.getTile(iTile).setTextureId(1);
+                        this.getTile(iTile).setColour(defaultColour);
                         hasWon = true;
                         this.updateStatus("Well Done! Click me to Keep Going");
                         this.incLives();
@@ -273,6 +283,15 @@ public class MultiGoesGame extends Game
     public boolean getUpdateView()
     {
         return this.updateView;
+    }
+
+    @Override
+    public void updateTextureBindings(boolean b) { }
+
+    @Override
+    public boolean getUpdateTextureBindings()
+    {
+        return false;
     }
 
     public boolean isGenerated()

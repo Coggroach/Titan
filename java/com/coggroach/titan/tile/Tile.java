@@ -184,8 +184,14 @@ public class Tile
 
     public Tile(int i, TileColour c)
     {
+        this(i, c, 0);
+    }
+
+    public Tile(int i, TileColour c, int texId)
+    {
         this.stats = new TileStats(i);
         this.colour = c;
+        this.textureId = texId;
     }
 
     public static FloatBuffer getModelPositions()

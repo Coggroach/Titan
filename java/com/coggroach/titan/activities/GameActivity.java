@@ -100,6 +100,15 @@ public class GameActivity extends Activity
         mGLView.onResume();
     }
 
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        options.GAMEMODE=1;
+        options.save(this);
+    }
+
+
     public Game getGame()
     {
         return game;
