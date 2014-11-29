@@ -66,10 +66,11 @@ public class GameActivity extends Activity
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getActionBar().hide();
 
-        mGLView = new GLSurfaceView(this);
         options = new Options(this);
 
         game = getGameFromId(options.GAMEMODE);
+
+        mGLView = new GLSurfaceView(this);
 
         mGLRender = new TileRenderer(this);
         ActionBar.LayoutParams params = new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);

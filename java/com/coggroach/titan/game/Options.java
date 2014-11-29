@@ -1,12 +1,16 @@
 package com.coggroach.titan.game;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.coggroach.titan.R;
 import com.coggroach.titan.common.AssetReader;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * Created by TARDIS on 20/11/2014.
@@ -14,12 +18,13 @@ import java.io.IOException;
 public class Options
 {
     public int PALETTE = 1;
-    public String TEXTURE = "metal_texture_bordered.png";
     public int GAMEMODE = 0;
     public boolean SOUND = false;
     public boolean MUSIC = false;
     public String ANIMATION = "Normal";
+    public String TEXTURE = "metal_texture_bordered.png";
 
+    public boolean hasReadIn = false;
     private String optionsFileName = "Options.txt";
 
     public Options(Context c)
@@ -27,7 +32,21 @@ public class Options
         String[] lines = null;
         try
         {
-             lines = c.openFileInput(optionsFileName).toString().split("\n");
+            FileInputStream fileInputStream = c.openFileInput(optionsFileName);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(fileInputStream));
+
+            String input = "";
+            String line = "";
+
+            while((line = reader.readLine()) != null)
+                input += line;
+
+            reader.close();
+            fileInputStream.close();
+
+            Log.i("Options Input", input);
+
+            lines = input.split("\n");
         }
         catch (IOException ex)
         {
@@ -36,20 +55,22 @@ public class Options
 
         if(lines != null)
         {
-            for (int i = 0; i < lines.length; i++) {
+            for (int i = 0; i < lines.length; i++)
+            {
                 if (lines[i].contains("TEXTURE"))
                     TEXTURE = getStringValue(lines[i]);
-                if (lines[i].contains("GAMEMODE"))
+                else if (lines[i].contains("GAMEMODE"))
                     GAMEMODE = getIntegerValue(lines[i]);
-                if (lines[i].contains("SOUND"))
+                else if (lines[i].contains("SOUND"))
                     SOUND = getBooleanValue(lines[i]);
-                if (lines[i].contains("MUSIC"))
+                else if (lines[i].contains("MUSIC"))
                     MUSIC = getBooleanValue(lines[i]);
-                if (lines[i].contains("PALETTE"))
+                else if (lines[i].contains("PALETTE"))
                     PALETTE = getIntegerValue(lines[i]);
-                if (lines[i].contains("ANIMATION"))
+                else if (lines[i].contains("ANIMATION"))
                     ANIMATION = getStringValue(lines[i]);
             }
+            hasReadIn = true;
         }
     }
 
@@ -63,6 +84,8 @@ public class Options
         output += "B:MUSIC=" + MUSIC + ";\n";
         output += "I:PALETTE=" + PALETTE + ";\n";
         output += "I:ANIMATION=" + ANIMATION + ";\n";
+
+        Log.i("Options Output", output);
 
         try
         {
