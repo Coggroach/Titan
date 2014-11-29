@@ -61,7 +61,7 @@ public class GameHelper
 
     protected static boolean setColourWithinBounds(Game game, int x, int y, int i)
     {
-        return setColourWithinBounds(game, x, y, new TileColour(750 - i * 50));
+        return setColourWithinBounds(game, x, y, new TileColour(700 - i * 50));
     }
 
     protected static boolean setColourWithinBounds(Game game, int x, int y, TileColour c)

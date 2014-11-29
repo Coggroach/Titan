@@ -53,8 +53,8 @@ public class MultiGoesGame extends Game
 
     public void incLives()
     {
-        this.lives += 3;
-    }
+        this.lives += 3 + this.score/3;
+}
 
     public void incDifficulty()
     {
