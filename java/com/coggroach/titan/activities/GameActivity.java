@@ -97,26 +97,18 @@ public class GameActivity extends Activity implements View.OnTouchListener
 
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getActionBar().hide();
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         options = new Options();
         view = new GameOptionsView(this, gameModes);
 
-        initGame();
-
         mGLView = new GLSurfaceView(this);
         mGLRender = new TileRenderer(this);
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
         mGLView.setEGLContextClientVersion(2);
         mGLView.setRenderer(mGLRender);
         mGLView.setOnTouchListener(this);
         view.setOnTouchListener(this);
-
-        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-        this.setContentView(mGLView);
-        this.addContentView(view, params);
-        this.addContentView(game.getUILayout(), params);
     }
 
     public void initGame()
@@ -132,6 +124,28 @@ public class GameActivity extends Activity implements View.OnTouchListener
         game.initUIElements(this);
         game.initTextureList();
     }
+
+    @Override
+    public void onRestart()
+    {
+        super.onRestart();
+        this.onStart();
+        this.mGLRender.loadTextureData();
+    }
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+
+        initGame();
+        ActionBar.LayoutParams params = new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+        this.setContentView(mGLView);
+        this.addContentView(view, params);
+        this.addContentView(game.getUILayout(), params);
+    }
+
 
     @Override
     protected void onPause()

@@ -106,6 +106,11 @@ public class TileRenderer extends AbstractGLRenderer
         final int pointFragmentShaderHandle = compileShader(GLES20.GL_FRAGMENT_SHADER, pointFragmentShader);
         mPointProgramHandle = createAndLinkProgram(pointVertexShaderHandle, pointFragmentShaderHandle, new String[] {"a_Position"});
 
+        this.loadTextureData();
+    }
+
+    public void loadTextureData()
+    {
         mTextureDataLength = ((GameActivity) context).getGame().getTextureList().size();
         mTextureDataHandle = new int[mTextureDataLength];
         for(int i = 0; i < mTextureDataLength; i++)

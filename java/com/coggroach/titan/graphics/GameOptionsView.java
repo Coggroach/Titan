@@ -132,9 +132,12 @@ public class GameOptionsView extends View implements View.OnTouchListener
             if(i != Integer.MIN_VALUE)
             {
                 if(i == 0)
-                    ((GameActivity) context).initGame();
+                    ((GameActivity) context).onRestart();
                 else
-                    ((GameActivity) context).initGame( i - 1 );
+                {
+                    ((GameActivity) context).getOptions().GAMEMODE = (i - 1);
+                    ((GameActivity) context).onRestart();
+                }
             }
 
             invalidate();
