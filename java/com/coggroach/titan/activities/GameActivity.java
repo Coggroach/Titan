@@ -109,6 +109,8 @@ public class GameActivity extends Activity implements View.OnTouchListener
         mGLView.setRenderer(mGLRender);
         mGLView.setOnTouchListener(this);
         view.setOnTouchListener(this);
+
+
     }
 
     public void initGame()
@@ -129,6 +131,7 @@ public class GameActivity extends Activity implements View.OnTouchListener
     public void onRestart()
     {
         super.onRestart();
+        this.game.getUILayout().removeAllViews();
         this.onStart();
         this.mGLRender.loadTextureData();
     }

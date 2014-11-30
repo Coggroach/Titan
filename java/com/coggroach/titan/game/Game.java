@@ -20,6 +20,7 @@ public abstract class Game
     protected ViewGroup UILayout;
     protected ArrayList<String> TextureList;
     protected boolean updateView;
+    protected String name;
 
     public abstract boolean isRendering();
     public abstract void initUIElements(Context c);

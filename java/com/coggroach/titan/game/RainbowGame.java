@@ -48,6 +48,7 @@ public class RainbowGame extends Game
 
     protected RainbowGame(int w, int h)
     {
+        this.name = "Rainbow";
         this.initTextureList();
         this.start(w, h);
     }
@@ -73,6 +74,7 @@ public class RainbowGame extends Game
         this.UIElements = new ArrayList<View>();
         this.UILayout = new LinearLayout(c);
 
+        TextView name = new TextView(c);
         TextView score = new TextView(c);
         TextView status = new TextView(c);
 
@@ -92,15 +94,20 @@ public class RainbowGame extends Game
 
         status.setOnClickListener(endGameListener);
 
-        ((LinearLayout) UILayout).addView(score);
-        ((LinearLayout) UILayout).addView(status);
+        UILayout.addView(name);
+        UILayout.addView(score);
+        UILayout.addView(status);
         ((LinearLayout) UILayout).setOrientation(LinearLayout.VERTICAL);
 
+        name.setTextSize(30);
+        name.setTextColor(Color.WHITE);
+        name.setText(this.name);
         score.setTextSize(30);
         score.setTextColor(Color.WHITE);
         status.setTextSize(20);
         status.setTextColor(Color.WHITE);
 
+        UIElements.add(name);
         UIElements.add(score);
         UIElements.add(status);
 
@@ -110,12 +117,12 @@ public class RainbowGame extends Game
 
     private void updateScore()
     {
-        ((TextView) UIElements.get(0)).setText("Score: " + this.score);
+        ((TextView) UIElements.get(1)).setText("Score: " + this.score);
     }
 
     private void updateStatus(String s)
     {
-        ((TextView) UIElements.get(1)).setText(s);
+        ((TextView) UIElements.get(2)).setText(s);
     }
 
     @Override

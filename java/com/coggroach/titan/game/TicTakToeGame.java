@@ -29,6 +29,7 @@ public class TicTakToeGame extends Game
 
     public TicTakToeGame()
     {
+        this.name = "TicTakToe";
         this.initTextureList();
         this.start(3, 3);
     }
@@ -43,6 +44,7 @@ public class TicTakToeGame extends Game
         this.UIElements = new ArrayList<View>();
         this.UILayout = new LinearLayout(c);
 
+        TextView name = new TextView(c);
         TextView status = new TextView(c);
 
         endGameListener = new View.OnClickListener()
@@ -52,7 +54,7 @@ public class TicTakToeGame extends Game
             {
                 if(!(isGameOn()))
                 {
-                    updateUIElement(0, "New Game");
+                    updateUIElement(1, "New Game");
                     restart();
                     generate();
                 }
@@ -61,14 +63,20 @@ public class TicTakToeGame extends Game
 
         status.setOnClickListener(endGameListener);
 
-        ((LinearLayout) UILayout).addView(status);
+        UILayout.addView(name);
+        UILayout.addView(status);
+        ((LinearLayout) UILayout).setOrientation(LinearLayout.VERTICAL);
 
+        name.setTextSize(30);
+        name.setTextColor(Color.WHITE);
+        name.setText(this.name);
         status.setTextSize(30);
         status.setTextColor(Color.WHITE);
 
+        UIElements.add(name);
         UIElements.add(status);
 
-        updateUIElement(0, "New Game");
+        updateUIElement(1, "New Game");
     }
 
     public void updateUIElement(int i, String s)
@@ -144,12 +152,12 @@ public class TicTakToeGame extends Game
                         if(hasGameFinished(player, iTile))
                         {
                             this.isGameOn = false;
-                            updateUIElement(0, player + " has Won.");
+                            updateUIElement(1, player + " has Won.");
                         }
                         if(hasGameFinished())
                         {
                             this.isGameOn = false;
-                            updateUIElement(0, "Draw");
+                            updateUIElement(1, "Draw");
                         }
 
                         player = (player == 1) ? 2 : 1;

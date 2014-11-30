@@ -41,6 +41,7 @@ public class MultiGoesGame extends Game
 
     protected MultiGoesGame(int w, int h)
     {
+        this.name = "MutliGoes";
         this.initTextureList();
         this.start(w, h);
     }
@@ -95,6 +96,7 @@ public class MultiGoesGame extends Game
         this.UILayout = new LinearLayout(c);
         this.UIElements.clear();
 
+        TextView name = new TextView(c);
         TextView lives = new TextView(c);
         TextView score = new TextView(c);
         TextView status = new TextView(c);
@@ -132,10 +134,14 @@ public class MultiGoesGame extends Game
         line.addView(score);
         line.setOrientation(LinearLayout.HORIZONTAL);
 
-        ((LinearLayout) UILayout).addView(line);
-        ((LinearLayout) UILayout).addView(status);
+        UILayout.addView(name);
+        UILayout.addView(line);
+        UILayout.addView(status);
         ((LinearLayout) UILayout).setOrientation(LinearLayout.VERTICAL);
 
+        name.setTextSize(30);
+        name.setTextColor(Color.WHITE);
+        name.setText(this.name);
         lives.setTextSize(30);
         lives.setTextColor(Color.GREEN);
         score.setTextSize(30);
@@ -143,6 +149,7 @@ public class MultiGoesGame extends Game
         status.setTextSize(20);
         status.setTextColor(Color.WHITE);
 
+        UIElements.add(name);
         UIElements.add(lives);
         UIElements.add(status);
         UIElements.add(score);
@@ -154,17 +161,17 @@ public class MultiGoesGame extends Game
 
     private void updateLives()
     {
-        ((TextView) UIElements.get(0)).setText("Lives: " + this.lives + "   ");
+        ((TextView) UIElements.get(1)).setText("Lives: " + this.lives + "   ");
     }
 
     private void updateStatus(String s)
     {
-        ((TextView) UIElements.get(1)).setText(s);
+        ((TextView) UIElements.get(2)).setText(s);
     }
 
     private void updateScore()
     {
-        ((TextView) UIElements.get(2)).setText(" Score: " + this.score);
+        ((TextView) UIElements.get(3)).setText(" Score: " + this.score);
     }
 
     @Override
