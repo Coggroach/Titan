@@ -20,6 +20,8 @@ import com.coggroach.titan.game.Game;
 import com.coggroach.titan.game.MultiGoesGame;
 import com.coggroach.titan.game.Options;
 import com.coggroach.titan.game.RainbowGame;
+import com.coggroach.titan.game.TicTakToeGame;
+import com.coggroach.titan.graphics.GameOptionsView;
 import com.coggroach.titan.graphics.TileRenderer;
 import com.coggroach.titan.tile.Tile;
 import com.coggroach.titan.tile.TileColour;
@@ -29,22 +31,49 @@ import java.util.Random;
 /**
  * Created by TARDIS on 20/11/2014.
  */
-public class GameActivity extends Activity
+public class GameActivity extends Activity implements View.OnTouchListener
 {
     private Game game;
     private GLSurfaceView mGLView;
     private TileRenderer mGLRender;
     private Options options;
+    private GameOptionsView view;
+    private boolean isOptionsFocused = false;
+    private String[] gameModes = {"Restart", "Rainbow", "MultiGoes", "TicTakToe"};
 
-    private View.OnTouchListener listener = new View.OnTouchListener()
+    @Override
+    public boolean onTouch(View v, MotionEvent event)
     {
-        @Override
-        public boolean onTouch(View v, MotionEvent event)
+        boolean settingsCheck = (event.getX() > this.getResources().getDisplayMetrics().widthPixels * 0.9F && event.getY() < this.getResources().getDisplayMetrics().heightPixels * 0.1F);
+
+        if(event.getAction() == MotionEvent.ACTION_DOWN) {
+            if(settingsCheck && isOptionsFocused)
+            {
+                isOptionsFocused = false;
+                mGLRender.setGamma(1.0F);
+                mGLView.requestFocus();
+                view.setVisible(false);
+                return true;
+            }
+            else if (settingsCheck && !isOptionsFocused) {
+                isOptionsFocused = true;
+                mGLRender.setGamma(0.5F);
+                view.requestFocus();
+                view.setVisible(true);
+                return true;
+            }
+        }
+
+        if(isOptionsFocused)
+        {
+            view.onTouch(v, event);
+        }
+        else if(!isOptionsFocused)
         {
             game.onTouch(v, event);
-            return true;
         }
-    };
+        return true;
+    }
 
     protected Game getGameFromId(int i)
     {
@@ -54,6 +83,8 @@ public class GameActivity extends Activity
                 return new RainbowGame();
             case 1:
                 return new MultiGoesGame();
+            case 2:
+                return new TicTakToeGame();
             default:
                 return  new RainbowGame();
         }
@@ -67,25 +98,39 @@ public class GameActivity extends Activity
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getActionBar().hide();
 
-        options = new Options(this);
+        options = new Options();
+        view = new GameOptionsView(this, gameModes);
 
-        game = getGameFromId(options.GAMEMODE);
+        initGame();
 
         mGLView = new GLSurfaceView(this);
-
         mGLRender = new TileRenderer(this);
         ActionBar.LayoutParams params = new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
         mGLView.setEGLContextClientVersion(2);
         mGLView.setRenderer(mGLRender);
-        mGLView.setOnTouchListener(listener);
+        mGLView.setOnTouchListener(this);
+        view.setOnTouchListener(this);
+
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        this.setContentView(mGLView);
+        this.addContentView(view, params);
+        this.addContentView(game.getUILayout(), params);
+    }
+
+    public void initGame()
+    {
+        this.initGame(options.GAMEMODE);
+    }
+
+    public void initGame(int i)
+    {
+        game = getGameFromId(i);
+        game.updateView(true);
         game.generate();
         game.initUIElements(this);
-
-        this.setContentView(mGLView);
-        this.addContentView(game.getUILayout(), params);
+        game.initTextureList();
     }
 
     @Override
@@ -106,7 +151,6 @@ public class GameActivity extends Activity
     protected void onStop()
     {
         super.onStop();
-        options.GAMEMODE=1;
         options.save(this);
     }
 

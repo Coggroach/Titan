@@ -27,7 +27,6 @@ public class MultiGoesGame extends Game
     private boolean isGameOn;
     private boolean hasWon = false;
     private boolean isRendering = false;
-    private boolean updateView = false;
 
     private int score;
     private int lives;
@@ -83,6 +82,7 @@ public class MultiGoesGame extends Game
     public void initTextureList()
     {
         this.TextureList = new ArrayList<String>();
+        this.TextureList.clear();
 
         this.TextureList.add("metal_texture_bordered.png");
         this.TextureList.add("bomb_texture.png");
@@ -93,6 +93,7 @@ public class MultiGoesGame extends Game
     {
         this.UIElements = new ArrayList<View>();
         this.UILayout = new LinearLayout(c);
+        this.UIElements.clear();
 
         TextView lives = new TextView(c);
         TextView score = new TextView(c);
@@ -273,18 +274,6 @@ public class MultiGoesGame extends Game
                 }
             }
         }
-    }
-
-    @Override
-    public void updateView(boolean b)
-    {
-        this.updateView = b;
-    }
-
-    @Override
-    public boolean getUpdateView()
-    {
-        return this.updateView;
     }
 
     @Override

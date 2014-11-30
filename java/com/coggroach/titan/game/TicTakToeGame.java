@@ -2,7 +2,6 @@ package com.coggroach.titan.game;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SoundEffectConstants;
 import android.view.View;
@@ -13,67 +12,37 @@ import com.coggroach.titan.graphics.TileRenderer;
 import com.coggroach.titan.tile.Tile;
 import com.coggroach.titan.tile.TileColour;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
- * Created by TARDIS on 23/11/2014.
+ * Created by TARDIS on 30/11/2014.
  */
-public class RainbowGame extends Game
+public class TicTakToeGame extends Game
 {
     private boolean isGenerated;
     private boolean canRestart;
     private boolean isGameOn;
     private boolean isRendering = false;
-    private int score;
     private TileColour defaultColour = TileColour.white;
     private View.OnClickListener endGameListener;
+    private int player;
 
-    public int getScore()
-    {
-        return score;
-    }
-
-    public void incScore()
-    {
-        this.score++;
-    }
-
-    public RainbowGame()
-    {
-        this(7, 7);
-    }
-
-    protected RainbowGame(int w, int h)
+    public TicTakToeGame()
     {
         this.initTextureList();
-        this.start(w, h);
+        this.start(3, 3);
     }
 
     @Override
-    public boolean isRendering()
-    {
+    public boolean isRendering() {
         return isRendering;
     }
 
     @Override
-    public void initTextureList()
-    {
-        this.TextureList = new ArrayList<String>();
-
-        this.TextureList.add("metal_texture_bordered.png");
-        this.TextureList.add("bomb_texture.png");
-    }
-
-    @Override
-    public void initUIElements(Context c)
-    {
+    public void initUIElements(Context c) {
         this.UIElements = new ArrayList<View>();
         this.UILayout = new LinearLayout(c);
 
-        TextView score = new TextView(c);
         TextView status = new TextView(c);
 
         endGameListener = new View.OnClickListener()
@@ -83,7 +52,7 @@ public class RainbowGame extends Game
             {
                 if(!(isGameOn()))
                 {
-                    updateStatus("New Game");
+                    updateUIElement(0, "New Game");
                     restart();
                     generate();
                 }
@@ -92,40 +61,28 @@ public class RainbowGame extends Game
 
         status.setOnClickListener(endGameListener);
 
-        ((LinearLayout) UILayout).addView(score);
         ((LinearLayout) UILayout).addView(status);
-        ((LinearLayout) UILayout).setOrientation(LinearLayout.VERTICAL);
 
-        score.setTextSize(30);
-        score.setTextColor(Color.WHITE);
-        status.setTextSize(20);
+        status.setTextSize(30);
         status.setTextColor(Color.WHITE);
 
-        UIElements.add(score);
         UIElements.add(status);
 
-        updateScore();
-        updateStatus("New Game");
+        updateUIElement(0, "New Game");
     }
 
-    private void updateScore()
+    public void updateUIElement(int i, String s)
     {
-        ((TextView) UIElements.get(0)).setText("Score: " + this.score);
-    }
-
-    private void updateStatus(String s)
-    {
-        ((TextView) UIElements.get(1)).setText(s);
+        ((TextView) UIElements.get(i)).setText(s);
     }
 
     @Override
-    public void start(int w, int h)
-    {
+    public void start(int w, int h) {
         this.isGenerated = false;
         this.canRestart = true;
         this.isRendering = true;
         this.isGameOn = true;
-        this.score = 0;
+        this.player = 1;
 
         this.height = w;
         this.width = h;
@@ -137,49 +94,38 @@ public class RainbowGame extends Game
     }
 
     @Override
-    public void restart()
-    {
+    public void restart() {
         if(canRestart)
         {
             this.isGenerated = false;
-            this.score = 0;
             this.isGameOn = true;
+            this.player = 1;
             for(int i = 0; i < tiles.length; i++)
             {
                 tiles[i] = new Tile(i, defaultColour);
+                tiles[i].setTextureId(0);
             }
         }
     }
 
     @Override
-    public void generate()
-    {
-        if(!isGenerated)
-        {
-            Random rand = new Random();
-            int x = rand.nextInt(width);
-            int y = rand.nextInt(height);
-            this.getTile(x, y).getStats().setMine(true);
-            GameHelper.generateGrid(this, x, y, getWidth()*2);
-        }
+    public void generate() {
+
     }
 
     @Override
-    public boolean isGameOn()
-    {
+    public boolean isGameOn() {
         return isGameOn;
     }
 
     @Override
-    public void setGameOn(boolean b)
-    {
+    public void setGameOn(boolean b) {
         this.isGameOn = b;
     }
 
     @Override
-    public void onTouch(View v, MotionEvent event)
-    {
-        if(event.getAction() == MotionEvent.ACTION_DOWN)//|| event.getAction() == MotionEvent.ACTION_MOVE)
+    public void onTouch(View v, MotionEvent event) {
+        if(event.getAction() == MotionEvent.ACTION_DOWN)
         {
             if((this.isGameOn()))
             {
@@ -191,34 +137,86 @@ public class RainbowGame extends Game
                 {
                     if (!this.getTile(iTile).getStats().isPressed())
                     {
-                        this.incScore();
                         this.getTile(iTile).getStats().setPressed(true);
-                        this.updateScore();
+                        this.getTile(iTile).setTextureId(player);
                         v.playSoundEffect(SoundEffectConstants.CLICK);
-                    }
-                    if(this.getTile(iTile).getStats().isMine())
-                    {
-                        this.getTile(iTile).setTextureId(1);
-                        this.getTile(iTile).setColour(defaultColour);
-                        this.setGameOn(false);
-                        this.updateStatus("Congratz, Click me to Continue!");
+
+                        if(hasGameFinished(player, iTile))
+                        {
+                            this.isGameOn = false;
+                            updateUIElement(0, player + " has Won.");
+                        }
+                        if(hasGameFinished())
+                        {
+                            this.isGameOn = false;
+                            updateUIElement(0, "Draw");
+                        }
+
+                        player = (player == 1) ? 2 : 1;
                     }
                 }
             }
         }
     }
 
-    @Override
-    public void updateTextureBindings(boolean b) {}
-
-    @Override
-    public boolean getUpdateTextureBindings()
+    public boolean hasGameFinished()
     {
+        for(int i = 0; i < tiles.length; i++)
+        {
+            if(tiles[i].getTextureId() == 0)
+                return false;
+        }
+        return true;
+    }
+
+    public boolean hasGameFinished(int player, int tile)
+    {
+        int[] square = {8, 1, 6, 3, 5, 7, 4, 9, 2};
+        int y = (tile/this.getWidth());
+        int x = tile - y * this.getWidth();
+
+        int total = 0;
+        for(int i = 0; i < this.getWidth(); i++)
+        {
+            if(tiles[i + y * this.getWidth()].getTextureId() == player)
+            {
+                total += square[i + y * this.getWidth()];
+            }
+        }
+        if(total == 15)
+            return true;
+
+        total = 0;
+        for(int i = 0; i < this.getHeight(); i++)
+        {
+            if(tiles[x + i * this.getHeight()].getTextureId() == player)
+            {
+                total += square[x + i * this.getHeight()];
+            }
+        }
+        if(total == 15)
+            return true;
+
         return false;
     }
 
-    public boolean isGenerated()
+    @Override
+    public void updateTextureBindings(boolean b) {
+
+    }
+
+    @Override
+    public boolean getUpdateTextureBindings() {
+        return false;
+    }
+
+    @Override
+    public void initTextureList()
     {
-        return isGenerated;
+        this.TextureList = new ArrayList<String>();
+
+        this.TextureList.add("white_texture_bordered.jpg");
+        this.TextureList.add("cross_texture_bordered.jpg");
+        this.TextureList.add("nought_texture_bordered.jpg");
     }
 }

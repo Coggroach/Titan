@@ -39,6 +39,8 @@ public class TileRenderer extends AbstractGLRenderer
     private int[] mTextureDataHandle;
     private int mTextureDataLength;
 
+    private float gamma = 1.0F;
+
     public TileRenderer(Context context)
     {
         this.context = context;
@@ -208,6 +210,8 @@ public class TileRenderer extends AbstractGLRenderer
             GLES20.glEnableVertexAttribArray(mTextureCoordinateHandle);
 
             float[] colour = tile.getDrawingColour();
+            for(int i = 0; i < colour.length; i++)
+                colour[i] *= gamma;
             // Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.
             GLES20.glUniform1i(mTextureUniformHandle, tile.getTextureId());
 
@@ -256,5 +260,14 @@ public class TileRenderer extends AbstractGLRenderer
         Matrix.multiplyMV(normPoint, 0, matrix, 0, normPoint, 0);
 
         return normPoint;
+    }
+
+    public float getGamma()
+    {
+        return gamma;
+    }
+
+    public void setGamma(float gamma) {
+        this.gamma = gamma;
     }
 }

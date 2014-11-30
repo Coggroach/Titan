@@ -18,59 +18,47 @@ import java.io.InputStreamReader;
 public class Options
 {
     public int PALETTE = 1;
-    public int GAMEMODE = 1;
+    public int GAMEMODE = 2;
     public boolean SOUND = false;
     public boolean MUSIC = false;
     public String ANIMATION = "Normal";
-    public String TEXTURE = "metal_texture_bordered.png";
 
-    public boolean hasReadIn = false;
+    private boolean hasLoadedOptions;
     private String optionsFileName = "Options.txt";
 
-    public Options(Context c)
+    public Options()
     {
-        String[] lines = null;
+        this.hasLoadedOptions = false;
+    }
+
+    public void load(Context c)
+    {
         try
         {
             FileInputStream fileInputStream = c.openFileInput(optionsFileName);
             BufferedReader reader = new BufferedReader(new InputStreamReader(fileInputStream));
 
-            String input = "";
             String line = "";
 
             while((line = reader.readLine()) != null)
-                input += line;
-
+            {
+                if (line.contains("GAMEMODE"))
+                    GAMEMODE = getIntegerValue(line);
+                else if (line.contains("SOUND"))
+                    SOUND = getBooleanValue(line);
+                else if (line.contains("MUSIC"))
+                    MUSIC = getBooleanValue(line);
+                else if (line.contains("PALETTE"))
+                    PALETTE = getIntegerValue(line);
+                else if (line.contains("ANIMATION"))
+                    ANIMATION = getStringValue(line);
+            }
             reader.close();
             fileInputStream.close();
-
-            Log.i("Options Input", input);
-
-            lines = input.split("\n");
         }
         catch (IOException ex)
         {
             ex.printStackTrace();
-        }
-
-        if(lines != null)
-        {
-            for (int i = 0; i < lines.length; i++)
-            {
-                if (lines[i].contains("TEXTURE"))
-                    TEXTURE = getStringValue(lines[i]);
-                else if (lines[i].contains("GAMEMODE"))
-                    GAMEMODE = getIntegerValue(lines[i]);
-                else if (lines[i].contains("SOUND"))
-                    SOUND = getBooleanValue(lines[i]);
-                else if (lines[i].contains("MUSIC"))
-                    MUSIC = getBooleanValue(lines[i]);
-                else if (lines[i].contains("PALETTE"))
-                    PALETTE = getIntegerValue(lines[i]);
-                else if (lines[i].contains("ANIMATION"))
-                    ANIMATION = getStringValue(lines[i]);
-            }
-            hasReadIn = true;
         }
     }
 
@@ -78,7 +66,6 @@ public class Options
     {
         String output = "--MineKeeper Options--\n";
 
-        output += "S:TEXTURE=" + TEXTURE + ";\n";
         output += "I:GAMEMODE=" + GAMEMODE + ";\n";
         output += "B:SOUND=" + SOUND + ";\n";
         output += "B:MUSIC=" + MUSIC + ";\n";

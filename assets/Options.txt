@@ -1,7 +1,0 @@
---MineKeeper Options--
-S:TEXTURE=bubbles_texture_bordered.png;
-I:GAMEMODE=1;
-B:SOUND=false;
-B:MUSIC=false;
-I:PALETTE=0;
-S:ANIMATION=Normal;
