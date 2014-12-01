@@ -180,7 +180,8 @@ public class TileRenderer extends AbstractGLRenderer
 
                     Matrix.setIdentityM(mModelMatrix, 0);
                     Matrix.translateM(mModelMatrix, 0, x, y, RenderSettings.OBJECT_POSITION_Z);
-                    drawTile(((GameActivity) context).getGame().getTile(i, j), mModelMatrix);
+                    if(((GameActivity) context).getGame() != null)
+                        drawTile(((GameActivity) context).getGame().getTile(i, j), mModelMatrix);
                 }
             }
             Matrix.setIdentityM(mLightModelMatrix, 0);

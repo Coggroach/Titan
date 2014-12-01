@@ -20,7 +20,7 @@ import java.util.Random;
 /**
  * Created by TARDIS on 27/11/2014.
  */
-public class MultiGoesGame extends Game
+    public class MultiGoesGame extends Game
 {
     private boolean isGenerated;
     private boolean canRestart;
@@ -41,7 +41,7 @@ public class MultiGoesGame extends Game
 
     protected MultiGoesGame(int w, int h)
     {
-        this.name = "MutliGoes";
+        this.name = "MultiGoes";
         this.initTextureList();
         this.start(w, h);
     }
@@ -86,7 +86,14 @@ public class MultiGoesGame extends Game
         this.TextureList.clear();
 
         this.TextureList.add("metal_texture_bordered.png");
-        this.TextureList.add("bomb_texture.png");
+        //this.TextureList.add("bomb_texture.png");
+        this.TextureList.add("nazi_texture.png");
+    }
+
+    @Override
+    public void invalidate() {
+        updateScore();
+        updateStatus("New Game");
     }
 
     @Override
@@ -134,11 +141,6 @@ public class MultiGoesGame extends Game
         line.addView(score);
         line.setOrientation(LinearLayout.HORIZONTAL);
 
-        UILayout.addView(name);
-        UILayout.addView(line);
-        UILayout.addView(status);
-        ((LinearLayout) UILayout).setOrientation(LinearLayout.VERTICAL);
-
         name.setTextSize(30);
         name.setTextColor(Color.WHITE);
         name.setText(this.name);
@@ -149,14 +151,15 @@ public class MultiGoesGame extends Game
         status.setTextSize(20);
         status.setTextColor(Color.WHITE);
 
+        UILayout.addView(name);
+        UILayout.addView(line);
+        UILayout.addView(status);
+        ((LinearLayout) UILayout).setOrientation(LinearLayout.VERTICAL);
+
         UIElements.add(name);
         UIElements.add(lives);
         UIElements.add(status);
         UIElements.add(score);
-
-        updateLives();
-        updateScore();
-        updateStatus("New Game");
     }
 
     private void updateLives()

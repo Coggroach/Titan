@@ -33,6 +33,7 @@ public abstract class Game
     public abstract void updateTextureBindings(boolean b);
     public abstract boolean getUpdateTextureBindings();
     public abstract void initTextureList();
+    public abstract void invalidate();
 
     public Tile getTile(int x, int y)
     {

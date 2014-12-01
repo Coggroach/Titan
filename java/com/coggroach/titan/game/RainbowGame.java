@@ -69,6 +69,12 @@ public class RainbowGame extends Game
     }
 
     @Override
+    public void invalidate() {
+        updateScore();
+        updateStatus("New Game");
+    }
+
+    @Override
     public void initUIElements(Context c)
     {
         this.UIElements = new ArrayList<View>();
@@ -110,9 +116,6 @@ public class RainbowGame extends Game
         UIElements.add(name);
         UIElements.add(score);
         UIElements.add(status);
-
-        updateScore();
-        updateStatus("New Game");
     }
 
     private void updateScore()

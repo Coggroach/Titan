@@ -75,8 +75,6 @@ public class TicTakToeGame extends Game
 
         UIElements.add(name);
         UIElements.add(status);
-
-        updateUIElement(1, "New Game");
     }
 
     public void updateUIElement(int i, String s)
@@ -226,5 +224,10 @@ public class TicTakToeGame extends Game
         this.TextureList.add("white_texture_bordered.jpg");
         this.TextureList.add("cross_texture_bordered.jpg");
         this.TextureList.add("nought_texture_bordered.jpg");
+    }
+
+    @Override
+    public void invalidate() {
+        updateUIElement(1, "New Game");
     }
 }

@@ -3,30 +3,20 @@ package com.coggroach.titan.activities;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
-import android.media.SoundPool;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
-import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.coggroach.titan.game.Game;
 import com.coggroach.titan.game.MultiGoesGame;
 import com.coggroach.titan.game.Options;
 import com.coggroach.titan.game.RainbowGame;
 import com.coggroach.titan.game.TicTakToeGame;
-import com.coggroach.titan.graphics.GameOptionsView;
+import com.coggroach.titan.graphics.OptionsView;
 import com.coggroach.titan.graphics.TileRenderer;
-import com.coggroach.titan.tile.Tile;
-import com.coggroach.titan.tile.TileColour;
-
-import java.util.Random;
 
 /**
  * Created by TARDIS on 20/11/2014.
@@ -37,14 +27,14 @@ public class GameActivity extends Activity implements View.OnTouchListener
     private GLSurfaceView mGLView;
     private TileRenderer mGLRender;
     private Options options;
-    private GameOptionsView view;
+    private OptionsView view;
     private boolean isOptionsFocused = false;
     private String[] gameModes = {"Restart", "Rainbow", "MultiGoes", "TicTakToe"};
 
     @Override
     public boolean onTouch(View v, MotionEvent event)
     {
-        boolean settingsCheck = (event.getX() > this.getResources().getDisplayMetrics().widthPixels * 0.9F && event.getY() < this.getResources().getDisplayMetrics().heightPixels * 0.1F);
+        boolean settingsCheck = (event.getX() > this.getResources().getDisplayMetrics().widthPixels * 0.9F && event.getY() < this.getResources().getDisplayMetrics().widthPixels * 0.1F);
 
         if(event.getAction() == MotionEvent.ACTION_DOWN) {
             if(settingsCheck && isOptionsFocused)
@@ -100,7 +90,8 @@ public class GameActivity extends Activity implements View.OnTouchListener
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         options = new Options();
-        view = new GameOptionsView(this, gameModes);
+        options.load(this);
+        view = new OptionsView(this, gameModes);
 
         mGLView = new GLSurfaceView(this);
         mGLRender = new TileRenderer(this);
@@ -120,11 +111,14 @@ public class GameActivity extends Activity implements View.OnTouchListener
 
     public void initGame(int i)
     {
+        game = null;
         game = getGameFromId(i);
+        game.initUIElements(this);
         game.updateView(true);
         game.generate();
-        game.initUIElements(this);
         game.initTextureList();
+        game.invalidate();
+        game.invalidate();
     }
 
     @Override

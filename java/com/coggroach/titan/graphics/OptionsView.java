@@ -9,19 +9,17 @@ import android.graphics.Point;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.TextView;
 
 import com.coggroach.titan.activities.GameActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Random;
 
 /**
  * Created by TARDIS on 30/11/2014.
  */
-public class GameOptionsView extends View implements View.OnTouchListener
+public class OptionsView extends View implements View.OnTouchListener
 {
     private Context context;
     private Bitmap icon;
@@ -88,7 +86,7 @@ public class GameOptionsView extends View implements View.OnTouchListener
         }
     }
 
-    public GameOptionsView(Context context, String[] list)
+    public OptionsView(Context context, String[] list)
     {
         super(context);
         this.context = context;
@@ -126,7 +124,7 @@ public class GameOptionsView extends View implements View.OnTouchListener
     @Override
     public boolean onTouch(View v, MotionEvent event)
     {
-        if(v instanceof GameOptionsView)
+        if(v instanceof OptionsView)
         {
             int i = getIndexOfOptionsButton((int) event.getX(), (int) event.getY());
             if(i != Integer.MIN_VALUE)
