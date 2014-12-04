@@ -2,7 +2,7 @@ package com.coggroach.titan.game;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
+import android.opengl.Matrix;
 import android.view.MotionEvent;
 import android.view.SoundEffectConstants;
 import android.view.View;
@@ -11,9 +11,8 @@ import android.widget.TextView;
 
 import com.coggroach.titan.graphics.TileRenderer;
 import com.coggroach.titan.tile.Tile;
+import com.coggroach.titan.tile.ITileAnimation;
 import com.coggroach.titan.tile.TileColour;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -30,6 +29,17 @@ public class RainbowGame extends Game
     private int score;
     private TileColour defaultColour = TileColour.white;
     private View.OnClickListener endGameListener;
+    private int ANIMATION_LENGTH = 72;
+    private ITileAnimation animation = new ITileAnimation()
+    {
+        @Override
+        public float[] onAnimation(int i, float[] mMVPMatrix)
+        {
+            //i Limit to 8 Here
+            Matrix.rotateM(mMVPMatrix, 0, (i * 5), 1.0F, 0.0F, 0.0F);
+            return mMVPMatrix;
+        }
+    };
 
     public int getScore()
     {
@@ -201,6 +211,10 @@ public class RainbowGame extends Game
                 {
                     if (!this.getTile(iTile).getStats().isPressed())
                     {
+                        this.getTile(iTile).getAnimation().setAnimation(animation);
+                        this.getTile(iTile).getAnimation().setAnimationLength(this.ANIMATION_LENGTH);
+                        this.getTile(iTile).getAnimation().setAnimationLoop(false);
+                        this.getTile(iTile).getAnimation().setAnimationTickLength(15);
                         this.incScore();
                         this.getTile(iTile).getStats().setPressed(true);
                         this.updateScore();

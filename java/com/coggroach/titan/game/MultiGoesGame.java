@@ -86,8 +86,7 @@ import java.util.Random;
         this.TextureList.clear();
 
         this.TextureList.add("metal_texture_bordered.png");
-        //this.TextureList.add("bomb_texture.png");
-        this.TextureList.add("nazi_texture.png");
+        this.TextureList.add("bomb_texture.png");
     }
 
     @Override

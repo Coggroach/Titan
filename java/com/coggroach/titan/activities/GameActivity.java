@@ -3,8 +3,10 @@ package com.coggroach.titan.activities;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import com.coggroach.titan.game.Options;
 import com.coggroach.titan.game.RainbowGame;
 import com.coggroach.titan.game.TicTakToeGame;
 import com.coggroach.titan.graphics.OptionsView;
+import com.coggroach.titan.graphics.RenderSettings;
 import com.coggroach.titan.graphics.TileRenderer;
 
 /**
@@ -30,6 +33,29 @@ public class GameActivity extends Activity implements View.OnTouchListener
     private OptionsView view;
     private boolean isOptionsFocused = false;
     private String[] gameModes = {"Restart", "Rainbow", "MultiGoes", "TicTakToe"};
+    private long CURRENT_TIME = System.currentTimeMillis();
+
+    private Thread renderThread = new Thread(new Runnable()
+    {
+        @Override
+        public void run()
+        {
+            while(true) {
+                long dt = System.currentTimeMillis() - CURRENT_TIME;
+                if (dt < RenderSettings.PERIOD) {
+                    try {
+                        Thread.sleep(RenderSettings.PERIOD / 1000);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                CURRENT_TIME = System.currentTimeMillis();
+
+                mGLView.requestRender();
+            }
+        }
+    });
+
 
     @Override
     public boolean onTouch(View v, MotionEvent event)
@@ -98,10 +124,11 @@ public class GameActivity extends Activity implements View.OnTouchListener
 
         mGLView.setEGLContextClientVersion(2);
         mGLView.setRenderer(mGLRender);
+        mGLView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+
         mGLView.setOnTouchListener(this);
         view.setOnTouchListener(this);
-
-
+        renderThread.start();
     }
 
     public void initGame()

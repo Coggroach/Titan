@@ -3,6 +3,7 @@ package com.coggroach.titan.graphics;
 import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
+import android.os.SystemClock;
 
 import com.coggroach.titan.R;
 import com.coggroach.titan.activities.GameActivity;
@@ -10,6 +11,8 @@ import com.coggroach.titan.common.AssetReader;
 import com.coggroach.titan.common.ResourceReader;
 import com.coggroach.titan.game.Options;
 import com.coggroach.titan.tile.Tile;
+
+import java.util.Timer;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -40,6 +43,7 @@ public class TileRenderer extends AbstractGLRenderer
     private int mTextureDataLength;
 
     private float gamma = 1.0F;
+    private long TIME = System.currentTimeMillis();
 
     public TileRenderer(Context context)
     {
@@ -203,6 +207,19 @@ public class TileRenderer extends AbstractGLRenderer
     {
         if(tile != null)
         {
+            if(tile.getAnimation().hasAnimation())
+            {
+                if(tile.getAnimation().getAnimationTickIndex() == tile.getAnimation().getAnimationTickLength() - 1)
+                {
+                    mModelMatrix = tile.getAnimation().onAnimation(mModelMatrix);
+                    tile.getAnimation().incAnimation();
+                }
+                else
+                {
+                    tile.getAnimation().incAnimationTick();
+                }
+            }
+
             Tile.getModelPositions().position(0);
             GLES20.glVertexAttribPointer(mPositionHandle, mPositionDataSize, GLES20.GL_FLOAT, false, 0, Tile.getModelPositions());
             GLES20.glEnableVertexAttribArray(mPositionHandle);
