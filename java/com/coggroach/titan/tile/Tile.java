@@ -194,6 +194,7 @@ public class Tile
         this.stats = new TileStats(i);
         this.colour = c;
         this.textureId = texId;
+        this.animation = new TileAnimation();
     }
 
     public static FloatBuffer getModelPositions()
