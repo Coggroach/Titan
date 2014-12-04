@@ -29,14 +29,14 @@ public class RainbowGame extends Game
     private int score;
     private TileColour defaultColour = TileColour.white;
     private View.OnClickListener endGameListener;
-    private int ANIMATION_LENGTH = 72;
+    private int ANIMATION_LENGTH = 72/4;
     private ITileAnimation animation = new ITileAnimation()
     {
         @Override
         public float[] onAnimation(int i, float[] mMVPMatrix)
         {
             //i Limit to 8 Here
-            Matrix.rotateM(mMVPMatrix, 0, (i * 5), 1.0F, 0.0F, 0.0F);
+            Matrix.rotateM(mMVPMatrix, 0, (i * 5), 0.0F, 1.0F, 0.0F);
             return mMVPMatrix;
         }
     };
@@ -214,7 +214,7 @@ public class RainbowGame extends Game
                         this.getTile(iTile).getAnimation().setAnimation(animation);
                         this.getTile(iTile).getAnimation().setAnimationLength(this.ANIMATION_LENGTH);
                         this.getTile(iTile).getAnimation().setAnimationLoop(false);
-                        this.getTile(iTile).getAnimation().setAnimationTickLength(15);
+                        this.getTile(iTile).getAnimation().setAnimationTickLength(1);
                         this.incScore();
                         this.getTile(iTile).getStats().setPressed(true);
                         this.updateScore();
