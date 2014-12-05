@@ -74,7 +74,8 @@ public class RainbowGame extends Game
     {
         this.TextureList = new ArrayList<String>();
 
-        this.TextureList.add("metal_texture_bordered.png");
+        //this.TextureList.add("metal_texture_bordered.png");
+        this.TextureList.add("white_texture_bordered.jpg");
         this.TextureList.add("bomb_texture.png");
     }
 

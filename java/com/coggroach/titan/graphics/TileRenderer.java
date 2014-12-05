@@ -11,6 +11,7 @@ import com.coggroach.titan.common.AssetReader;
 import com.coggroach.titan.common.ResourceReader;
 import com.coggroach.titan.game.Options;
 import com.coggroach.titan.tile.Tile;
+import com.coggroach.titan.tile.TileColour;
 
 import java.util.Timer;
 
@@ -91,7 +92,7 @@ public class TileRenderer extends AbstractGLRenderer
     public void onSurfaceCreated(GL10 glUnused, EGLConfig config)
     {
         super.onSurfaceCreated(glUnused, config);
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        GLES20.glClearColor(TileColour.cyan.R, TileColour.cyan.G, TileColour.cyan.B, TileColour.cyan.A);
         GLES20.glEnable(GLES20.GL_CULL_FACE);
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 
@@ -164,33 +165,32 @@ public class TileRenderer extends AbstractGLRenderer
     {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
-        if(((GameActivity) context).getGame().getUpdateView())
+        if(((GameActivity) context).getGame() != null)
         {
-            this.setViewMatrix();
-            this.setProjectionMatrix(width, height);
-        }
-
-        if(((GameActivity) context).getGame().isRendering())
-        {
-            int h = ((GameActivity) context).getGame().getHeight();
-            int w = ((GameActivity) context).getGame().getWidth();
-
-            for (int j = 0; j < h; j++)
-            {
-                for (int i = 0; i < w; i++)
-                {
-                    float x = w - 1 - RenderSettings.OBJECT_LENGTH_Z * i;
-                    float y = h - 1 - RenderSettings.OBJECT_LENGTH_Z * j;
-
-                    Matrix.setIdentityM(mModelMatrix, 0);
-                    Matrix.translateM(mModelMatrix, 0, x, y, RenderSettings.OBJECT_POSITION_Z);
-                    if(((GameActivity) context).getGame() != null)
-                        drawTile(((GameActivity) context).getGame().getTile(i, j), mModelMatrix);
-                }
+            if (((GameActivity) context).getGame().getUpdateView()) {
+                this.setViewMatrix();
+                this.setProjectionMatrix(width, height);
             }
-            Matrix.setIdentityM(mLightModelMatrix, 0);
-            Matrix.translateM(mLightModelMatrix, 0, 0.0F, 0.0F, RenderSettings.OBJECT_POSITION_Z + 5.0F);
-            drawLight(mLightModelMatrix);
+
+            if (((GameActivity) context).getGame().isRendering()) {
+                int h = ((GameActivity) context).getGame().getHeight();
+                int w = ((GameActivity) context).getGame().getWidth();
+
+                for (int j = 0; j < h; j++) {
+                    for (int i = 0; i < w; i++) {
+                        float x = w - 1 - RenderSettings.OBJECT_LENGTH_Z * i;
+                        float y = h - 1 - RenderSettings.OBJECT_LENGTH_Z * j;
+
+                        Matrix.setIdentityM(mModelMatrix, 0);
+                        Matrix.translateM(mModelMatrix, 0, x, y, RenderSettings.OBJECT_POSITION_Z);
+                        if (((GameActivity) context).getGame() != null)
+                            drawTile(((GameActivity) context).getGame().getTile(i, j), mModelMatrix);
+                    }
+                }
+                Matrix.setIdentityM(mLightModelMatrix, 0);
+                Matrix.translateM(mLightModelMatrix, 0, 0.0F, 0.0F, RenderSettings.OBJECT_POSITION_Z + 5.0F);
+                drawLight(mLightModelMatrix);
+            }
         }
     }
 
