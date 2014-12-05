@@ -3,6 +3,8 @@ package com.coggroach.titan.game;
 import com.coggroach.titan.tile.Tile;
 import com.coggroach.titan.tile.TileColour;
 
+import java.util.ArrayList;
+
 /**
  * Created by TARDIS on 27/11/2014.
  */
@@ -61,9 +63,14 @@ public class GameHelper
 
     protected static boolean setColourWithinBounds(Game game, int x, int y, int i)
     {
+        return setColourWithinBounds(game, x, y, new TileColour(700 - i * 50));
+    }
+
+    protected static boolean setColourWithinBounds(Game game, int x, int y, TileColour c)
+    {
         if(x >= 0 && x < game.getWidth() && y >= 0 && y < game.getHeight())
         {
-            game.getTile(x, y).setColour(getIndexedTileColour(i));
+            game.getTile(x, y).setColour(c, 3);
             return true;
         }
         return false;
@@ -75,7 +82,7 @@ public class GameHelper
         {
             i = 8;
         }
-        i += (Options.PALETTE_ID*9);
+        //i += (Options.PALETTE*9);
 
         switch (i)
         {

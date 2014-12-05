@@ -1,5 +1,7 @@
 package com.coggroach.titan.tile;
 
+import android.graphics.Color;
+
 /**
  * Created by TARDIS on 20/11/2014.
  */
@@ -34,6 +36,17 @@ public class TileColour
         this((float) i/255, (float) j/255, (float) k/255, (float) l/255);
     }
 
+    public TileColour(int WaveLength)
+    {
+        float[] colours = Spectrum.WaveLengthToRGB(WaveLength);
+
+        this.R = colours[0];
+        this.G = colours[1];
+        this.B = colours[2];
+        this.A = 1.0F;
+    }
+
+
     public TileColour(float i, float j, float k, float l)
     {
         this.R = i;
@@ -50,6 +63,27 @@ public class TileColour
     public float[] toFloatArray()
     {
         return new float[] {R, G, B, A};
+    }
+
+    public int getIntegerR()
+    {
+        return (int) (R*255);
+    }
+    public int getIntegerG()
+    {
+        return (int) (G*255);
+    }
+    public int getIntegerB()
+    {
+        return (int) (B*255);
+    }
+    public int getIntegerA()
+    {
+        return (int) (A*255);
+    }
+    public int getColorValue()
+    {
+        return Color.argb(this.getIntegerA(), this.getIntegerR(), this.getIntegerG(), this.getIntegerB());
     }
 
 }
