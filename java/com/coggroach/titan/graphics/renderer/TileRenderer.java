@@ -9,6 +9,7 @@ import com.coggroach.titan.activities.GameActivity;
 import com.coggroach.titan.common.AssetReader;
 import com.coggroach.titan.common.ResourceReader;
 import com.coggroach.titan.tile.Tile;
+import com.coggroach.titan.tile.TileColour;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -86,7 +87,8 @@ public class TileRenderer extends AbstractGLRenderer
     public void onSurfaceCreated(GL10 glUnused, EGLConfig config)
     {
         super.onSurfaceCreated(glUnused, config);
-        GLES20.glClearColor(0.0F, 0.0F, 0.0F, 0.0F);
+        //GLES20.glClearColor(0.0F, 0.0F, 0.0F, 0.0F);
+        GLES20.glClearColor(TileColour.white.R, TileColour.white.G, TileColour.white.B, TileColour.white.A);
         GLES20.glEnable(GLES20.GL_CULL_FACE);
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 
@@ -214,6 +216,10 @@ public class TileRenderer extends AbstractGLRenderer
                 else
                 {
                     tile.getAnimation().incAnimationTick();
+                }
+                if(tile.getAnimation().loadLastAnimation() && tile.getAnimation().getAnimationIndex() == tile.getAnimation().getAnimationLength() - 1)
+                {
+                    mModelMatrix = tile.getAnimation().onAnimation(mModelMatrix);
                 }
             }
 

@@ -32,7 +32,7 @@ public class GameActivity extends Activity implements View.OnTouchListener
     private Options options;
     private OptionsView view;
     private boolean isOptionsFocused = false;
-    private String[] gameModes = {"Restart", "Rainbow", "MultiGoes", "TicTakToe", "Sudoku"};
+    private String[] gameModes = {"Restart", "Rainbow", "MultiGoes", "TicTakToe"};
     private long CURRENT_TIME = System.currentTimeMillis();
 
     private Thread renderThread = new Thread(new Runnable()

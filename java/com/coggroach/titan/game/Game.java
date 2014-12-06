@@ -34,6 +34,8 @@ public abstract class Game
     public abstract boolean getUpdateTextureBindings();
     public abstract void initTextureList();
     public abstract void invalidate();
+    public abstract boolean isAlwaysSquare();
+    public abstract boolean removeOverlay();
 
     public Tile getTile(int x, int y)
     {

@@ -15,22 +15,18 @@ public class Tile
     private TileAnimation animation;
     private int[] textureId;
 
-
     private static final FloatBuffer[] mModelPositions;
     private static final FloatBuffer[] mModelNormals;
     private static final FloatBuffer[] mModelTextureCoordinates;
 
-/*  private static final int mPositionOffset = 18;
-    private static final int mNormalOffset = 18;
-    private static final int mTextureOffset = 12;
-*/
     private static final int mPositionsLength;
     private static final int mNormalsLength;
     private static final int mTextureCoordinatesLength;
 
     private static final int mBytesPerFloat = 4;
 
-    static {
+    static
+    {
         final float[][] tilePositions = new float[][]
                 {
                         {
@@ -212,7 +208,8 @@ public class Tile
         mModelNormals = new FloatBuffer[6];
         mModelTextureCoordinates = new FloatBuffer[6];
 
-        for(int i=0; i<6; i++) {
+        for(int i=0; i<6; i++)
+        {
             mModelPositions[i] = ByteBuffer.allocateDirect(mPositionsLength * mBytesPerFloat).order(ByteOrder.nativeOrder()).asFloatBuffer();
             mModelNormals[i] = ByteBuffer.allocateDirect(mNormalsLength * mBytesPerFloat).order(ByteOrder.nativeOrder()).asFloatBuffer();
             mModelTextureCoordinates[i] = ByteBuffer.allocateDirect(mTextureCoordinatesLength * mBytesPerFloat).order(ByteOrder.nativeOrder()).asFloatBuffer();

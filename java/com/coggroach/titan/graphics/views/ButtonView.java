@@ -29,7 +29,8 @@ public class ButtonView extends View
         {
             this.button = BitmapFactory.decodeStream(context.getAssets().open(s));
         }
-        catch(IOException ex){
+        catch(IOException ex)
+        {
             ex.printStackTrace();
         }
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();

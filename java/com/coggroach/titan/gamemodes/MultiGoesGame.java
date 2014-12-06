@@ -52,6 +52,16 @@ import java.util.Random;
         this(3, 3);
     }
 
+    @Override
+    public boolean isAlwaysSquare() {
+        return true;
+    }
+
+    @Override
+    public boolean removeOverlay() {
+        return false;
+    }
+
     protected MultiGoesGame(int w, int h)
     {
         this.name = "MultiGoes";

@@ -55,7 +55,17 @@ public class RainbowGame extends Game
 
     public RainbowGame()
     {
-        this(7, 7);
+        this(15, 15);
+    }
+
+    @Override
+    public boolean isAlwaysSquare() {
+        return true;
+    }
+
+    @Override
+    public boolean removeOverlay() {
+        return false;
     }
 
     protected RainbowGame(int w, int h)

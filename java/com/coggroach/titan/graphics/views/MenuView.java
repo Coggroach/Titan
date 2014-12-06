@@ -40,8 +40,8 @@ public class MenuView extends View implements View.OnTouchListener
             width = metrics.widthPixels;
             height = metrics.heightPixels;
 
-            buttons.add(new ButtonView(context, "interface/ButtonPlay.png", (int) (0.1F * width), (int) (0.35F * height), background.getWidth(), background.getHeight()));
-            buttons.add(new ButtonView(context, "interface/ButtonOptions.png", (int) (0.1F * width), (int) (0.65F * height), background.getWidth(), background.getHeight()));
+            buttons.add(new ButtonView(context, "interface/ButtonPlay.png", (int) (0.09F * width), (int) (0.35F * height), background.getWidth(), background.getHeight()));
+            buttons.add(new ButtonView(context, "interface/ButtonOptions.png", (int) (0.09F * width), (int) (0.60F * height), background.getWidth(), background.getHeight()));
             background = Bitmap.createScaledBitmap(background, width, height, false);
             this.setOnTouchListener(this);
         }

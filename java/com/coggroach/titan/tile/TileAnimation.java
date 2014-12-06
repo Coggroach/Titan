@@ -40,6 +40,10 @@ public class TileAnimation
         return mMVPMatrix;
     }
 
+    public int getAnimationLength() {
+        return animationLength;
+    }
+
     public void incAnimation()
     {
         boolean flag = this.animationIndex < this.animationLength;
@@ -54,8 +58,6 @@ public class TileAnimation
                 this.animationIndex = 0;
                 this.animation = null;
             }
-            this.animationIndex = 0;
-            this.animation = null;
         }
     }
 

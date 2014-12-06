@@ -177,6 +177,16 @@ public class TicTakToeGame extends Game
         return true;
     }
 
+    @Override
+    public boolean isAlwaysSquare() {
+        return true;
+    }
+
+    @Override
+    public boolean removeOverlay() {
+        return false;
+    }
+
     public boolean hasGameFinished(int player, int tile)
     {
         int[] square = {8, 1, 6, 3, 5, 7, 4, 9, 2};

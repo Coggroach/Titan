@@ -18,7 +18,7 @@ public class TileColour
     public static TileColour pink = new TileColour(1.0F, 0.0F, 1.0F, 1.0F);
 
     public static TileColour cyan = new TileColour(0.0F, 1.0F, 1.0F, 1.0F);
-    public static TileColour white = new TileColour(1.0F, 1.0F, 1.0F, 1.0F);
+    public static TileColour white = new TileColour(253, 246, 220, 255);
     public static TileColour grey = new TileColour(0.45F, 0.45F, 0.45F, 1.0F);
     public static TileColour black = new TileColour(0.1F, 0.1F, 0.1F, 0.5F);
 
