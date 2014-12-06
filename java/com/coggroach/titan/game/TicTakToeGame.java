@@ -109,11 +109,7 @@ public class TicTakToeGame extends Game
             for(int i = 0; i < tiles.length; i++)
             {
                 tiles[i] = new Tile(i, defaultColour);
-<<<<<<< HEAD
                 tiles[i].setTextureId(0, 0);
-=======
-                tiles[i].setTextureId(0);
->>>>>>> origin/ColourPalette
             }
         }
     }
@@ -148,11 +144,7 @@ public class TicTakToeGame extends Game
                     if (!this.getTile(iTile).getStats().isPressed())
                     {
                         this.getTile(iTile).getStats().setPressed(true);
-<<<<<<< HEAD
                         this.getTile(iTile).setTextureId(player, 0);
-=======
-                        this.getTile(iTile).setTextureId(player);
->>>>>>> origin/ColourPalette
                         v.playSoundEffect(SoundEffectConstants.CLICK);
 
                         if(hasGameFinished(player, iTile))
@@ -177,11 +169,7 @@ public class TicTakToeGame extends Game
     {
         for(int i = 0; i < tiles.length; i++)
         {
-<<<<<<< HEAD
             if(tiles[i].getTextureId(0) == 0)
-=======
-            if(tiles[i].getTextureId() == 0)
->>>>>>> origin/ColourPalette
                 return false;
         }
         return true;
@@ -196,11 +184,7 @@ public class TicTakToeGame extends Game
         int total = 0;
         for(int i = 0; i < this.getWidth(); i++)
         {
-<<<<<<< HEAD
             if(tiles[i + y * this.getWidth()].getTextureId(0) == player)
-=======
-            if(tiles[i + y * this.getWidth()].getTextureId() == player)
->>>>>>> origin/ColourPalette
             {
                 total += square[i + y * this.getWidth()];
             }
@@ -211,11 +195,7 @@ public class TicTakToeGame extends Game
         total = 0;
         for(int i = 0; i < this.getHeight(); i++)
         {
-<<<<<<< HEAD
             if(tiles[x + i * this.getHeight()].getTextureId(0) == player)
-=======
-            if(tiles[x + i * this.getHeight()].getTextureId() == player)
->>>>>>> origin/ColourPalette
             {
                 total += square[x + i * this.getHeight()];
             }

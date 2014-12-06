@@ -70,11 +70,8 @@ public class GameHelper
     {
         if(x >= 0 && x < game.getWidth() && y >= 0 && y < game.getHeight())
         {
-<<<<<<< HEAD
             game.getTile(x, y).setColour(c, 3);
-=======
-            game.getTile(x, y).setColour(c);
->>>>>>> origin/ColourPalette
+
             return true;
         }
         return false;

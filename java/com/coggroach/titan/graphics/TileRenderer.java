@@ -169,43 +169,30 @@ public class TileRenderer extends AbstractGLRenderer
 
         if(((GameActivity) context).getGame() != null)
         {
-            if (((GameActivity) context).getGame().getUpdateView()) {
+            if (((GameActivity) context).getGame().getUpdateView())
+            {
                 this.setViewMatrix();
                 this.setProjectionMatrix(width, height);
             }
 
-<<<<<<< HEAD
-        if(((GameActivity) context).getGame().isRendering())
-        {
-            int h = ((GameActivity) context).getGame().getHeight();
-            int w = ((GameActivity) context).getGame().getWidth();
-=======
             if (((GameActivity) context).getGame().isRendering()) {
                 int h = ((GameActivity) context).getGame().getHeight();
                 int w = ((GameActivity) context).getGame().getWidth();
->>>>>>> origin/ColourPalette
 
                 for (int j = 0; j < h; j++) {
                     for (int i = 0; i < w; i++) {
                         float x = w - 1 - RenderSettings.OBJECT_LENGTH_Z * i;
                         float y = h - 1 - RenderSettings.OBJECT_LENGTH_Z * j;
 
-<<<<<<< HEAD
-                    Matrix.setIdentityM(mModelMatrix, 0);
-                    Matrix.translateM(mModelMatrix, 0, x, y, RenderSettings.OBJECT_POSITION_Z);
-                    if(((GameActivity) context).getGame() != null)
-                        drawTile(((GameActivity) context).getGame().getTile(i, j), mModelMatrix);
-=======
                         Matrix.setIdentityM(mModelMatrix, 0);
                         Matrix.translateM(mModelMatrix, 0, x, y, RenderSettings.OBJECT_POSITION_Z);
                         if (((GameActivity) context).getGame() != null)
                             drawTile(((GameActivity) context).getGame().getTile(i, j), mModelMatrix);
                     }
->>>>>>> origin/ColourPalette
+                    Matrix.setIdentityM(mLightModelMatrix, 0);
+                    Matrix.translateM(mLightModelMatrix, 0, 0.0F, 0.0F, RenderSettings.OBJECT_POSITION_Z + 5.0F);
+                    drawLight(mLightModelMatrix);
                 }
-                Matrix.setIdentityM(mLightModelMatrix, 0);
-                Matrix.translateM(mLightModelMatrix, 0, 0.0F, 0.0F, RenderSettings.OBJECT_POSITION_Z + 5.0F);
-                drawLight(mLightModelMatrix);
             }
         }
     }
@@ -221,31 +208,17 @@ public class TileRenderer extends AbstractGLRenderer
 
     public void drawTile(Tile tile, float[] mModelMatrix)
     {
-<<<<<<< HEAD
         if(tile != null) {
             if (tile.getAnimation().hasAnimation() || tile.getAnimation().loadLastAnimation()) {
                 if (tile.getAnimation().getAnimationTickIndex() == tile.getAnimation().getAnimationTickLength() - 1) {
                     mModelMatrix = tile.getAnimation().onAnimation(mModelMatrix);
                     tile.getAnimation().incAnimation();
-                } else {
-=======
-        if(tile != null)
-        {
-            if(tile.getAnimation().hasAnimation())
-            {
-                if(tile.getAnimation().getAnimationTickIndex() == tile.getAnimation().getAnimationTickLength() - 1)
+                } else
                 {
-                    mModelMatrix = tile.getAnimation().onAnimation(mModelMatrix);
-                    tile.getAnimation().incAnimation();
-                }
-                else
-                {
->>>>>>> origin/ColourPalette
                     tile.getAnimation().incAnimationTick();
                 }
             }
 
-<<<<<<< HEAD
             for (int i = 0; i < 6; i++) {
                 Tile.getModelPositions(i).position(0);
                 GLES20.glVertexAttribPointer(mPositionHandle, mPositionDataSize, GLES20.GL_FLOAT, false, 0/*Tile.getPositionsLength() + (i-6)*Tile.getPositionOffset()*/, Tile.getModelPositions(i));
@@ -272,33 +245,6 @@ public class TileRenderer extends AbstractGLRenderer
                 GLES20.glUniform3f(mLightPosHandle, mLightPosInEyeSpace[0], mLightPosInEyeSpace[1], mLightPosInEyeSpace[2]);
                 GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 6);
             }
-=======
-            Tile.getModelPositions().position(0);
-            GLES20.glVertexAttribPointer(mPositionHandle, mPositionDataSize, GLES20.GL_FLOAT, false, 0, Tile.getModelPositions());
-            GLES20.glEnableVertexAttribArray(mPositionHandle);
-
-            Tile.getModelNormals().position(0);
-            GLES20.glVertexAttribPointer(mNormalHandle, mNormalDataSize, GLES20.GL_FLOAT, false, 0, Tile.getModelNormals());
-            GLES20.glEnableVertexAttribArray(mNormalHandle);
-
-            Tile.getModelTextureCoordinates().position(0);
-            GLES20.glVertexAttribPointer(mTextureCoordinateHandle, 2, GLES20.GL_FLOAT, false, 0, Tile.getModelTextureCoordinates());
-            GLES20.glEnableVertexAttribArray(mTextureCoordinateHandle);
-
-            float[] colour = tile.getDrawingColour();
-            for(int i = 0; i < colour.length; i++)
-                colour[i] *= gamma;
-            // Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.
-            GLES20.glUniform1i(mTextureUniformHandle, tile.getTextureId());
-
-            GLES20.glUniform4fv(mUniformColorHandle, 1, colour, 0);
-            Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
-            GLES20.glUniformMatrix4fv(mMVMatrixHandle, 1, false, mMVPMatrix, 0);
-            Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);
-            GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
-            GLES20.glUniform3f(mLightPosHandle, mLightPosInEyeSpace[0], mLightPosInEyeSpace[1], mLightPosInEyeSpace[2]);
-            GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 36);
->>>>>>> origin/ColourPalette
         }
     }
 
@@ -344,11 +290,9 @@ public class TileRenderer extends AbstractGLRenderer
         return gamma;
     }
 
-    public void setGamma(float gamma) {
+    public void setGamma(float gamma)
+    {
         this.gamma = gamma;
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> origin/ColourPalette
+

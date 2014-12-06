@@ -211,8 +211,7 @@ public class GameActivity extends Activity implements View.OnTouchListener
     {
         return options;
     }
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> origin/ColourPalette
+
+

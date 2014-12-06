@@ -74,12 +74,7 @@ public class RainbowGame extends Game
     {
         this.TextureList = new ArrayList<String>();
 
-<<<<<<< HEAD
-        this.TextureList.add("metal_texture_bordered.png");
-=======
-        //this.TextureList.add("metal_texture_bordered.png");
         this.TextureList.add("white_texture_bordered.jpg");
->>>>>>> origin/ColourPalette
         this.TextureList.add("bomb_texture.png");
     }
 
@@ -204,11 +199,8 @@ public class RainbowGame extends Game
     @Override
     public void onTouch(View v, MotionEvent event)
     {
-<<<<<<< HEAD
+
         if(event.getAction() == MotionEvent.ACTION_DOWN|| event.getAction() == MotionEvent.ACTION_MOVE)
-=======
-        if(event.getAction() == MotionEvent.ACTION_DOWN)//|| event.getAction() == MotionEvent.ACTION_MOVE)
->>>>>>> origin/ColourPalette
         {
             if((this.isGameOn()))
             {
@@ -220,18 +212,11 @@ public class RainbowGame extends Game
                 {
                     if (!this.getTile(iTile).getStats().isPressed())
                     {
-<<<<<<< HEAD
                         this.getTile(iTile).getAnimation().setAnimation(this.animation);
                         this.getTile(iTile).getAnimation().setAnimationLength(this.ANIMATION_LENGTH);
                         this.getTile(iTile).getAnimation().setAnimationLoop(false);
                         this.getTile(iTile).getAnimation().setAnimationTickLength(1);
                         this.getTile(iTile).getAnimation().setSaveAnimation(true);
-=======
-                        this.getTile(iTile).getAnimation().setAnimation(animation);
-                        this.getTile(iTile).getAnimation().setAnimationLength(this.ANIMATION_LENGTH);
-                        this.getTile(iTile).getAnimation().setAnimationLoop(false);
-                        this.getTile(iTile).getAnimation().setAnimationTickLength(1);
->>>>>>> origin/ColourPalette
                         this.incScore();
                         this.getTile(iTile).getStats().setPressed(true);
                         this.updateScore();
@@ -239,13 +224,8 @@ public class RainbowGame extends Game
                     }
                     if(this.getTile(iTile).getStats().isMine())
                     {
-<<<<<<< HEAD
                         this.getTile(iTile).setTextureId(1, 3);
                         this.getTile(iTile).setColour(defaultColour, 3);
-=======
-                        this.getTile(iTile).setTextureId(1);
-                        this.getTile(iTile).setColour(defaultColour);
->>>>>>> origin/ColourPalette
                         this.setGameOn(false);
                         this.updateStatus("Congratz, Click me to Continue!");
                     }

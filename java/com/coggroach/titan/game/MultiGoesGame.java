@@ -66,16 +66,11 @@ import java.util.Random;
 
     public void incLives()
     {
-<<<<<<< HEAD
         this.lives += 3 - this.score/15 + (this.width - 3)/3;
-=======
-        this.lives += 3 + this.score/3;
->>>>>>> origin/ColourPalette
-}
+    }
 
     public void incDifficulty()
     {
-<<<<<<< HEAD
         if(this.score%30 < 15)
         {
             this.width++;
@@ -86,10 +81,6 @@ import java.util.Random;
             this.width--;
             this.height--;
         }
-=======
-        this.width++;
-        this.height++;
->>>>>>> origin/ColourPalette
     }
 
     public void resetDifficulty()
@@ -120,8 +111,8 @@ import java.util.Random;
     }
 
     @Override
-    public void invalidate() {
-<<<<<<< HEAD
+    public void invalidate()
+    {
         updateLives();
         updateScore();
         //updateStatus("New Game");
@@ -130,10 +121,6 @@ import java.util.Random;
     public void updateUIElement(int i, String s)
     {
         ((TextView) UIElements.get(i)).setText(s);
-=======
-        updateScore();
-        updateStatus("New Game");
->>>>>>> origin/ColourPalette
     }
 
     @Override
@@ -196,14 +183,6 @@ import java.util.Random;
         //UILayout.addView(status);
         ((LinearLayout) UILayout).setOrientation(LinearLayout.VERTICAL);
 
-<<<<<<< HEAD
-=======
-        UILayout.addView(name);
-        UILayout.addView(line);
-        UILayout.addView(status);
-        ((LinearLayout) UILayout).setOrientation(LinearLayout.VERTICAL);
-
->>>>>>> origin/ColourPalette
         UIElements.add(name);
         UIElements.add(lives);
         //UIElements.add(status);
@@ -213,7 +192,6 @@ import java.util.Random;
     private void updateLives()
     {
         ((TextView) UIElements.get(1)).setText("Lives: " + this.lives + "   ");
-<<<<<<< HEAD
         if(this.lives <= 8)
             ((TextView) UIElements.get(1)).setTextColor(Color.YELLOW);
         if(this.lives <= 5)
@@ -222,18 +200,7 @@ import java.util.Random;
             ((TextView) UIElements.get(1)).setTextColor(Color.RED);
         if(this.lives > 8)
             ((TextView) UIElements.get(1)).setTextColor(Color.GREEN);
-=======
->>>>>>> origin/ColourPalette
     }
-
-    /*private void updateStatus(String s)
-    {
-        ((TextView) UIElements.get(2)).setText(s);
-<<<<<<< HEAD
-    }*/
-=======
-    }
->>>>>>> origin/ColourPalette
 
     private void updateScore()
     {
@@ -341,13 +308,9 @@ import java.util.Random;
                     }
                     if(this.getTile(iTile).getStats().isMine())
                     {
-<<<<<<< HEAD
                         this.getTile(iTile).setTextureId(1, 3);
                         this.getTile(iTile).setColour(defaultColour, 3);
-=======
-                        this.getTile(iTile).setTextureId(1);
-                        this.getTile(iTile).setColour(defaultColour);
->>>>>>> origin/ColourPalette
+
                         hasWon = true;
                         //this.updateStatus("Well Done! Click me to Keep Going");
                         this.incLives();

@@ -13,12 +13,7 @@ public class Tile
     private TileColour[] colour;
     private TileStats stats;
     private TileAnimation animation;
-<<<<<<< HEAD
     private int[] textureId;
-=======
-    private int textureId;
-
->>>>>>> origin/ColourPalette
 
 
     private static final FloatBuffer[] mModelPositions;
@@ -236,7 +231,6 @@ public class Tile
     public Tile(int i, TileColour c, int texId)
     {
         this.stats = new TileStats(i);
-<<<<<<< HEAD
         this.colour = new TileColour[6];
         this.textureId = new int[6];
         for(int j = 0; j < 6; j++)
@@ -244,10 +238,6 @@ public class Tile
             this.colour[j] = c;
             this.textureId[j] = texId;
         }
-=======
-        this.colour = c;
-        this.textureId = texId;
->>>>>>> origin/ColourPalette
         this.animation = new TileAnimation();
     }
 
@@ -315,7 +305,6 @@ public class Tile
         this.stats = stats;
     }
 
-<<<<<<< HEAD
     public int getTextureId(int index)
     {
         return textureId[index];
@@ -324,15 +313,7 @@ public class Tile
     public void setTextureId(int textureId, int index)
     {
         this.textureId[index] = textureId;
-=======
-    public int getTextureId()
-    {
-        return textureId;
-    }
 
-    public void setTextureId(int textureId) {
-        this.textureId = textureId;
->>>>>>> origin/ColourPalette
     }
 
     public TileAnimation getAnimation()
