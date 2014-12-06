@@ -42,7 +42,7 @@ public class GameHelper
         return game.getTile(getTileIndexFromWorld(game, xWorld, yWorld));
     }
 
-    protected static void generateGrid(Game game, int x, int y, int r)
+    public static void generateGrid(Game game, int x, int y, int r)
     {
         for(int i = 0; i <= r; i++)//height
         {

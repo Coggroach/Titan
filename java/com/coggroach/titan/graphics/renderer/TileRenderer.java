@@ -1,21 +1,14 @@
-package com.coggroach.titan.graphics;
+package com.coggroach.titan.graphics.renderer;
 
 import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
-import android.os.SystemClock;
 
 import com.coggroach.titan.R;
 import com.coggroach.titan.activities.GameActivity;
 import com.coggroach.titan.common.AssetReader;
 import com.coggroach.titan.common.ResourceReader;
-import com.coggroach.titan.game.Options;
 import com.coggroach.titan.tile.Tile;
-import com.coggroach.titan.tile.TileColour;
-
-import java.util.Timer;
-
-import java.util.Timer;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -93,7 +86,7 @@ public class TileRenderer extends AbstractGLRenderer
     public void onSurfaceCreated(GL10 glUnused, EGLConfig config)
     {
         super.onSurfaceCreated(glUnused, config);
-        GLES20.glClearColor(TileColour.cyan.R, TileColour.cyan.G, TileColour.cyan.B, TileColour.cyan.A);
+        GLES20.glClearColor(0.0F, 0.0F, 0.0F, 0.0F);
         GLES20.glEnable(GLES20.GL_CULL_FACE);
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 

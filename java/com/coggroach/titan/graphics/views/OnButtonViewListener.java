@@ -1,4 +1,4 @@
-package com.coggroach.titan.graphics;
+package com.coggroach.titan.graphics.views;
 
 import android.view.MotionEvent;
 import android.view.View;

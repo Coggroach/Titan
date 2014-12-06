@@ -1,4 +1,4 @@
-package com.coggroach.titan.graphics;
+package com.coggroach.titan.graphics.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -25,7 +25,8 @@ public class ButtonView extends View
     public ButtonView(Context context, String s, int x, int y, int width, int height)
     {
         super(context);
-        try {
+        try
+        {
             this.button = BitmapFactory.decodeStream(context.getAssets().open(s));
         }
         catch(IOException ex){

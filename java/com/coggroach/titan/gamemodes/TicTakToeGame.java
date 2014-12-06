@@ -1,4 +1,4 @@
-package com.coggroach.titan.game;
+package com.coggroach.titan.gamemodes;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -8,7 +8,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.coggroach.titan.graphics.TileRenderer;
+import com.coggroach.titan.game.Game;
+import com.coggroach.titan.game.GameHelper;
+import com.coggroach.titan.graphics.renderer.TileRenderer;
 import com.coggroach.titan.tile.Tile;
 import com.coggroach.titan.tile.TileColour;
 
@@ -221,9 +223,9 @@ public class TicTakToeGame extends Game
     {
         this.TextureList = new ArrayList<String>();
 
-        this.TextureList.add("white_texture_bordered.jpg");
-        this.TextureList.add("cross_texture_bordered.jpg");
-        this.TextureList.add("nought_texture_bordered.jpg");
+        this.TextureList.add("tiles/BorderedWhiteTile.jpg");
+        this.TextureList.add("tiles/BorderedCrossTile.jpg");
+        this.TextureList.add("tiles/BorderedNoughtTile.jpg");
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.coggroach.titan.graphics;
+package com.coggroach.titan.graphics.renderer;
 
 /**
  * Created by TARDIS on 13/11/2014.

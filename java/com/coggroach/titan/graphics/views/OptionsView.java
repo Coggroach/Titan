@@ -1,4 +1,4 @@
-package com.coggroach.titan.graphics;
+package com.coggroach.titan.graphics.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -95,19 +95,22 @@ public class OptionsView extends View implements View.OnTouchListener
 
         try
         {
-            icon = BitmapFactory.decodeStream(context.getResources().getAssets().open("GameSettingsIcon.png"));
+            icon = BitmapFactory.decodeStream(context.getResources().getAssets().open("interface/ButtonGamemodes.png"));
         }
         catch (IOException ex)
         {
             ex.printStackTrace();
         }
 
-        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-        width = metrics.widthPixels;
-        height = metrics.heightPixels;
+        if(icon != null)
+        {
+            DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+            width = metrics.widthPixels;
+            height = metrics.heightPixels;
 
-        this.generateOptions(list, (int)(0.1F * width)  , (int)(0.2F * height), (int)(0.1F * width), (int)(0.05F * height));
-        this.icon = Bitmap.createScaledBitmap(this.icon,(int) (width*0.1F), (int)(width*0.1F), false );
+            this.generateOptions(list, (int) (0.1F * width), (int) (0.2F * height), (int) (0.1F * width), (int) (0.05F * height));
+            this.icon = Bitmap.createScaledBitmap(this.icon, (int) (width * 0.1F), (int) (width * 0.1F), false);
+        }
     }
 
     public boolean contains(Point p)
