@@ -7,14 +7,17 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="com.coggroach.titan.activities.GameActivity"
-            android:label="MineKeeper" >
+            android:name="com.coggroach.titan.activities.MenuActivity"
+            android:label="Titan" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name="com.coggroach.titan.activities.GameActivity"
+            android:label="Titan">
+        </activity>
     </application>
 
 </manifest>

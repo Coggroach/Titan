@@ -2,6 +2,7 @@ package com.coggroach.titan.activities;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
@@ -110,6 +111,14 @@ public class GameActivity extends Activity implements View.OnTouchListener
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+        getActionBar().hide();
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        options = new Options();
+        options.load(this);
+        view = new OptionsView(this, gameModes);
 
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getActionBar().hide();
@@ -202,4 +211,8 @@ public class GameActivity extends Activity implements View.OnTouchListener
     {
         return options;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/ColourPalette

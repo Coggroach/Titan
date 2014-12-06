@@ -11,7 +11,10 @@ public class TileAnimation
     private int animationTickIndex;
     private boolean hasAnimation;
     private boolean animationLoop;
+<<<<<<< HEAD
     private boolean saveAnimation;
+=======
+>>>>>>> origin/ColourPalette
     private ITileAnimation animation;
 
     public TileAnimation()
@@ -23,7 +26,10 @@ public class TileAnimation
         this.animationLoop = false;
         this.animationTickIndex = 0;
         this.animationTickLength = 1;
+<<<<<<< HEAD
         this.saveAnimation = false;
+=======
+>>>>>>> origin/ColourPalette
     }
 
     public boolean hasAnimation()
@@ -50,17 +56,26 @@ public class TileAnimation
         else if(!this.animationLoop && !flag)
         {
             this.hasAnimation = false;
+<<<<<<< HEAD
             if(!this.loadLastAnimation()) {
                 this.animationIndex = 0;
                 this.animation = null;
             }
+=======
+            this.animationIndex = 0;
+            this.animation = null;
+>>>>>>> origin/ColourPalette
         }
     }
 
     public void incAnimationTick()
     {
+<<<<<<< HEAD
         if(!loadLastAnimation()||this.animationTickIndex < this.animationTickLength)
             this.animationTickIndex++;
+=======
+        this.animationTickIndex++;
+>>>>>>> origin/ColourPalette
     }
 
     public void setAnimation(ITileAnimation animation)
@@ -104,6 +119,7 @@ public class TileAnimation
     public void setAnimationTickIndex(int animationTickIndex) {
         this.animationTickIndex = animationTickIndex;
     }
+<<<<<<< HEAD
 
     public boolean loadLastAnimation() {
         return saveAnimation;
@@ -112,4 +128,6 @@ public class TileAnimation
     public void setSaveAnimation(boolean saveAnimation) {
         this.saveAnimation = saveAnimation;
     }
+=======
+>>>>>>> origin/ColourPalette
 }
