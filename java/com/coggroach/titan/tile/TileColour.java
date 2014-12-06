@@ -34,6 +34,17 @@ public class TileColour
         this((float) i/255, (float) j/255, (float) k/255, (float) l/255);
     }
 
+    public TileColour(int WaveLength)
+    {
+        float[] colours = Spectrum.WaveLengthToRGB(WaveLength);
+
+        this.R = colours[0];
+        this.G = colours[1];
+        this.B = colours[2];
+        this.A = 1.0F;
+    }
+
+
     public TileColour(float i, float j, float k, float l)
     {
         this.R = i;

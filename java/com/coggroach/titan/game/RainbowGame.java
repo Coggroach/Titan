@@ -2,17 +2,17 @@ package com.coggroach.titan.game;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
+import android.opengl.Matrix;
 import android.view.MotionEvent;
+import android.view.SoundEffectConstants;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.coggroach.titan.graphics.TileRenderer;
 import com.coggroach.titan.tile.Tile;
+import com.coggroach.titan.tile.ITileAnimation;
 import com.coggroach.titan.tile.TileColour;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -29,6 +29,17 @@ public class RainbowGame extends Game
     private int score;
     private TileColour defaultColour = TileColour.white;
     private View.OnClickListener endGameListener;
+    private int ANIMATION_LENGTH = 72/4;
+    private ITileAnimation animation = new ITileAnimation()
+    {
+        @Override
+        public float[] onAnimation(int i, float[] mMVPMatrix)
+        {
+            //i Limit to 8 Here
+            Matrix.rotateM(mMVPMatrix, 0, (i * 5), 0.0F, 1.0F, 0.0F);
+            return mMVPMatrix;
+        }
+    };
 
     public int getScore()
     {
@@ -42,11 +53,13 @@ public class RainbowGame extends Game
 
     public RainbowGame()
     {
-        this(Options.getWidth(), Options.getHeight());
+        this(7, 7);
     }
 
     protected RainbowGame(int w, int h)
     {
+        this.name = "Rainbow";
+        this.initTextureList();
         this.start(w, h);
     }
 
@@ -57,11 +70,28 @@ public class RainbowGame extends Game
     }
 
     @Override
+    public void initTextureList()
+    {
+        this.TextureList = new ArrayList<String>();
+
+        //this.TextureList.add("metal_texture_bordered.png");
+        this.TextureList.add("white_texture_bordered.jpg");
+        this.TextureList.add("bomb_texture.png");
+    }
+
+    @Override
+    public void invalidate() {
+        updateScore();
+        updateStatus("New Game");
+    }
+
+    @Override
     public void initUIElements(Context c)
     {
         this.UIElements = new ArrayList<View>();
         this.UILayout = new LinearLayout(c);
 
+        TextView name = new TextView(c);
         TextView score = new TextView(c);
         TextView status = new TextView(c);
 
@@ -81,30 +111,32 @@ public class RainbowGame extends Game
 
         status.setOnClickListener(endGameListener);
 
-        ((LinearLayout) UILayout).addView(score);
-        ((LinearLayout) UILayout).addView(status);
+        UILayout.addView(name);
+        UILayout.addView(score);
+        UILayout.addView(status);
         ((LinearLayout) UILayout).setOrientation(LinearLayout.VERTICAL);
 
+        name.setTextSize(30);
+        name.setTextColor(Color.WHITE);
+        name.setText(this.name);
         score.setTextSize(30);
         score.setTextColor(Color.WHITE);
         status.setTextSize(20);
         status.setTextColor(Color.WHITE);
 
+        UIElements.add(name);
         UIElements.add(score);
         UIElements.add(status);
-
-        updateScore();
-        updateStatus("New Game");
     }
 
     private void updateScore()
     {
-        ((TextView) UIElements.get(0)).setText("Score: " + this.score);
+        ((TextView) UIElements.get(1)).setText("Score: " + this.score);
     }
 
     private void updateStatus(String s)
     {
-        ((TextView) UIElements.get(1)).setText(s);
+        ((TextView) UIElements.get(2)).setText(s);
     }
 
     @Override
@@ -149,7 +181,7 @@ public class RainbowGame extends Game
             int x = rand.nextInt(width);
             int y = rand.nextInt(height);
             this.getTile(x, y).getStats().setMine(true);
-            GameHelper.generateGrid(this, x, y, 10);
+            GameHelper.generateGrid(this, x, y, getWidth()*2);
         }
     }
 
@@ -168,7 +200,7 @@ public class RainbowGame extends Game
     @Override
     public void onTouch(View v, MotionEvent event)
     {
-        if(event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE)
+        if(event.getAction() == MotionEvent.ACTION_DOWN)//|| event.getAction() == MotionEvent.ACTION_MOVE)
         {
             if((this.isGameOn()))
             {
@@ -180,12 +212,19 @@ public class RainbowGame extends Game
                 {
                     if (!this.getTile(iTile).getStats().isPressed())
                     {
+                        this.getTile(iTile).getAnimation().setAnimation(animation);
+                        this.getTile(iTile).getAnimation().setAnimationLength(this.ANIMATION_LENGTH);
+                        this.getTile(iTile).getAnimation().setAnimationLoop(false);
+                        this.getTile(iTile).getAnimation().setAnimationTickLength(1);
                         this.incScore();
                         this.getTile(iTile).getStats().setPressed(true);
                         this.updateScore();
+                        v.playSoundEffect(SoundEffectConstants.CLICK);
                     }
                     if(this.getTile(iTile).getStats().isMine())
                     {
+                        this.getTile(iTile).setTextureId(1);
+                        this.getTile(iTile).setColour(defaultColour);
                         this.setGameOn(false);
                         this.updateStatus("Congratz, Click me to Continue!");
                     }
@@ -195,13 +234,12 @@ public class RainbowGame extends Game
     }
 
     @Override
-    public void updateView(boolean b) {
-
-    }
+    public void updateTextureBindings(boolean b) {}
 
     @Override
-    public boolean getUpdateView() {
-        return true;
+    public boolean getUpdateTextureBindings()
+    {
+        return false;
     }
 
     public boolean isGenerated()

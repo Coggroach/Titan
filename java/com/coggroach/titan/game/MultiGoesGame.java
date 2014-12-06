@@ -3,6 +3,7 @@ package com.coggroach.titan.game;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.MotionEvent;
+import android.view.SoundEffectConstants;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
@@ -19,14 +20,13 @@ import java.util.Random;
 /**
  * Created by TARDIS on 27/11/2014.
  */
-public class MultiGoesGame extends Game
+    public class MultiGoesGame extends Game
 {
     private boolean isGenerated;
     private boolean canRestart;
     private boolean isGameOn;
     private boolean hasWon = false;
     private boolean isRendering = false;
-    private boolean updateView = false;
 
     private int score;
     private int lives;
@@ -41,8 +41,8 @@ public class MultiGoesGame extends Game
 
     protected MultiGoesGame(int w, int h)
     {
-        Options.width = 3;
-        Options.height = 3;
+        this.name = "MultiGoes";
+        this.initTextureList();
         this.start(w, h);
     }
 
@@ -53,19 +53,19 @@ public class MultiGoesGame extends Game
 
     public void incLives()
     {
-        this.lives += 3;
-    }
+        this.lives += 3 + this.score/3;
+}
 
     public void incDifficulty()
     {
-        Options.width++;
-        Options.height++;
+        this.width++;
+        this.height++;
     }
 
     public void resetDifficulty()
     {
-        Options.width = 3;
-        Options.height = 3;
+        this.width = 3;
+        this.height = 3;
     }
 
     public void decLives()
@@ -80,11 +80,29 @@ public class MultiGoesGame extends Game
     }
 
     @Override
+    public void initTextureList()
+    {
+        this.TextureList = new ArrayList<String>();
+        this.TextureList.clear();
+
+        this.TextureList.add("metal_texture_bordered.png");
+        this.TextureList.add("bomb_texture.png");
+    }
+
+    @Override
+    public void invalidate() {
+        updateScore();
+        updateStatus("New Game");
+    }
+
+    @Override
     public void initUIElements(Context c)
     {
         this.UIElements = new ArrayList<View>();
         this.UILayout = new LinearLayout(c);
+        this.UIElements.clear();
 
+        TextView name = new TextView(c);
         TextView lives = new TextView(c);
         TextView score = new TextView(c);
         TextView status = new TextView(c);
@@ -122,10 +140,9 @@ public class MultiGoesGame extends Game
         line.addView(score);
         line.setOrientation(LinearLayout.HORIZONTAL);
 
-        ((LinearLayout) UILayout).addView(line);
-        ((LinearLayout) UILayout).addView(status);
-        ((LinearLayout) UILayout).setOrientation(LinearLayout.VERTICAL);
-
+        name.setTextSize(30);
+        name.setTextColor(Color.WHITE);
+        name.setText(this.name);
         lives.setTextSize(30);
         lives.setTextColor(Color.GREEN);
         score.setTextSize(30);
@@ -133,28 +150,30 @@ public class MultiGoesGame extends Game
         status.setTextSize(20);
         status.setTextColor(Color.WHITE);
 
+        UILayout.addView(name);
+        UILayout.addView(line);
+        UILayout.addView(status);
+        ((LinearLayout) UILayout).setOrientation(LinearLayout.VERTICAL);
+
+        UIElements.add(name);
         UIElements.add(lives);
         UIElements.add(status);
         UIElements.add(score);
-
-        updateLives();
-        updateScore();
-        updateStatus("New Game");
     }
 
     private void updateLives()
     {
-        ((TextView) UIElements.get(0)).setText("Lives: " + this.lives + "   ");
+        ((TextView) UIElements.get(1)).setText("Lives: " + this.lives + "   ");
     }
 
     private void updateStatus(String s)
     {
-        ((TextView) UIElements.get(1)).setText(s);
+        ((TextView) UIElements.get(2)).setText(s);
     }
 
     private void updateScore()
     {
-        ((TextView) UIElements.get(2)).setText(" Score: " + this.score);
+        ((TextView) UIElements.get(3)).setText(" Score: " + this.score);
     }
 
     @Override
@@ -186,13 +205,7 @@ public class MultiGoesGame extends Game
             //this.isRendering = true;
             this.isGameOn = true;
 
-
-            int w = Options.getWidth();
-            int h = Options.getHeight();
-
-            this.height = w;
-            this.width = h;
-            this.tiles = new Tile[w * h];
+            this.tiles = new Tile[width * height];
             for(int i = 0; i < tiles.length; i++)
             {
                 tiles[i] = new Tile(i, defaultColour);
@@ -231,7 +244,7 @@ public class MultiGoesGame extends Game
     @Override
     public void onTouch(View v, MotionEvent event)
     {
-        if(event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE)
+        if(event.getAction() == MotionEvent.ACTION_DOWN)//) || event.getAction() == MotionEvent.ACTION_MOVE)
         {
             if((this.isGameOn()))
             {
@@ -247,6 +260,7 @@ public class MultiGoesGame extends Game
                             this.decLives();
                         this.getTile(iTile).getStats().setPressed(true);
                         this.updateLives();
+                        v.playSoundEffect(SoundEffectConstants.CLICK);
                     }
                     if(this.getLives() <= 0)
                     {
@@ -258,6 +272,8 @@ public class MultiGoesGame extends Game
                     }
                     if(this.getTile(iTile).getStats().isMine())
                     {
+                        this.getTile(iTile).setTextureId(1);
+                        this.getTile(iTile).setColour(defaultColour);
                         hasWon = true;
                         this.updateStatus("Well Done! Click me to Keep Going");
                         this.incLives();
@@ -270,15 +286,12 @@ public class MultiGoesGame extends Game
     }
 
     @Override
-    public void updateView(boolean b)
-    {
-        this.updateView = b;
-    }
+    public void updateTextureBindings(boolean b) { }
 
     @Override
-    public boolean getUpdateView()
+    public boolean getUpdateTextureBindings()
     {
-        return this.updateView;
+        return false;
     }
 
     public boolean isGenerated()

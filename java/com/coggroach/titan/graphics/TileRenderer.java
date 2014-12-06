@@ -3,12 +3,17 @@ package com.coggroach.titan.graphics;
 import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
+import android.os.SystemClock;
 
 import com.coggroach.titan.R;
 import com.coggroach.titan.activities.GameActivity;
+import com.coggroach.titan.common.AssetReader;
 import com.coggroach.titan.common.ResourceReader;
 import com.coggroach.titan.game.Options;
 import com.coggroach.titan.tile.Tile;
+import com.coggroach.titan.tile.TileColour;
+
+import java.util.Timer;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -35,7 +40,11 @@ public class TileRenderer extends AbstractGLRenderer
 
     private int mProgramHandle;
     private int mPointProgramHandle;
-    private int mTextureDataHandle;
+    private int[] mTextureDataHandle;
+    private int mTextureDataLength;
+
+    private float gamma = 1.0F;
+    private long TIME = System.currentTimeMillis();
 
     public TileRenderer(Context context)
     {
@@ -65,7 +74,7 @@ public class TileRenderer extends AbstractGLRenderer
     @Override
     public void setViewMatrix()
     {
-        final float eyeZ = (float) (Options.getWidth()/((double) width/height )) + RenderSettings.OBJECT_POSITION_Z + RenderSettings.NEAR_Z;
+        final float eyeZ = (float) (((GameActivity) context).getGame().getWidth()/((double) width/height )) + RenderSettings.OBJECT_POSITION_Z + RenderSettings.NEAR_Z;
         //Matrix.setLookAtM(mViewMatrix, 0, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ);
         Matrix.setLookAtM(mViewMatrix, 0, 0.0F, 0.0F, eyeZ, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F);
     }
@@ -74,7 +83,7 @@ public class TileRenderer extends AbstractGLRenderer
     public void setProjectionMatrix(int i, int j)
     {
         final float ratio = (float) i / j;
-        final float FAR_Z = Options.getWidth()/ratio + RenderSettings.OBJECT_LENGTH_Z;
+        final float FAR_Z = ((GameActivity) context).getGame().getWidth()/ratio + RenderSettings.OBJECT_LENGTH_Z;
         //Matrix.frustumM(mProjectionMatrix, 0, left, right, bottom, top, near, far);
         Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1.0F, 1.0F, RenderSettings.NEAR_Z, FAR_Z);
     }
@@ -83,7 +92,7 @@ public class TileRenderer extends AbstractGLRenderer
     public void onSurfaceCreated(GL10 glUnused, EGLConfig config)
     {
         super.onSurfaceCreated(glUnused, config);
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        GLES20.glClearColor(TileColour.cyan.R, TileColour.cyan.G, TileColour.cyan.B, TileColour.cyan.A);
         GLES20.glEnable(GLES20.GL_CULL_FACE);
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 
@@ -102,7 +111,17 @@ public class TileRenderer extends AbstractGLRenderer
         final int pointFragmentShaderHandle = compileShader(GLES20.GL_FRAGMENT_SHADER, pointFragmentShader);
         mPointProgramHandle = createAndLinkProgram(pointVertexShaderHandle, pointFragmentShaderHandle, new String[] {"a_Position"});
 
-        mTextureDataHandle = ResourceReader.loadTexture(context, Options.TEXTURE_ID);
+        this.loadTextureData();
+    }
+
+    public void loadTextureData()
+    {
+        mTextureDataLength = ((GameActivity) context).getGame().getTextureList().size();
+        mTextureDataHandle = new int[mTextureDataLength];
+        for(int i = 0; i < mTextureDataLength; i++)
+        {
+            mTextureDataHandle[i] = AssetReader.loadTexture(context, ((GameActivity) context).getGame().getTextureList().get(i));
+        }
     }
 
     @Override
@@ -129,45 +148,49 @@ public class TileRenderer extends AbstractGLRenderer
         mNormalHandle = GLES20.glGetAttribLocation(mProgramHandle, "a_Normal");
         mTextureCoordinateHandle = GLES20.glGetAttribLocation(mProgramHandle, "a_TexCoordinate");
         mUniformColorHandle = GLES20.glGetUniformLocation(mProgramHandle, "u_Color");
+    }
 
-        // Set the active texture unit to texture unit 0.
-        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-        // Bind the texture to this unit.
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextureDataHandle);
-        // Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.
-        GLES20.glUniform1i(mTextureUniformHandle, 0);
+    public void storeTextureLocations()
+    {
+        for(int i = 0; i < mTextureDataLength; i++)
+        {
+            // Set the active texture unit to texture unit 0.
+            GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + i);
+            // Bind the texture to this unit.
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, mTextureDataHandle[i]);
+        }
     }
 
     public void onDrawFrame()
     {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
-        if(((GameActivity) context).getGame().getUpdateView())
+        if(((GameActivity) context).getGame() != null)
         {
-            this.setViewMatrix();
-            this.setProjectionMatrix(width, height);
-        }
-
-        if(((GameActivity) context).getGame().isRendering())
-        {
-            int h = Options.getHeight();
-            int w = Options.getWidth();
-
-            for (int j = 0; j < h; j++)
-            {
-                for (int i = 0; i < w; i++)
-                {
-                    float x = w - 1 - RenderSettings.OBJECT_LENGTH_Z * i;
-                    float y = h - 1 - RenderSettings.OBJECT_LENGTH_Z * j;
-
-                    Matrix.setIdentityM(mModelMatrix, 0);
-                    Matrix.translateM(mModelMatrix, 0, x, y, RenderSettings.OBJECT_POSITION_Z);
-                    drawTile(((GameActivity) context).getGame().getTile(i, j), mModelMatrix);
-                }
+            if (((GameActivity) context).getGame().getUpdateView()) {
+                this.setViewMatrix();
+                this.setProjectionMatrix(width, height);
             }
-            Matrix.setIdentityM(mLightModelMatrix, 0);
-            Matrix.translateM(mLightModelMatrix, 0, 0.0F, 0.0F, RenderSettings.OBJECT_POSITION_Z + 5.0F);
-            drawLight(mLightModelMatrix);
+
+            if (((GameActivity) context).getGame().isRendering()) {
+                int h = ((GameActivity) context).getGame().getHeight();
+                int w = ((GameActivity) context).getGame().getWidth();
+
+                for (int j = 0; j < h; j++) {
+                    for (int i = 0; i < w; i++) {
+                        float x = w - 1 - RenderSettings.OBJECT_LENGTH_Z * i;
+                        float y = h - 1 - RenderSettings.OBJECT_LENGTH_Z * j;
+
+                        Matrix.setIdentityM(mModelMatrix, 0);
+                        Matrix.translateM(mModelMatrix, 0, x, y, RenderSettings.OBJECT_POSITION_Z);
+                        if (((GameActivity) context).getGame() != null)
+                            drawTile(((GameActivity) context).getGame().getTile(i, j), mModelMatrix);
+                    }
+                }
+                Matrix.setIdentityM(mLightModelMatrix, 0);
+                Matrix.translateM(mLightModelMatrix, 0, 0.0F, 0.0F, RenderSettings.OBJECT_POSITION_Z + 5.0F);
+                drawLight(mLightModelMatrix);
+            }
         }
     }
 
@@ -176,6 +199,7 @@ public class TileRenderer extends AbstractGLRenderer
     public void onDrawFrame(GL10 glUnused)
     {
         storeHandleLocations();
+        storeTextureLocations();
         onDrawFrame();
     }
 
@@ -183,6 +207,19 @@ public class TileRenderer extends AbstractGLRenderer
     {
         if(tile != null)
         {
+            if(tile.getAnimation().hasAnimation())
+            {
+                if(tile.getAnimation().getAnimationTickIndex() == tile.getAnimation().getAnimationTickLength() - 1)
+                {
+                    mModelMatrix = tile.getAnimation().onAnimation(mModelMatrix);
+                    tile.getAnimation().incAnimation();
+                }
+                else
+                {
+                    tile.getAnimation().incAnimationTick();
+                }
+            }
+
             Tile.getModelPositions().position(0);
             GLES20.glVertexAttribPointer(mPositionHandle, mPositionDataSize, GLES20.GL_FLOAT, false, 0, Tile.getModelPositions());
             GLES20.glEnableVertexAttribArray(mPositionHandle);
@@ -196,6 +233,10 @@ public class TileRenderer extends AbstractGLRenderer
             GLES20.glEnableVertexAttribArray(mTextureCoordinateHandle);
 
             float[] colour = tile.getDrawingColour();
+            for(int i = 0; i < colour.length; i++)
+                colour[i] *= gamma;
+            // Tell the texture uniform sampler to use this texture in the shader by binding to texture unit 0.
+            GLES20.glUniform1i(mTextureUniformHandle, tile.getTextureId());
 
             GLES20.glUniform4fv(mUniformColorHandle, 1, colour, 0);
             Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
@@ -242,5 +283,14 @@ public class TileRenderer extends AbstractGLRenderer
         Matrix.multiplyMV(normPoint, 0, matrix, 0, normPoint, 0);
 
         return normPoint;
+    }
+
+    public float getGamma()
+    {
+        return gamma;
+    }
+
+    public void setGamma(float gamma) {
+        this.gamma = gamma;
     }
 }
