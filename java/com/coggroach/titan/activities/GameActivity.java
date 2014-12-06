@@ -120,14 +120,6 @@ public class GameActivity extends Activity implements View.OnTouchListener
         options.load(this);
         view = new OptionsView(this, gameModes);
 
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-        getActionBar().hide();
-        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-        options = new Options();
-        options.load(this);
-        view = new OptionsView(this, gameModes);
-
         mGLView = new GLSurfaceView(this);
         mGLRender = new TileRenderer(this);
 

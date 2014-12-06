@@ -106,7 +106,7 @@ public class TileAnimation
     public void setAnimationTickIndex(int animationTickIndex) {
         this.animationTickIndex = animationTickIndex;
     }
-    
+
     public boolean loadLastAnimation() {
         return saveAnimation;
     }

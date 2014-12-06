@@ -46,7 +46,6 @@ public class TileRenderer extends AbstractGLRenderer
     private int mTextureDataLength;
 
     private float gamma = 1.0F;
-    private long TIME = System.currentTimeMillis();
 
     public TileRenderer(Context context)
     {
@@ -179,20 +178,22 @@ public class TileRenderer extends AbstractGLRenderer
                 int h = ((GameActivity) context).getGame().getHeight();
                 int w = ((GameActivity) context).getGame().getWidth();
 
-                for (int j = 0; j < h; j++) {
-                    for (int i = 0; i < w; i++) {
+                for (int j = 0; j < h; j++)
+                {
+                    for (int i = 0; i < w; i++)
+                    {
                         float x = w - 1 - RenderSettings.OBJECT_LENGTH_Z * i;
                         float y = h - 1 - RenderSettings.OBJECT_LENGTH_Z * j;
 
                         Matrix.setIdentityM(mModelMatrix, 0);
                         Matrix.translateM(mModelMatrix, 0, x, y, RenderSettings.OBJECT_POSITION_Z);
-                        if (((GameActivity) context).getGame() != null)
+                        if(((GameActivity) context).getGame() != null)
                             drawTile(((GameActivity) context).getGame().getTile(i, j), mModelMatrix);
                     }
-                    Matrix.setIdentityM(mLightModelMatrix, 0);
-                    Matrix.translateM(mLightModelMatrix, 0, 0.0F, 0.0F, RenderSettings.OBJECT_POSITION_Z + 5.0F);
-                    drawLight(mLightModelMatrix);
                 }
+                Matrix.setIdentityM(mLightModelMatrix, 0);
+                Matrix.translateM(mLightModelMatrix, 0, 0.0F, 0.0F, RenderSettings.OBJECT_POSITION_Z + 5.0F);
+                drawLight(mLightModelMatrix);
             }
         }
     }
@@ -208,18 +209,23 @@ public class TileRenderer extends AbstractGLRenderer
 
     public void drawTile(Tile tile, float[] mModelMatrix)
     {
-        if(tile != null) {
-            if (tile.getAnimation().hasAnimation() || tile.getAnimation().loadLastAnimation()) {
-                if (tile.getAnimation().getAnimationTickIndex() == tile.getAnimation().getAnimationTickLength() - 1) {
+        if(tile != null)
+        {
+            if (tile.getAnimation().hasAnimation() || tile.getAnimation().loadLastAnimation())
+            {
+                if (tile.getAnimation().getAnimationTickIndex() == tile.getAnimation().getAnimationTickLength() - 1)
+                {
                     mModelMatrix = tile.getAnimation().onAnimation(mModelMatrix);
                     tile.getAnimation().incAnimation();
-                } else
+                }
+                else
                 {
                     tile.getAnimation().incAnimationTick();
                 }
             }
 
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < 6; i++)
+            {
                 Tile.getModelPositions(i).position(0);
                 GLES20.glVertexAttribPointer(mPositionHandle, mPositionDataSize, GLES20.GL_FLOAT, false, 0/*Tile.getPositionsLength() + (i-6)*Tile.getPositionOffset()*/, Tile.getModelPositions(i));
                 GLES20.glEnableVertexAttribArray(mPositionHandle);
