@@ -1,10 +1,13 @@
 package com.coggroach.titan.game;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.coggroach.titan.R;
+import com.coggroach.titan.activities.GameActivity;
 import com.coggroach.titan.tile.Tile;
 
 import java.util.ArrayList;
@@ -23,6 +26,7 @@ public abstract class Game
     protected String name;
 
     public abstract boolean isRendering();
+
     public abstract void initUIElements(Context c);
     public abstract void start(int i, int j);
     public abstract void restart();

@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
+import com.coggroach.titan.R;
 import com.coggroach.titan.game.Game;
 import com.coggroach.titan.gamemodes.MultiGoesGame;
 import com.coggroach.titan.game.Options;
@@ -31,6 +33,7 @@ public class GameActivity extends Activity implements View.OnTouchListener
     private TileRenderer mGLRender;
     private Options options;
     private OptionsView view;
+
     private boolean isOptionsFocused = false;
     private String[] gameModes = {"Restart", "Rainbow", "MultiGoes", "TicTakToe"};
     private long CURRENT_TIME = System.currentTimeMillis();

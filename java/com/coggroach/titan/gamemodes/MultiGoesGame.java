@@ -2,6 +2,8 @@ package com.coggroach.titan.gamemodes;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.opengl.Matrix;
 import android.view.MotionEvent;
 import android.view.SoundEffectConstants;
@@ -9,6 +11,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.coggroach.titan.R;
+import com.coggroach.titan.activities.GameActivity;
 import com.coggroach.titan.game.Game;
 import com.coggroach.titan.game.GameHelper;
 import com.coggroach.titan.graphics.renderer.TileRenderer;
@@ -16,6 +20,7 @@ import com.coggroach.titan.tile.ITileAnimation;
 import com.coggroach.titan.tile.Tile;
 import com.coggroach.titan.tile.TileColour;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -29,6 +34,11 @@ import java.util.Random;
     private boolean isGameOn;
     private boolean hasWon = false;
     private boolean isRendering = false;
+    private MediaPlayer mp1;
+    private MediaPlayer mp2;
+    private MediaPlayer mp3;
+    private MediaPlayer mp4;
+
 
 
     private int score;
@@ -141,7 +151,19 @@ import java.util.Random;
         this.UILayout = new LinearLayout(c);
         this.UIElements.clear();
 
+
        // TextView name = new TextView(c);
+        mp1 = MediaPlayer.create(c, R.raw.gamemusic1);
+        mp2 = MediaPlayer.create(c, R.raw.gamemusic2);
+        mp3 = MediaPlayer.create(c, R.raw.gamemusic3);
+        mp4 = MediaPlayer.create(c, R.raw.gamemusic4);
+        mp1.start();
+
+        mp2.pause();
+
+        mp3.pause();
+
+        mp4.pause();
         TextView lives = new TextView(c);
         TextView score = new TextView(c);
         //TextView status = new TextView(c);
@@ -204,13 +226,24 @@ import java.util.Random;
     private void updateLives()
     {
         ((TextView) UIElements.get(0)).setText("             " + this.lives + "   ");
-        if(this.lives <= 8)
+        if(this.lives <= 19)
+            mp1.stop();
             ((TextView) UIElements.get(0)).setTextColor(Color.YELLOW);
-        if(this.lives <= 5)
+            mp2.setLooping(true);
+            mp2.reset();
+        if(this.lives <= 18)
+            mp2.stop();
             ((TextView) UIElements.get(0)).setTextColor(TileColour.orange.getColorValue());
-        if(this.lives <= 3)
+            mp3.setLooping(true);
+            mp3.reset();
+        if(this.lives <= 17)
+            mp3.stop();
             ((TextView) UIElements.get(0)).setTextColor(Color.RED);
-        if(this.lives > 8)
+            mp4.setLooping(true);
+            mp4.reset();
+        if(this.lives > 19)
+            mp1.setLooping(true);
+            mp1.start();
             ((TextView) UIElements.get(0)).setTextColor(Color.CYAN);
     }
 
@@ -232,6 +265,7 @@ import java.util.Random;
         this.height = w;
         this.width = h;
         this.tiles = new Tile[w * h];
+
         for(int i = 0; i < tiles.length; i++)
         {
             tiles[i] = new Tile(i, defaultColour);
