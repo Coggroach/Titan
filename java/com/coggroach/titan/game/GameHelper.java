@@ -1,5 +1,6 @@
 package com.coggroach.titan.game;
 
+import com.coggroach.titan.tile.Palette;
 import com.coggroach.titan.tile.Tile;
 import com.coggroach.titan.tile.TileColour;
 
@@ -42,7 +43,7 @@ public class GameHelper
         return game.getTile(getTileIndexFromWorld(game, xWorld, yWorld));
     }
 
-    protected static void generateGrid(Game game, int x, int y, int r)
+    public static void generateGrid(Game game, int x, int y, int r)
     {
         for(int i = 0; i <= r; i++)//height
         {
@@ -61,16 +62,22 @@ public class GameHelper
         }
     }
 
+    private static ArrayList<TileColour> palette = Palette.getGradientPalette(TileColour.red, TileColour.cyan, 20, 4);
+
     protected static boolean setColourWithinBounds(Game game, int x, int y, int i)
     {
-        return setColourWithinBounds(game, x, y, new TileColour(700 - i * 50));
+        if(i >= palette.size())
+            return setColourWithinBounds(game, x, y, TileColour.black);
+
+        return setColourWithinBounds(game, x, y, palette.get(i));
     }
 
     protected static boolean setColourWithinBounds(Game game, int x, int y, TileColour c)
     {
         if(x >= 0 && x < game.getWidth() && y >= 0 && y < game.getHeight())
         {
-            game.getTile(x, y).setColour(c);
+            game.getTile(x, y).setColour(c, 3);
+
             return true;
         }
         return false;

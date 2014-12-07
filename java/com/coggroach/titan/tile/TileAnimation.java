@@ -11,6 +11,7 @@ public class TileAnimation
     private int animationTickIndex;
     private boolean hasAnimation;
     private boolean animationLoop;
+    private boolean saveAnimation;
     private ITileAnimation animation;
 
     public TileAnimation()
@@ -22,6 +23,7 @@ public class TileAnimation
         this.animationLoop = false;
         this.animationTickIndex = 0;
         this.animationTickLength = 1;
+        this.saveAnimation = false;
     }
 
     public boolean hasAnimation()
@@ -38,6 +40,10 @@ public class TileAnimation
         return mMVPMatrix;
     }
 
+    public int getAnimationLength() {
+        return animationLength;
+    }
+
     public void incAnimation()
     {
         boolean flag = this.animationIndex < this.animationLength;
@@ -48,14 +54,17 @@ public class TileAnimation
         else if(!this.animationLoop && !flag)
         {
             this.hasAnimation = false;
-            this.animationIndex = 0;
-            this.animation = null;
+            if(!this.loadLastAnimation()) {
+                this.animationIndex = 0;
+                this.animation = null;
+            }
         }
     }
 
     public void incAnimationTick()
     {
-        this.animationTickIndex++;
+        if(!loadLastAnimation()||this.animationTickIndex < this.animationTickLength)
+            this.animationTickIndex++;
     }
 
     public void setAnimation(ITileAnimation animation)
@@ -98,5 +107,13 @@ public class TileAnimation
 
     public void setAnimationTickIndex(int animationTickIndex) {
         this.animationTickIndex = animationTickIndex;
+    }
+
+    public boolean loadLastAnimation() {
+        return saveAnimation;
+    }
+
+    public void setSaveAnimation(boolean saveAnimation) {
+        this.saveAnimation = saveAnimation;
     }
 }

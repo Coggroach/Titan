@@ -3,185 +3,221 @@ package com.coggroach.titan.tile;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
 
 /**
  * Created by TARDIS on 20/11/2014.
  */
 public class Tile
 {
-    private TileColour colour;
+    private TileColour[] colour;
     private TileStats stats;
     private TileAnimation animation;
-    private int textureId;
+    private int[] textureId;
 
+    private static final FloatBuffer[] mModelPositions;
+    private static final FloatBuffer[] mModelNormals;
+    private static final FloatBuffer[] mModelTextureCoordinates;
 
-    private static final FloatBuffer mModelPositions;
-    private static final FloatBuffer mModelNormals;
-    private static final FloatBuffer mModelTextureCoordinates;
+    private static final int mPositionsLength;
+    private static final int mNormalsLength;
+    private static final int mTextureCoordinatesLength;
 
     private static final int mBytesPerFloat = 4;
 
     static
     {
-        final float[] tilePositions =
+        final float[][] tilePositions = new float[][]
                 {
-                        // Front face
-                        -1.0f, 1.0f, 1.0f,
-                        -1.0f, -1.0f, 1.0f,
-                        1.0f, 1.0f, 1.0f,
-                        -1.0f, -1.0f, 1.0f,
-                        1.0f, -1.0f, 1.0f,
-                        1.0f, 1.0f, 1.0f,
-
-                        // Right face
-                        1.0f, 1.0f, 1.0f,
-                        1.0f, -1.0f, 1.0f,
-                        1.0f, 1.0f, -1.0f,
-                        1.0f, -1.0f, 1.0f,
-                        1.0f, -1.0f, -1.0f,
-                        1.0f, 1.0f, -1.0f,
-
-                        // Back face
-                        1.0f, 1.0f, -1.0f,
-                        1.0f, -1.0f, -1.0f,
-                        -1.0f, 1.0f, -1.0f,
-                        1.0f, -1.0f, -1.0f,
-                        -1.0f, -1.0f, -1.0f,
-                        -1.0f, 1.0f, -1.0f,
-
-                        // Left face
-                        -1.0f, 1.0f, -1.0f,
-                        -1.0f, -1.0f, -1.0f,
-                        -1.0f, 1.0f, 1.0f,
-                        -1.0f, -1.0f, -1.0f,
-                        -1.0f, -1.0f, 1.0f,
-                        -1.0f, 1.0f, 1.0f,
-
-                        // Top face
-                        -1.0f, 1.0f, -1.0f,
-                        -1.0f, 1.0f, 1.0f,
-                        1.0f, 1.0f, -1.0f,
-                        -1.0f, 1.0f, 1.0f,
-                        1.0f, 1.0f, 1.0f,
-                        1.0f, 1.0f, -1.0f,
-
-                        // Bottom face
-                        1.0f, -1.0f, -1.0f,
-                        1.0f, -1.0f, 1.0f,
-                        -1.0f, -1.0f, -1.0f,
-                        1.0f, -1.0f, 1.0f,
-                        -1.0f, -1.0f, 1.0f,
-                        -1.0f, -1.0f, -1.0f,
+                        {
+                                // Front face
+                                -1.0f, 1.0f, 1.0f,
+                                -1.0f, -1.0f, 1.0f,
+                                1.0f, 1.0f, 1.0f,
+                                -1.0f, -1.0f, 1.0f,
+                                1.0f, -1.0f, 1.0f,
+                                1.0f, 1.0f, 1.0f
+                        },
+                        {
+                                // Right face
+                                1.0f, 1.0f, 1.0f,
+                                1.0f, -1.0f, 1.0f,
+                                1.0f, 1.0f, -1.0f,
+                                1.0f, -1.0f, 1.0f,
+                                1.0f, -1.0f, -1.0f,
+                                1.0f, 1.0f, -1.0f
+                        },
+                        {
+                                // Back face
+                                1.0f, 1.0f, -1.0f,
+                                1.0f, -1.0f, -1.0f,
+                                -1.0f, 1.0f, -1.0f,
+                                1.0f, -1.0f, -1.0f,
+                                -1.0f, -1.0f, -1.0f,
+                                -1.0f, 1.0f, -1.0f
+                        },
+                        {
+                                // Left face
+                                -1.0f, 1.0f, -1.0f,
+                                -1.0f, -1.0f, -1.0f,
+                                -1.0f, 1.0f, 1.0f,
+                                -1.0f, -1.0f, -1.0f,
+                                -1.0f, -1.0f, 1.0f,
+                                -1.0f, 1.0f, 1.0f
+                        },
+                        {
+                                // Top face
+                                -1.0f, 1.0f, -1.0f,
+                                -1.0f, 1.0f, 1.0f,
+                                1.0f, 1.0f, -1.0f,
+                                -1.0f, 1.0f, 1.0f,
+                                1.0f, 1.0f, 1.0f,
+                                1.0f, 1.0f, -1.0f
+                        },
+                        {
+                                // Bottom face
+                                1.0f, -1.0f, -1.0f,
+                                1.0f, -1.0f, 1.0f,
+                                -1.0f, -1.0f, -1.0f,
+                                1.0f, -1.0f, 1.0f,
+                                -1.0f, -1.0f, 1.0f,
+                                -1.0f, -1.0f, -1.0f
+                        }
                 };
 
-        final float[] tileNormals =
+        final float[][] tileNormals = new float[][]
                 {
-                        // Front face
-                        0.0f, 0.0f, 1.0f,
-                        0.0f, 0.0f, 1.0f,
-                        0.0f, 0.0f, 1.0f,
-                        0.0f, 0.0f, 1.0f,
-                        0.0f, 0.0f, 1.0f,
-                        0.0f, 0.0f, 1.0f,
-
-                        // Right face
-                        1.0f, 0.0f, 0.0f,
-                        1.0f, 0.0f, 0.0f,
-                        1.0f, 0.0f, 0.0f,
-                        1.0f, 0.0f, 0.0f,
-                        1.0f, 0.0f, 0.0f,
-                        1.0f, 0.0f, 0.0f,
-
-                        // Back face
-                        0.0f, 0.0f, -1.0f,
-                        0.0f, 0.0f, -1.0f,
-                        0.0f, 0.0f, -1.0f,
-                        0.0f, 0.0f, -1.0f,
-                        0.0f, 0.0f, -1.0f,
-                        0.0f, 0.0f, -1.0f,
-
-                        // Left face
-                        -1.0f, 0.0f, 0.0f,
-                        -1.0f, 0.0f, 0.0f,
-                        -1.0f, 0.0f, 0.0f,
-                        -1.0f, 0.0f, 0.0f,
-                        -1.0f, 0.0f, 0.0f,
-                        -1.0f, 0.0f, 0.0f,
-
-                        // Top face
-                        0.0f, 1.0f, 0.0f,
-                        0.0f, 1.0f, 0.0f,
-                        0.0f, 1.0f, 0.0f,
-                        0.0f, 1.0f, 0.0f,
-                        0.0f, 1.0f, 0.0f,
-                        0.0f, 1.0f, 0.0f,
-
-                        // Bottom face
-                        0.0f, -1.0f, 0.0f,
-                        0.0f, -1.0f, 0.0f,
-                        0.0f, -1.0f, 0.0f,
-                        0.0f, -1.0f, 0.0f,
-                        0.0f, -1.0f, 0.0f,
-                        0.0f, -1.0f, 0.0f
+                        {
+                                // Front face
+                                0.0f, 0.0f, 1.0f,
+                                0.0f, 0.0f, 1.0f,
+                                0.0f, 0.0f, 1.0f,
+                                0.0f, 0.0f, 1.0f,
+                                0.0f, 0.0f, 1.0f,
+                                0.0f, 0.0f, 1.0f
+                        },
+                        {
+                                // Right face
+                                1.0f, 0.0f, 0.0f,
+                                1.0f, 0.0f, 0.0f,
+                                1.0f, 0.0f, 0.0f,
+                                1.0f, 0.0f, 0.0f,
+                                1.0f, 0.0f, 0.0f,
+                                1.0f, 0.0f, 0.0f
+                        },
+                        {
+                                // Back face
+                                0.0f, 0.0f, -1.0f,
+                                0.0f, 0.0f, -1.0f,
+                                0.0f, 0.0f, -1.0f,
+                                0.0f, 0.0f, -1.0f,
+                                0.0f, 0.0f, -1.0f,
+                                0.0f, 0.0f, -1.0f
+                        },
+                        {
+                                // Left face
+                                -1.0f, 0.0f, 0.0f,
+                                -1.0f, 0.0f, 0.0f,
+                                -1.0f, 0.0f, 0.0f,
+                                -1.0f, 0.0f, 0.0f,
+                                -1.0f, 0.0f, 0.0f,
+                                -1.0f, 0.0f, 0.0f
+                        },
+                        {
+                                // Top face
+                                0.0f, 1.0f, 0.0f,
+                                0.0f, 1.0f, 0.0f,
+                                0.0f, 1.0f, 0.0f,
+                                0.0f, 1.0f, 0.0f,
+                                0.0f, 1.0f, 0.0f,
+                                0.0f, 1.0f, 0.0f
+                        },
+                        {
+                                // Bottom face
+                                0.0f, -1.0f, 0.0f,
+                                0.0f, -1.0f, 0.0f,
+                                0.0f, -1.0f, 0.0f,
+                                0.0f, -1.0f, 0.0f,
+                                0.0f, -1.0f, 0.0f,
+                                0.0f, -1.0f, 0.0f
+                        }
                 };
-        final float[] tileTextureCoordinates =
+        final float[][] tileTextureCoordinates = new float[][]
                 {
-                        // Front face
-                        0.0f, 0.0f,
-                        0.0f, 1.0f,
-                        1.0f, 0.0f,
-                        0.0f, 1.0f,
-                        1.0f, 1.0f,
-                        1.0f, 0.0f,
-
-                        // Right face
-                        0.0f, 0.0f,
-                        0.0f, 1.0f,
-                        1.0f, 0.0f,
-                        0.0f, 1.0f,
-                        1.0f, 1.0f,
-                        1.0f, 0.0f,
-
-                        // Back face
-                        0.0f, 0.0f,
-                        0.0f, 1.0f,
-                        1.0f, 0.0f,
-                        0.0f, 1.0f,
-                        1.0f, 1.0f,
-                        1.0f, 0.0f,
-
-                        // Left face
-                        0.0f, 0.0f,
-                        0.0f, 1.0f,
-                        1.0f, 0.0f,
-                        0.0f, 1.0f,
-                        1.0f, 1.0f,
-                        1.0f, 0.0f,
-
-                        // Top face
-                        0.0f, 0.0f,
-                        0.0f, 1.0f,
-                        1.0f, 0.0f,
-                        0.0f, 1.0f,
-                        1.0f, 1.0f,
-                        1.0f, 0.0f,
-
-                        // Bottom face
-                        0.0f, 0.0f,
-                        0.0f, 1.0f,
-                        1.0f, 0.0f,
-                        0.0f, 1.0f,
-                        1.0f, 1.0f,
-                        1.0f, 0.0f
+                        {
+                                // Front face
+                                0.0f, 0.0f,
+                                0.0f, 1.0f,
+                                1.0f, 0.0f,
+                                0.0f, 1.0f,
+                                1.0f, 1.0f,
+                                1.0f, 0.0f
+                        },
+                        {
+                                // Right face
+                                0.0f, 0.0f,
+                                0.0f, 1.0f,
+                                1.0f, 0.0f,
+                                0.0f, 1.0f,
+                                1.0f, 1.0f,
+                                1.0f, 0.0f
+                        },
+                        {
+                                // Back face
+                                0.0f, 0.0f,
+                                0.0f, 1.0f,
+                                1.0f, 0.0f,
+                                0.0f, 1.0f,
+                                1.0f, 1.0f,
+                                1.0f, 0.0f
+                        },
+                        {
+                                // Left face
+                                0.0f, 0.0f,
+                                0.0f, 1.0f,
+                                1.0f, 0.0f,
+                                0.0f, 1.0f,
+                                1.0f, 1.0f,
+                                1.0f, 0.0f
+                        },
+                        {
+                                // Top face
+                                0.0f, 0.0f,
+                                0.0f, 1.0f,
+                                1.0f, 0.0f,
+                                0.0f, 1.0f,
+                                1.0f, 1.0f,
+                                1.0f, 0.0f
+                        },
+                        {
+                                // Bottom face
+                                0.0f, 0.0f,
+                                0.0f, 1.0f,
+                                1.0f, 0.0f,
+                                0.0f, 1.0f,
+                                1.0f, 1.0f,
+                                1.0f, 0.0f
+                        }
                 };
 
-        mModelPositions = ByteBuffer.allocateDirect(tilePositions.length * mBytesPerFloat).order(ByteOrder.nativeOrder()).asFloatBuffer();
-        mModelNormals = ByteBuffer.allocateDirect(tileNormals.length * mBytesPerFloat).order(ByteOrder.nativeOrder()).asFloatBuffer();
-        mModelTextureCoordinates = ByteBuffer.allocateDirect(tileTextureCoordinates.length * mBytesPerFloat).order(ByteOrder.nativeOrder()).asFloatBuffer();
+        mPositionsLength = tilePositions[0].length;
+        mNormalsLength = tileNormals[0].length;
+        mTextureCoordinatesLength = tileTextureCoordinates[0].length;
 
-        mModelPositions.put(tilePositions).position(0);
-        mModelNormals.put(tileNormals).position(0);
-        mModelTextureCoordinates.put(tileTextureCoordinates).position(0);
+        mModelPositions = new FloatBuffer[6];
+        mModelNormals = new FloatBuffer[6];
+        mModelTextureCoordinates = new FloatBuffer[6];
+
+        for(int i=0; i<6; i++)
+        {
+            mModelPositions[i] = ByteBuffer.allocateDirect(mPositionsLength * mBytesPerFloat).order(ByteOrder.nativeOrder()).asFloatBuffer();
+            mModelNormals[i] = ByteBuffer.allocateDirect(mNormalsLength * mBytesPerFloat).order(ByteOrder.nativeOrder()).asFloatBuffer();
+            mModelTextureCoordinates[i] = ByteBuffer.allocateDirect(mTextureCoordinatesLength * mBytesPerFloat).order(ByteOrder.nativeOrder()).asFloatBuffer();
+
+            mModelPositions[i].put(tilePositions[i]).position(0);
+            mModelNormals[i].put(tileNormals[i]).position(0);
+            mModelTextureCoordinates[i].put(tileTextureCoordinates[i]).position(0);
+        }
     }
 
     public Tile(int i, TileColour c)
@@ -192,39 +228,68 @@ public class Tile
     public Tile(int i, TileColour c, int texId)
     {
         this.stats = new TileStats(i);
-        this.colour = c;
-        this.textureId = texId;
+        this.colour = new TileColour[6];
+        this.textureId = new int[6];
+        for(int j = 0; j < 6; j++)
+        {
+            this.colour[j] = c;
+            this.textureId[j] = texId;
+        }
         this.animation = new TileAnimation();
     }
 
-    public static FloatBuffer getModelPositions()
+    public static FloatBuffer getModelPositions(int i)
     {
-        return mModelPositions;
+        return mModelPositions[i];
     }
 
-    public static FloatBuffer getModelTextureCoordinates()
+    public static FloatBuffer getModelTextureCoordinates(int i)
     {
-        return mModelTextureCoordinates;
+        return mModelTextureCoordinates[i];
     }
 
-    public static FloatBuffer getModelNormals()
+    public static FloatBuffer getModelNormals(int i)
     {
-        return mModelNormals;
+        return mModelNormals[i];
+    }
+/*
+    public static int getPositionOffset() {
+        return mPositionOffset;
     }
 
-    public float[] getDrawingColour()
-    {
-        return (stats.isPressed()) ? getColour().toFloatArray() : TileColour.white.toFloatArray();
+    public static int getNormalOffset() {
+        return mNormalOffset;
     }
 
-    public TileColour getColour()
-    {
-        return colour;
+    public static int getTextureOffset() {
+        return mTextureOffset;
+    }
+*/
+    public static int getPositionsLength() {
+        return mPositionsLength;
     }
 
-    public void setColour(TileColour colour)
+    public static int getNormalsLength() {
+        return mNormalsLength;
+    }
+
+    public static int getTextureCoordinatesLength() {
+        return mTextureCoordinatesLength;
+    }
+
+    public float[] getDrawingColour(int index)
     {
-        this.colour = colour;
+        return (stats.isPressed()) ? getColour(index).toFloatArray() : TileColour.white.toFloatArray();
+    }
+
+    public TileColour getColour(int index)
+    {
+        return colour[index];
+    }
+
+    public void setColour(TileColour colour, int index)
+    {
+        this.colour[index] = colour;
     }
 
     public TileStats getStats()
@@ -237,13 +302,15 @@ public class Tile
         this.stats = stats;
     }
 
-    public int getTextureId()
+    public int getTextureId(int index)
     {
-        return textureId;
+        return textureId[index];
     }
 
-    public void setTextureId(int textureId) {
-        this.textureId = textureId;
+    public void setTextureId(int textureId, int index)
+    {
+        this.textureId[index] = textureId;
+
     }
 
     public TileAnimation getAnimation()

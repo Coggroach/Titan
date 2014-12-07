@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.coggroach.titan.graphics.MenuView;
-import com.coggroach.titan.graphics.OnButtonViewListener;
+import com.coggroach.titan.graphics.views.MenuView;
+import com.coggroach.titan.graphics.views.OnButtonViewListener;
 
 /**
  * Created by ggunn on 05/12/14.

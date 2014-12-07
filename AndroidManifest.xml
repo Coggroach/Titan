@@ -2,13 +2,13 @@
     package="com.coggroach.titan">
 
     <application android:allowBackup="true"
-        android:label="@string/app_name"
+        android:label="HotCold"
         android:icon="@drawable/ic_launcher"
         android:theme="@style/AppTheme">
 
         <activity
             android:name="com.coggroach.titan.activities.MenuActivity"
-            android:label="Titan" >
+            android:label="HotCold" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -16,7 +16,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.coggroach.titan.activities.GameActivity"
-            android:label="Titan">
+            android:label="HotCold">
         </activity>
     </application>
 

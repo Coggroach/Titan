@@ -1,4 +1,4 @@
-package com.coggroach.titan.game;
+package com.coggroach.titan.gamemodes;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -8,16 +8,18 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.coggroach.titan.graphics.TileRenderer;
+import com.coggroach.titan.game.Game;
+import com.coggroach.titan.game.GameHelper;
+import com.coggroach.titan.graphics.renderer.TileRenderer;
 import com.coggroach.titan.tile.Tile;
 import com.coggroach.titan.tile.TileColour;
 
 import java.util.ArrayList;
 
 /**
- * Created by TARDIS on 30/11/2014.
+ * Created by richarja on 05/12/14.
  */
-public class TicTakToeGame extends Game
+public class SudokuGame extends Game
 {
     private boolean isGenerated;
     private boolean canRestart;
@@ -27,11 +29,11 @@ public class TicTakToeGame extends Game
     private View.OnClickListener endGameListener;
     private int player;
 
-    public TicTakToeGame()
+    public SudokuGame()
     {
-        this.name = "TicTakToe";
+        this.name = "Sudoku";
         this.initTextureList();
-        this.start(3, 3);
+        this.start(9, 9);
     }
 
     @Override
@@ -109,7 +111,7 @@ public class TicTakToeGame extends Game
             for(int i = 0; i < tiles.length; i++)
             {
                 tiles[i] = new Tile(i, defaultColour);
-                tiles[i].setTextureId(0);
+                tiles[i].setTextureId(0, 0);
             }
         }
     }
@@ -144,7 +146,7 @@ public class TicTakToeGame extends Game
                     if (!this.getTile(iTile).getStats().isPressed())
                     {
                         this.getTile(iTile).getStats().setPressed(true);
-                        this.getTile(iTile).setTextureId(player);
+                        this.getTile(iTile).setTextureId(player, 0);
                         v.playSoundEffect(SoundEffectConstants.CLICK);
 
                         if(hasGameFinished(player, iTile))
@@ -169,10 +171,20 @@ public class TicTakToeGame extends Game
     {
         for(int i = 0; i < tiles.length; i++)
         {
-            if(tiles[i].getTextureId() == 0)
+            if(tiles[i].getTextureId(0) == 0)
                 return false;
         }
         return true;
+    }
+
+    @Override
+    public boolean isAlwaysSquare() {
+        return true;
+    }
+
+    @Override
+    public boolean removeOverlay() {
+        return false;
     }
 
     public boolean hasGameFinished(int player, int tile)
@@ -184,7 +196,7 @@ public class TicTakToeGame extends Game
         int total = 0;
         for(int i = 0; i < this.getWidth(); i++)
         {
-            if(tiles[i + y * this.getWidth()].getTextureId() == player)
+            if(tiles[i + y * this.getWidth()].getTextureId(0) == player)
             {
                 total += square[i + y * this.getWidth()];
             }
@@ -195,7 +207,7 @@ public class TicTakToeGame extends Game
         total = 0;
         for(int i = 0; i < this.getHeight(); i++)
         {
-            if(tiles[x + i * this.getHeight()].getTextureId() == player)
+            if(tiles[x + i * this.getHeight()].getTextureId(0) == player)
             {
                 total += square[x + i * this.getHeight()];
             }
@@ -221,9 +233,9 @@ public class TicTakToeGame extends Game
     {
         this.TextureList = new ArrayList<String>();
 
-        this.TextureList.add("white_texture_bordered.jpg");
-        this.TextureList.add("cross_texture_bordered.jpg");
-        this.TextureList.add("nought_texture_bordered.jpg");
+        this.TextureList.add("tiles/BorderedWhiteTile.jpg");
+        this.TextureList.add("tiles/BorderedCrossTile.jpg");
+        this.TextureList.add("tiles/BorderedNoughtTile.jpg");
     }
 
     @Override

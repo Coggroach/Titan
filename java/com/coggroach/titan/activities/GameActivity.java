@@ -4,23 +4,22 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
 import com.coggroach.titan.game.Game;
-import com.coggroach.titan.game.MultiGoesGame;
+import com.coggroach.titan.gamemodes.MultiGoesGame;
 import com.coggroach.titan.game.Options;
-import com.coggroach.titan.game.RainbowGame;
-import com.coggroach.titan.game.TicTakToeGame;
-import com.coggroach.titan.graphics.OptionsView;
-import com.coggroach.titan.graphics.RenderSettings;
-import com.coggroach.titan.graphics.TileRenderer;
+import com.coggroach.titan.gamemodes.RainbowGame;
+import com.coggroach.titan.gamemodes.SudokuGame;
+import com.coggroach.titan.gamemodes.TicTakToeGame;
+import com.coggroach.titan.graphics.views.OptionsView;
+import com.coggroach.titan.graphics.renderer.RenderSettings;
+import com.coggroach.titan.graphics.renderer.TileRenderer;
 
 /**
  * Created by TARDIS on 20/11/2014.
@@ -102,6 +101,8 @@ public class GameActivity extends Activity implements View.OnTouchListener
                 return new MultiGoesGame();
             case 2:
                 return new TicTakToeGame();
+            case 3:
+                return new SudokuGame();
             default:
                 return  new RainbowGame();
         }
@@ -203,4 +204,7 @@ public class GameActivity extends Activity implements View.OnTouchListener
     {
         return options;
     }
+
 }
+
+

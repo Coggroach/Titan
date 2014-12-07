@@ -1,5 +1,7 @@
 package com.coggroach.titan.tile;
 
+import android.graphics.Color;
+
 /**
  * Created by TARDIS on 20/11/2014.
  */
@@ -16,7 +18,7 @@ public class TileColour
     public static TileColour pink = new TileColour(1.0F, 0.0F, 1.0F, 1.0F);
 
     public static TileColour cyan = new TileColour(0.0F, 1.0F, 1.0F, 1.0F);
-    public static TileColour white = new TileColour(1.0F, 1.0F, 1.0F, 1.0F);
+    public static TileColour white = new TileColour(253, 246, 220, 255);
     public static TileColour grey = new TileColour(0.45F, 0.45F, 0.45F, 1.0F);
     public static TileColour black = new TileColour(0.1F, 0.1F, 0.1F, 0.5F);
 
@@ -61,6 +63,27 @@ public class TileColour
     public float[] toFloatArray()
     {
         return new float[] {R, G, B, A};
+    }
+
+    public int getIntegerR()
+    {
+        return (int) (R*255);
+    }
+    public int getIntegerG()
+    {
+        return (int) (G*255);
+    }
+    public int getIntegerB()
+    {
+        return (int) (B*255);
+    }
+    public int getIntegerA()
+    {
+        return (int) (A*255);
+    }
+    public int getColorValue()
+    {
+        return Color.argb(this.getIntegerA(), this.getIntegerR(), this.getIntegerG(), this.getIntegerB());
     }
 
 }

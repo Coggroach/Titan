@@ -1,4 +1,4 @@
-package com.coggroach.titan.game;
+package com.coggroach.titan.gamemodes;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -9,7 +9,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.coggroach.titan.graphics.TileRenderer;
+import com.coggroach.titan.game.Game;
+import com.coggroach.titan.game.GameHelper;
+import com.coggroach.titan.graphics.renderer.TileRenderer;
 import com.coggroach.titan.tile.Tile;
 import com.coggroach.titan.tile.ITileAnimation;
 import com.coggroach.titan.tile.TileColour;
@@ -53,7 +55,17 @@ public class RainbowGame extends Game
 
     public RainbowGame()
     {
-        this(7, 7);
+        this(15, 15);
+    }
+
+    @Override
+    public boolean isAlwaysSquare() {
+        return true;
+    }
+
+    @Override
+    public boolean removeOverlay() {
+        return false;
     }
 
     protected RainbowGame(int w, int h)
@@ -74,9 +86,8 @@ public class RainbowGame extends Game
     {
         this.TextureList = new ArrayList<String>();
 
-        //this.TextureList.add("metal_texture_bordered.png");
-        this.TextureList.add("white_texture_bordered.jpg");
-        this.TextureList.add("bomb_texture.png");
+        this.TextureList.add("tiles/BorderedWhiteTile.jpg");
+        this.TextureList.add("tiles/NuclearBombTile.png");
     }
 
     @Override
@@ -181,7 +192,7 @@ public class RainbowGame extends Game
             int x = rand.nextInt(width);
             int y = rand.nextInt(height);
             this.getTile(x, y).getStats().setMine(true);
-            GameHelper.generateGrid(this, x, y, getWidth()*2);
+            GameHelper.generateGrid(this, x, y, getWidth() * 2);
         }
     }
 
@@ -200,7 +211,8 @@ public class RainbowGame extends Game
     @Override
     public void onTouch(View v, MotionEvent event)
     {
-        if(event.getAction() == MotionEvent.ACTION_DOWN)//|| event.getAction() == MotionEvent.ACTION_MOVE)
+
+        if(event.getAction() == MotionEvent.ACTION_DOWN|| event.getAction() == MotionEvent.ACTION_MOVE)
         {
             if((this.isGameOn()))
             {
@@ -212,10 +224,11 @@ public class RainbowGame extends Game
                 {
                     if (!this.getTile(iTile).getStats().isPressed())
                     {
-                        this.getTile(iTile).getAnimation().setAnimation(animation);
+                        this.getTile(iTile).getAnimation().setAnimation(this.animation);
                         this.getTile(iTile).getAnimation().setAnimationLength(this.ANIMATION_LENGTH);
                         this.getTile(iTile).getAnimation().setAnimationLoop(false);
                         this.getTile(iTile).getAnimation().setAnimationTickLength(1);
+                        this.getTile(iTile).getAnimation().setSaveAnimation(true);
                         this.incScore();
                         this.getTile(iTile).getStats().setPressed(true);
                         this.updateScore();
@@ -223,8 +236,8 @@ public class RainbowGame extends Game
                     }
                     if(this.getTile(iTile).getStats().isMine())
                     {
-                        this.getTile(iTile).setTextureId(1);
-                        this.getTile(iTile).setColour(defaultColour);
+                        this.getTile(iTile).setTextureId(1, 3);
+                        this.getTile(iTile).setColour(defaultColour, 3);
                         this.setGameOn(false);
                         this.updateStatus("Congratz, Click me to Continue!");
                     }

@@ -1,4 +1,4 @@
-package com.coggroach.titan.graphics;
+package com.coggroach.titan.graphics.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -23,6 +23,7 @@ public class OptionsView extends View implements View.OnTouchListener
 {
     private Context context;
     private Bitmap icon;
+    private Bitmap palette;
     private ArrayList<OptionButton> optionsList;
     private int width, height;
     private boolean isVisible;
@@ -95,19 +96,24 @@ public class OptionsView extends View implements View.OnTouchListener
 
         try
         {
-            icon = BitmapFactory.decodeStream(context.getResources().getAssets().open("GameSettingsIcon.png"));
+            icon = BitmapFactory.decodeStream(context.getResources().getAssets().open("interface/ButtonGamemodes.png"));
+            palette = BitmapFactory.decodeStream(context.getResources().getAssets().open("interface/Palette.png"));
         }
         catch (IOException ex)
         {
             ex.printStackTrace();
         }
 
-        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-        width = metrics.widthPixels;
-        height = metrics.heightPixels;
+        if(icon != null && palette != null)
+        {
+            DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+            width = metrics.widthPixels;
+            height = metrics.heightPixels;
 
-        this.generateOptions(list, (int)(0.1F * width)  , (int)(0.2F * height), (int)(0.1F * width), (int)(0.05F * height));
-        this.icon = Bitmap.createScaledBitmap(this.icon,(int) (width*0.1F), (int)(width*0.1F), false );
+            this.generateOptions(list, (int) (0.1F * width), (int) (0.2F * height), (int) (0.1F * width), (int) (0.05F * height));
+            this.icon = Bitmap.createScaledBitmap(this.icon, (int) (width * 0.1F), (int) (width * 0.1F), false);
+            this.palette = Bitmap.createScaledBitmap(this.palette, (int) (0.9F*width), (int) (0.95F *(height - width)/2), false);
+        }
     }
 
     public boolean contains(Point p)
@@ -186,5 +192,6 @@ public class OptionsView extends View implements View.OnTouchListener
             }
         }
         canvas.drawBitmap(icon, (int)(width*0.9F), 0, null);
+        canvas.drawBitmap(palette, (int) (width*0.05F), height - (int) ((height - width)/2 * 0.95F), null);
     }
 }

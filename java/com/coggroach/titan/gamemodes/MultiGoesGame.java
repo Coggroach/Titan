@@ -1,16 +1,18 @@
-package com.coggroach.titan.game;
+package com.coggroach.titan.gamemodes;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.opengl.Matrix;
 import android.view.MotionEvent;
 import android.view.SoundEffectConstants;
 import android.view.View;
-import android.widget.GridLayout;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.coggroach.titan.graphics.TileRenderer;
+import com.coggroach.titan.game.Game;
+import com.coggroach.titan.game.GameHelper;
+import com.coggroach.titan.graphics.renderer.TileRenderer;
+import com.coggroach.titan.tile.ITileAnimation;
 import com.coggroach.titan.tile.Tile;
 import com.coggroach.titan.tile.TileColour;
 
@@ -31,12 +33,33 @@ import java.util.Random;
     private int score;
     private int lives;
     private static int startingLives = 20;
+    private int ANIMATION_LENGTH = 72/4;
+    private ITileAnimation animation = new ITileAnimation()
+    {
+        @Override
+        public float[] onAnimation(int i, float[] mMVPMatrix)
+        {
+            //i Limit to 8 Here
+            Matrix.rotateM(mMVPMatrix, 0, (i * 5), 0.0F, 1.0F, 0.0F);
+            return mMVPMatrix;
+        }
+    };
     private TileColour defaultColour = TileColour.white;
     private View.OnClickListener endGameListener;
 
     public MultiGoesGame()
     {
         this(3, 3);
+    }
+
+    @Override
+    public boolean isAlwaysSquare() {
+        return true;
+    }
+
+    @Override
+    public boolean removeOverlay() {
+        return false;
     }
 
     protected MultiGoesGame(int w, int h)
@@ -53,13 +76,21 @@ import java.util.Random;
 
     public void incLives()
     {
-        this.lives += 3 + this.score/3;
-}
+        this.lives += 3 - this.score/15 + (this.width - 3)/3;
+    }
 
     public void incDifficulty()
     {
-        this.width++;
-        this.height++;
+        if(this.score%30 < 15)
+        {
+            this.width++;
+            this.height++;
+        }
+        else
+        {
+            this.width--;
+            this.height--;
+        }
     }
 
     public void resetDifficulty()
@@ -85,14 +116,21 @@ import java.util.Random;
         this.TextureList = new ArrayList<String>();
         this.TextureList.clear();
 
-        this.TextureList.add("metal_texture_bordered.png");
-        this.TextureList.add("bomb_texture.png");
+        this.TextureList.add("tiles/BorderedMetalTile.png");
+        this.TextureList.add("tiles/NuclearBombTile.png");
     }
 
     @Override
-    public void invalidate() {
+    public void invalidate()
+    {
+        updateLives();
         updateScore();
-        updateStatus("New Game");
+        //updateStatus("New Game");
+    }
+
+    public void updateUIElement(int i, String s)
+    {
+        ((TextView) UIElements.get(i)).setText(s);
     }
 
     @Override
@@ -105,7 +143,7 @@ import java.util.Random;
         TextView name = new TextView(c);
         TextView lives = new TextView(c);
         TextView score = new TextView(c);
-        TextView status = new TextView(c);
+        //TextView status = new TextView(c);
 
         endGameListener = new View.OnClickListener()
         {
@@ -117,11 +155,11 @@ import java.util.Random;
                     isRendering = false;
                     if(hasWon) {
                         incDifficulty();
-                        updateStatus(" ");
+                        //updateStatus(" ");
                     }
                     else {
                         resetDifficulty();
-                        updateStatus("New Game");
+                        //updateStatus("New Game");
                     }
                     updateLives();
                     updateScore();
@@ -132,7 +170,7 @@ import java.util.Random;
             }
         };
 
-        status.setOnClickListener(endGameListener);
+        //status.setOnClickListener(endGameListener);
 
         LinearLayout line = new LinearLayout(c);
 
@@ -147,33 +185,36 @@ import java.util.Random;
         lives.setTextColor(Color.GREEN);
         score.setTextSize(30);
         score.setTextColor(Color.CYAN);
-        status.setTextSize(20);
-        status.setTextColor(Color.WHITE);
+        //status.setTextSize(20);
+        //status.setTextColor(Color.WHITE);
 
         UILayout.addView(name);
         UILayout.addView(line);
-        UILayout.addView(status);
+        //UILayout.addView(status);
         ((LinearLayout) UILayout).setOrientation(LinearLayout.VERTICAL);
 
         UIElements.add(name);
         UIElements.add(lives);
-        UIElements.add(status);
+        //UIElements.add(status);
         UIElements.add(score);
     }
 
     private void updateLives()
     {
         ((TextView) UIElements.get(1)).setText("Lives: " + this.lives + "   ");
-    }
-
-    private void updateStatus(String s)
-    {
-        ((TextView) UIElements.get(2)).setText(s);
+        if(this.lives <= 8)
+            ((TextView) UIElements.get(1)).setTextColor(Color.YELLOW);
+        if(this.lives <= 5)
+            ((TextView) UIElements.get(1)).setTextColor(TileColour.orange.getColorValue());
+        if(this.lives <= 3)
+            ((TextView) UIElements.get(1)).setTextColor(Color.RED);
+        if(this.lives > 8)
+            ((TextView) UIElements.get(1)).setTextColor(Color.GREEN);
     }
 
     private void updateScore()
     {
-        ((TextView) UIElements.get(3)).setText(" Score: " + this.score);
+        ((TextView) UIElements.get(2)).setText(" Score: " + this.score);
     }
 
     @Override
@@ -256,6 +297,11 @@ import java.util.Random;
                 {
                     if (!this.getTile(iTile).getStats().isPressed())
                     {
+                        this.getTile(iTile).getAnimation().setAnimation(this.animation);
+                        this.getTile(iTile).getAnimation().setAnimationLength(this.ANIMATION_LENGTH);
+                        this.getTile(iTile).getAnimation().setAnimationLoop(false);
+                        this.getTile(iTile).getAnimation().setAnimationTickLength(1);
+                        this.getTile(iTile).getAnimation().setSaveAnimation(true);
                         if(!this.getTile(iTile).getStats().isMine())
                             this.decLives();
                         this.getTile(iTile).getStats().setPressed(true);
@@ -265,17 +311,18 @@ import java.util.Random;
                     if(this.getLives() <= 0)
                     {
                         hasWon = false;
-                        this.updateStatus("Hard Luck, Click me to Play Again");
+                        //this.updateStatus("Hard Luck, Click me to Play Again");
                         this.lives = startingLives;
                         this.score = 0;
                         this.setGameOn(false);
                     }
                     if(this.getTile(iTile).getStats().isMine())
                     {
-                        this.getTile(iTile).setTextureId(1);
-                        this.getTile(iTile).setColour(defaultColour);
+                        this.getTile(iTile).setTextureId(1, 3);
+                        this.getTile(iTile).setColour(defaultColour, 3);
+
                         hasWon = true;
-                        this.updateStatus("Well Done! Click me to Keep Going");
+                        //this.updateStatus("Well Done! Click me to Keep Going");
                         this.incLives();
                         this.incScore();
                         this.setGameOn(false);
