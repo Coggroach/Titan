@@ -60,7 +60,7 @@ public class GameActivity extends Activity implements View.OnTouchListener
     @Override
     public boolean onTouch(View v, MotionEvent event)
     {
-        boolean settingsCheck = (event.getX() > this.getResources().getDisplayMetrics().widthPixels * 0.9F && event.getY() < this.getResources().getDisplayMetrics().widthPixels * 0.1F);
+        boolean settingsCheck = (event.getX() > this.getResources().getDisplayMetrics().widthPixels * 0.6F && event.getY() < this.getResources().getDisplayMetrics().widthPixels * 0.15F);
 
         if(event.getAction() == MotionEvent.ACTION_DOWN) {
             if(settingsCheck && isOptionsFocused)

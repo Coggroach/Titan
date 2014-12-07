@@ -30,6 +30,7 @@ import java.util.Random;
     private boolean hasWon = false;
     private boolean isRendering = false;
 
+
     private int score;
     private int lives;
     private static int startingLives = 20;
@@ -64,7 +65,7 @@ import java.util.Random;
 
     protected MultiGoesGame(int w, int h)
     {
-        this.name = "MultiGoes";
+       // this.name = "MultiGoes";
         this.initTextureList();
         this.start(w, h);
     }
@@ -116,7 +117,7 @@ import java.util.Random;
         this.TextureList = new ArrayList<String>();
         this.TextureList.clear();
 
-        this.TextureList.add("tiles/BorderedMetalTile.png");
+        this.TextureList.add("tiles/BorderedWhiteTile.jpg");
         this.TextureList.add("tiles/NuclearBombTile.png");
     }
 
@@ -140,7 +141,7 @@ import java.util.Random;
         this.UILayout = new LinearLayout(c);
         this.UIElements.clear();
 
-        TextView name = new TextView(c);
+       // TextView name = new TextView(c);
         TextView lives = new TextView(c);
         TextView score = new TextView(c);
         //TextView status = new TextView(c);
@@ -174,26 +175,27 @@ import java.util.Random;
 
         LinearLayout line = new LinearLayout(c);
 
-        line.addView(lives);
-        line.addView(score);
+       // line.addView(lives);
+       // line.addView(score);
         line.setOrientation(LinearLayout.HORIZONTAL);
 
-        name.setTextSize(30);
-        name.setTextColor(Color.WHITE);
-        name.setText(this.name);
-        lives.setTextSize(30);
-        lives.setTextColor(Color.GREEN);
+       // name.setTextSize(30);
+        //name.setTextColor(Color.WHITE);
+        //name.setText(this.name);
+        lives.setTextSize(40);
+        lives.setTextColor(Color.CYAN);
         score.setTextSize(30);
         score.setTextColor(Color.CYAN);
         //status.setTextSize(20);
         //status.setTextColor(Color.WHITE);
 
-        UILayout.addView(name);
-        UILayout.addView(line);
+        //UILayout.addView(name);
+        UILayout.addView(lives);
+        UILayout.addView(score);
         //UILayout.addView(status);
         ((LinearLayout) UILayout).setOrientation(LinearLayout.VERTICAL);
 
-        UIElements.add(name);
+        //UIElements.add(name);
         UIElements.add(lives);
         //UIElements.add(status);
         UIElements.add(score);
@@ -201,20 +203,20 @@ import java.util.Random;
 
     private void updateLives()
     {
-        ((TextView) UIElements.get(1)).setText("Lives: " + this.lives + "   ");
+        ((TextView) UIElements.get(0)).setText("             " + this.lives + "   ");
         if(this.lives <= 8)
-            ((TextView) UIElements.get(1)).setTextColor(Color.YELLOW);
+            ((TextView) UIElements.get(0)).setTextColor(Color.YELLOW);
         if(this.lives <= 5)
-            ((TextView) UIElements.get(1)).setTextColor(TileColour.orange.getColorValue());
+            ((TextView) UIElements.get(0)).setTextColor(TileColour.orange.getColorValue());
         if(this.lives <= 3)
-            ((TextView) UIElements.get(1)).setTextColor(Color.RED);
+            ((TextView) UIElements.get(0)).setTextColor(Color.RED);
         if(this.lives > 8)
-            ((TextView) UIElements.get(1)).setTextColor(Color.GREEN);
+            ((TextView) UIElements.get(0)).setTextColor(Color.CYAN);
     }
 
     private void updateScore()
     {
-        ((TextView) UIElements.get(2)).setText(" Score: " + this.score);
+        ((TextView) UIElements.get(1)).setText(" Score: " + this.score);
     }
 
     @Override
@@ -323,6 +325,7 @@ import java.util.Random;
 
                         hasWon = true;
                         //this.updateStatus("Well Done! Click me to Keep Going");
+
                         this.incLives();
                         this.incScore();
                         this.setGameOn(false);
