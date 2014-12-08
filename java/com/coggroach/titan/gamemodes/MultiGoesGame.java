@@ -22,10 +22,6 @@ import com.coggroach.titan.game.GameHelper;
 import com.coggroach.titan.game.IMediaPlayable;
 import com.coggroach.titan.graphics.renderer.TileRenderer;
 import com.coggroach.titan.graphics.views.ButtonView;
-<<<<<<< HEAD
-import com.coggroach.titan.graphics.views.MenuView;
-=======
->>>>>>> origin/3DFacesEngine
 import com.coggroach.titan.tile.ITileAnimation;
 import com.coggroach.titan.tile.Tile;
 import com.coggroach.titan.tile.TileColour;
@@ -46,19 +42,8 @@ import java.util.Random;
     private boolean isGameOn;
     private boolean hasWon = false;
     private boolean isRendering = false;
-<<<<<<< HEAD
     private ArrayList<MediaPlayer> players;
-=======
-    private MediaPlayer mp1;
-    private MediaPlayer mp2;
-    private MediaPlayer mp3;
-    private MediaPlayer mp4;
     private boolean isVisible;
-    //ButtonView nextround;
-
-
-
->>>>>>> origin/3DFacesEngine
     private int score;
     private int lives;
     private static int startingLives = 20;
@@ -206,78 +191,17 @@ import java.util.Random;
 
         players = new ArrayList<MediaPlayer>();
        // TextView name = new TextView(c);
-<<<<<<< HEAD
         players.add(MediaPlayer.create(c, R.raw.gamemusic1));
         players.add(MediaPlayer.create(c, R.raw.gamemusic2));
         players.add(MediaPlayer.create(c, R.raw.gamemusic3));
         players.add(MediaPlayer.create(c, R.raw.gamemusic4));
-=======
-        mp1 = MediaPlayer.create(c, R.raw.gamemusic1);
-        mp2 = MediaPlayer.create(c, R.raw.gamemusic2);
-        mp3 = MediaPlayer.create(c, R.raw.gamemusic3);
-        mp4 = MediaPlayer.create(c, R.raw.gamemusic4);
+
         isVisible = false;
-       /* try
-        {
-            nextround = BitmapFactory.decodeStream(c.getResources().getAssets().open("interface/ButtonNextRound.png"));
-        }
-
-        catch (IOException ex)
-        {
-            ex.printStackTrace();
-        }
-
-        if(nextround != null)
-        {
-            DisplayMetrics metrics = c.getResources().getDisplayMetrics();
-            width = metrics.widthPixels;
-            height = metrics.heightPixels;
-            this.nextround = Bitmap.createScaledBitmap(this.nextround, (int) (width * 0.6F), (int) (width * 0.2F), false);
-        }*/
-
-        mp1.start();
-
-        mp2.pause();
-
-        mp3.pause();
->>>>>>> origin/3DFacesEngine
 
         TextView lives = new TextView(c);
         TextView score = new TextView(c);
-<<<<<<< HEAD
         //TextView status = new TextView(c);
         ButtonView next = new ButtonView(c, "interface/ButtonNewGame.png", 0.5F, 0F);
-=======
-        TextView status = new TextView(c);
-        //ButtonView nextRound = new ButtonView(c, "interface/ButtonNextRound.png", 0, 0, width, height);
-
-        endGameListener = new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                if(!(isGameOn()))
-                {
-                    isRendering = false;
-                    if(hasWon) {
-                        incDifficulty();
-                        updateStatus(" ");
-                    }
-                    else {
-                        resetDifficulty();
-                        updateStatus("New Game");
-                    }
-                    updateLives();
-                    updateScore();
-                    restart();
-                    generate();
-
-                }
-            }
-        };
->>>>>>> origin/3DFacesEngine
-
-        status.setOnClickListener(endGameListener);
 
         LinearLayout line = new LinearLayout(c);
 
@@ -292,61 +216,33 @@ import java.util.Random;
         lives.setTextColor(Color.CYAN);
         score.setTextSize(30);
         score.setTextColor(Color.CYAN);
-        status.setTextSize(20);
-        status.setTextColor(Color.WHITE);
 
         next.setOnClickListener(endGameListener);
 
         //UILayout.addView(name);
         UILayout.addView(lives);
         UILayout.addView(score);
-<<<<<<< HEAD
         UILayout.addView(next);
         //UILayout.addView(status);
-=======
-        UILayout.addView(status);
-        //UILayout.addView(nextround);
-
->>>>>>> origin/3DFacesEngine
         ((LinearLayout) UILayout).setOrientation(LinearLayout.VERTICAL);
 
         //UIElements.add(name);
         UIElements.add(lives);
         UIElements.add(score);
-<<<<<<< HEAD
         UIElements.add(next);
-=======
-        UIElements.add(status);
-        //UIElements.add(nextround);
->>>>>>> origin/3DFacesEngine
+
     }
 
     private void updateLives()
     {
         ((TextView) UIElements.get(0)).setText("             " + this.lives + "   ");
         if(this.lives <= 19)
-<<<<<<< HEAD
-            //mp1.stop();
-            ((TextView) UIElements.get(0)).setTextColor(Color.YELLOW);
-            //mp2.reset();
-        if(this.lives <= 18)
-            //mp2.stop();
-            ((TextView) UIElements.get(0)).setTextColor(TileColour.orange.getColorValue());
-            //mp3.reset();
-        if(this.lives <= 17)
-            //mp3.stop();
-            ((TextView) UIElements.get(0)).setTextColor(Color.RED);
-            //mp4.reset();
-        if(this.lives > 19)
-            //mp1.start();
-=======
             ((TextView) UIElements.get(0)).setTextColor(Color.YELLOW);
         if(this.lives <= 18)
             ((TextView) UIElements.get(0)).setTextColor(TileColour.orange.getColorValue());
         if(this.lives <= 17)
             ((TextView) UIElements.get(0)).setTextColor(Color.RED);
         if(this.lives > 19)
->>>>>>> origin/3DFacesEngine
             ((TextView) UIElements.get(0)).setTextColor(Color.CYAN);
     }
 
