@@ -17,7 +17,12 @@ import java.io.IOException;
 public class ButtonView extends View
 {
     private Bitmap button;
+<<<<<<< HEAD
+    private Bitmap nextround;
+    private int width, height, bwidth, bheight;
+=======
     private int width, height;
+>>>>>>> origin/3DFacesEngine
     private int x, y;
     private OnButtonViewListener listener;
 
@@ -47,6 +52,7 @@ public class ButtonView extends View
         try
         {
             this.button = BitmapFactory.decodeStream(context.getAssets().open(s));
+            nextround = BitmapFactory.decodeStream(context.getResources().getAssets().open("interface/ButtonNextRound.png"));
         }
         catch(IOException ex)
         {
@@ -60,9 +66,15 @@ public class ButtonView extends View
 
         if(this.button != null)
         {
+<<<<<<< HEAD
+            this.bwidth = (int) ((double) button.getWidth() * this.width) / width;
+            this.bheight = (int) ((double) button.getHeight() * this.height) / height;
+            this.nextround = Bitmap.createScaledBitmap(this.nextround, (int) (width * 0.6F), (int) (width * 0.2F), false);
+=======
             int bwidth = (int) ((double) button.getWidth() * this.width) / width;
             int bheight = (int) ((double) button.getHeight() * this.height) / height;
 
+>>>>>>> origin/3DFacesEngine
             this.button = Bitmap.createScaledBitmap(button, bwidth, bheight, false);
         }
     }
