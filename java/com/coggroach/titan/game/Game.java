@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.coggroach.titan.R;
 import com.coggroach.titan.activities.GameActivity;
+import com.coggroach.titan.graphics.views.UIView;
 import com.coggroach.titan.tile.Tile;
 
 import java.util.ArrayList;
@@ -19,8 +20,7 @@ public abstract class Game
 {
     protected Tile[] tiles;
     protected int width, height;
-    protected ArrayList<View> UIElements;
-    protected ViewGroup UILayout;
+    protected UIView UILayout;
     protected ArrayList<String> TextureList;
     protected boolean updateView;
     protected String name;
@@ -93,19 +93,9 @@ public abstract class Game
         this.height = height;
     }
 
-    public ArrayList<View> getUIElements()
-    {
-        return UIElements;
-    }
-
-    public ViewGroup getUILayout()
+    public UIView getUILayout()
     {
         return UILayout;
-    }
-
-    public void addUIElement(View v)
-    {
-        this.UIElements.add(v);
     }
 
     public ArrayList<String> getTextureList()
