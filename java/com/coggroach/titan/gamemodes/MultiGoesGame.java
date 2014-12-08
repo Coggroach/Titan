@@ -1,10 +1,14 @@
 package com.coggroach.titan.gamemodes;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.opengl.Matrix;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.SoundEffectConstants;
 import android.view.View;
@@ -16,10 +20,12 @@ import com.coggroach.titan.activities.GameActivity;
 import com.coggroach.titan.game.Game;
 import com.coggroach.titan.game.GameHelper;
 import com.coggroach.titan.graphics.renderer.TileRenderer;
+import com.coggroach.titan.graphics.views.ButtonView;
 import com.coggroach.titan.tile.ITileAnimation;
 import com.coggroach.titan.tile.Tile;
 import com.coggroach.titan.tile.TileColour;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Random;
@@ -38,6 +44,8 @@ import java.util.Random;
     private MediaPlayer mp2;
     private MediaPlayer mp3;
     private MediaPlayer mp4;
+    private boolean isVisible;
+    //ButtonView nextround;
 
 
 
@@ -115,6 +123,12 @@ import java.util.Random;
         this.lives--;
     }
 
+    public void setVisible(boolean isVisible)
+    {
+        this.isVisible = isVisible;
+        this.invalidate();
+    }
+
     @Override
     public boolean isRendering()
     {
@@ -136,7 +150,7 @@ import java.util.Random;
     {
         updateLives();
         updateScore();
-        //updateStatus("New Game");
+        updateStatus("New Game");
     }
 
     public void updateUIElement(int i, String s)
@@ -157,6 +171,25 @@ import java.util.Random;
         mp2 = MediaPlayer.create(c, R.raw.gamemusic2);
         mp3 = MediaPlayer.create(c, R.raw.gamemusic3);
         mp4 = MediaPlayer.create(c, R.raw.gamemusic4);
+        isVisible = false;
+       /* try
+        {
+            nextround = BitmapFactory.decodeStream(c.getResources().getAssets().open("interface/ButtonNextRound.png"));
+        }
+
+        catch (IOException ex)
+        {
+            ex.printStackTrace();
+        }
+
+        if(nextround != null)
+        {
+            DisplayMetrics metrics = c.getResources().getDisplayMetrics();
+            width = metrics.widthPixels;
+            height = metrics.heightPixels;
+            this.nextround = Bitmap.createScaledBitmap(this.nextround, (int) (width * 0.6F), (int) (width * 0.2F), false);
+        }*/
+
         mp1.start();
 
         mp2.pause();
@@ -166,7 +199,8 @@ import java.util.Random;
         mp4.pause();
         TextView lives = new TextView(c);
         TextView score = new TextView(c);
-        //TextView status = new TextView(c);
+        TextView status = new TextView(c);
+        //ButtonView nextRound = new ButtonView(c, "interface/ButtonNextRound.png", 0, 0, width, height);
 
         endGameListener = new View.OnClickListener()
         {
@@ -178,11 +212,11 @@ import java.util.Random;
                     isRendering = false;
                     if(hasWon) {
                         incDifficulty();
-                        //updateStatus(" ");
+                        updateStatus(" ");
                     }
                     else {
                         resetDifficulty();
-                        //updateStatus("New Game");
+                        updateStatus("New Game");
                     }
                     updateLives();
                     updateScore();
@@ -193,7 +227,7 @@ import java.util.Random;
             }
         };
 
-        //status.setOnClickListener(endGameListener);
+        status.setOnClickListener(endGameListener);
 
         LinearLayout line = new LinearLayout(c);
 
@@ -208,48 +242,45 @@ import java.util.Random;
         lives.setTextColor(Color.CYAN);
         score.setTextSize(30);
         score.setTextColor(Color.CYAN);
-        //status.setTextSize(20);
-        //status.setTextColor(Color.WHITE);
+        status.setTextSize(20);
+        status.setTextColor(Color.WHITE);
 
         //UILayout.addView(name);
         UILayout.addView(lives);
         UILayout.addView(score);
-        //UILayout.addView(status);
+        UILayout.addView(status);
+        //UILayout.addView(nextround);
+
         ((LinearLayout) UILayout).setOrientation(LinearLayout.VERTICAL);
 
         //UIElements.add(name);
         UIElements.add(lives);
-        //UIElements.add(status);
         UIElements.add(score);
+        UIElements.add(status);
+        //UIElements.add(nextround);
     }
 
     private void updateLives()
     {
         ((TextView) UIElements.get(0)).setText("             " + this.lives + "   ");
         if(this.lives <= 19)
-            mp1.stop();
             ((TextView) UIElements.get(0)).setTextColor(Color.YELLOW);
-            mp2.setLooping(true);
-            mp2.reset();
         if(this.lives <= 18)
-            mp2.stop();
             ((TextView) UIElements.get(0)).setTextColor(TileColour.orange.getColorValue());
-            mp3.setLooping(true);
-            mp3.reset();
         if(this.lives <= 17)
-            mp3.stop();
             ((TextView) UIElements.get(0)).setTextColor(Color.RED);
-            mp4.setLooping(true);
-            mp4.reset();
         if(this.lives > 19)
-            mp1.setLooping(true);
-            mp1.start();
             ((TextView) UIElements.get(0)).setTextColor(Color.CYAN);
     }
 
     private void updateScore()
     {
         ((TextView) UIElements.get(1)).setText("                  " + this.score);
+    }
+
+    private void updateStatus(String s)
+    {
+        ((TextView) UIElements.get(2)).setText(s);
     }
 
     @Override
@@ -321,7 +352,7 @@ import java.util.Random;
     @Override
     public void onTouch(View v, MotionEvent event)
     {
-        if(event.getAction() == MotionEvent.ACTION_DOWN)//) || event.getAction() == MotionEvent.ACTION_MOVE)
+        if(event.getAction() == MotionEvent.ACTION_DOWN)// || event.getAction() == MotionEvent.ACTION_MOVE)
         {
             if((this.isGameOn()))
             {
@@ -347,7 +378,7 @@ import java.util.Random;
                     if(this.getLives() <= 0)
                     {
                         hasWon = false;
-                        //this.updateStatus("Hard Luck, Click me to Play Again");
+                        this.updateStatus("Hard Luck, Click me to Play Again");
                         this.lives = startingLives;
                         this.score = 0;
                         this.setGameOn(false);
@@ -358,7 +389,9 @@ import java.util.Random;
                         this.getTile(iTile).setColour(defaultColour, 3);
 
                         hasWon = true;
-                        //this.updateStatus("Well Done! Click me to Keep Going");
+                        //draw
+
+                        this.updateStatus("Well Done! Click me to Keep Going");
 
                         this.incLives();
                         this.incScore();
