@@ -21,14 +21,29 @@ public class ButtonView extends View
     private int x, y;
     private OnButtonViewListener listener;
 
+    public ButtonView(Context context, String s, float xF, float yF)
+    {
+        super(context);
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        this.width = metrics.widthPixels;
+        this.height = metrics.heightPixels;
+        init(context, s, (int) (xF * width), (int) (yF * height), width, height);
+    }
+
     public ButtonView(Context context, String s, int x, int y, MenuView parent)
     {
-        this(context, s, x, y, parent.getContextWidth(), parent.getContextHeight());
+        super(context);
+        init(context, s, x, y, parent.getContextWidth(), parent.getContextHeight());
     }
 
     public ButtonView(Context context, String s, int x, int y, int width, int height)
     {
         super(context);
+        init(context, s, x, y, width, height);
+    }
+
+    public void init(Context context, String s, int x, int y, int width, int height)
+    {
         try
         {
             this.button = BitmapFactory.decodeStream(context.getAssets().open(s));

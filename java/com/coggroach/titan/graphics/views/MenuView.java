@@ -22,12 +22,12 @@ public class MenuView extends View implements View.OnTouchListener
     private int width, height;
     private ArrayList<ButtonView> buttons;
 
-    public MenuView(Context context)
+    public MenuView(Context context, String s)
     {
         super(context);
         try
         {
-            background = BitmapFactory.decodeStream(context.getAssets().open("interface/Background.png"));
+            background = BitmapFactory.decodeStream(context.getAssets().open(s));
         }
         catch(IOException ex){
             ex.printStackTrace();

@@ -15,32 +15,30 @@ import com.coggroach.titan.R;
 import com.coggroach.titan.activities.GameActivity;
 import com.coggroach.titan.game.Game;
 import com.coggroach.titan.game.GameHelper;
+import com.coggroach.titan.game.IMediaPlayable;
 import com.coggroach.titan.graphics.renderer.TileRenderer;
+import com.coggroach.titan.graphics.views.ButtonView;
+import com.coggroach.titan.graphics.views.MenuView;
 import com.coggroach.titan.tile.ITileAnimation;
 import com.coggroach.titan.tile.Tile;
 import com.coggroach.titan.tile.TileColour;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 /**
  * Created by TARDIS on 27/11/2014.
  */
-    public class MultiGoesGame extends Game
+    public class MultiGoesGame extends Game implements IMediaPlayable
 {
     private boolean isGenerated;
     private boolean canRestart;
     private boolean isGameOn;
     private boolean hasWon = false;
     private boolean isRendering = false;
-    private MediaPlayer mp1;
-    private MediaPlayer mp2;
-    private MediaPlayer mp3;
-    private MediaPlayer mp4;
-
-
-
+    private ArrayList<MediaPlayer> players;
     private int score;
     private int lives;
     private static int startingLives = 20;
@@ -150,53 +148,47 @@ import java.util.Random;
     }
 
     @Override
+    public void playSound(int index) {
+        Iterator<MediaPlayer> iterator = players.iterator();
+        while(iterator.hasNext())
+        {
+            MediaPlayer temp = iterator.next();
+            if(temp.equals(players.get(0)))
+                temp.start();
+            else
+                temp.stop();
+
+        }
+    }
+
+    @Override
+    public void setLooping(boolean b)
+    {
+        Iterator<MediaPlayer> iterator = players.iterator();
+        while(iterator.hasNext())
+        {
+            iterator.next().setLooping(b);
+        }
+    }
+
+    @Override
     public void initUIElements(Context c)
     {
         this.UIElements = new ArrayList<View>();
         this.UILayout = new LinearLayout(c);
         this.UIElements.clear();
 
-
+        players = new ArrayList<MediaPlayer>();
        // TextView name = new TextView(c);
-        mp1 = MediaPlayer.create(c, R.raw.gamemusic1);
-        mp2 = MediaPlayer.create(c, R.raw.gamemusic2);
-        mp3 = MediaPlayer.create(c, R.raw.gamemusic3);
-        mp4 = MediaPlayer.create(c, R.raw.gamemusic4);
-        mp1.start();
+        players.add(MediaPlayer.create(c, R.raw.gamemusic1));
+        players.add(MediaPlayer.create(c, R.raw.gamemusic2));
+        players.add(MediaPlayer.create(c, R.raw.gamemusic3));
+        players.add(MediaPlayer.create(c, R.raw.gamemusic4));
 
-        mp2.pause();
-
-        mp3.pause();
-
-        mp4.pause();
         TextView lives = new TextView(c);
         TextView score = new TextView(c);
         //TextView status = new TextView(c);
-
-        endGameListener = new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                if(!(isGameOn()))
-                {
-                    isRendering = false;
-                    if(hasWon) {
-                        incDifficulty();
-                        //updateStatus(" ");
-                    }
-                    else {
-                        resetDifficulty();
-                        //updateStatus("New Game");
-                    }
-                    updateLives();
-                    updateScore();
-                    restart();
-                    generate();
-
-                }
-            }
-        };
+        ButtonView next = new ButtonView(c, "interface/ButtonNewGame.png", 0.5F, 0F);
 
         //status.setOnClickListener(endGameListener);
 
@@ -216,9 +208,12 @@ import java.util.Random;
         //status.setTextSize(20);
         //status.setTextColor(Color.WHITE);
 
+        next.setOnClickListener(endGameListener);
+
         //UILayout.addView(name);
         UILayout.addView(lives);
         UILayout.addView(score);
+        UILayout.addView(next);
         //UILayout.addView(status);
         ((LinearLayout) UILayout).setOrientation(LinearLayout.VERTICAL);
 
@@ -226,29 +221,26 @@ import java.util.Random;
         UIElements.add(lives);
         //UIElements.add(status);
         UIElements.add(score);
+        UIElements.add(next);
     }
 
     private void updateLives()
     {
         ((TextView) UIElements.get(0)).setText("             " + this.lives + "   ");
         if(this.lives <= 19)
-            mp1.stop();
+            //mp1.stop();
             ((TextView) UIElements.get(0)).setTextColor(Color.YELLOW);
-            mp2.setLooping(true);
-            mp2.reset();
+            //mp2.reset();
         if(this.lives <= 18)
-            mp2.stop();
+            //mp2.stop();
             ((TextView) UIElements.get(0)).setTextColor(TileColour.orange.getColorValue());
-            mp3.setLooping(true);
-            mp3.reset();
+            //mp3.reset();
         if(this.lives <= 17)
-            mp3.stop();
+            //mp3.stop();
             ((TextView) UIElements.get(0)).setTextColor(Color.RED);
-            mp4.setLooping(true);
-            mp4.reset();
+            //mp4.reset();
         if(this.lives > 19)
-            mp1.setLooping(true);
-            mp1.start();
+            //mp1.start();
             ((TextView) UIElements.get(0)).setTextColor(Color.CYAN);
     }
 

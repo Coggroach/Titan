@@ -31,7 +31,7 @@ public class MenuActivity extends Activity implements OnButtonViewListener
     {
         super.onCreate(savedInstanceState);
         this.getActionBar().hide();
-        mView = new MenuView(this);
+        mView = new MenuView(this, "interface/Background.png");
 
         mView.addButton(this, "interface/ButtonPlay.png", 0.09F, 0.35F);
         mView.addButton(this, "interface/ButtonOptions.png", 0.09F, 0.60F);

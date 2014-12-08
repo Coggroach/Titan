@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,9 +66,13 @@ public class GameActivity extends Activity implements View.OnTouchListener
     @Override
     public boolean onTouch(View v, MotionEvent event)
     {
-        boolean settingsCheck = (event.getX() > this.getResources().getDisplayMetrics().widthPixels * 0.6F && event.getY() < this.getResources().getDisplayMetrics().widthPixels * 0.15F);
+        DisplayMetrics metrics = this.getResources().getDisplayMetrics();
 
-        if(event.getAction() == MotionEvent.ACTION_DOWN) {
+        boolean settingsCheck = (event.getX() > metrics.widthPixels * 0.6F && event.getY() < metrics.widthPixels * 0.15F);
+        boolean UICheck = (event.getY() < (metrics.heightPixels - metrics.widthPixels)/2);
+
+        if(event.getAction() == MotionEvent.ACTION_DOWN)
+        {
             if(settingsCheck && isOptionsFocused)
             {
                 isOptionsFocused = false;
