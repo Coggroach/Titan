@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.coggroach.titan.game.Game;
 import com.coggroach.titan.game.GameHelper;
 import com.coggroach.titan.graphics.renderer.TileRenderer;
+import com.coggroach.titan.graphics.views.UIView;
 import com.coggroach.titan.tile.Tile;
 import com.coggroach.titan.tile.TileColour;
 
@@ -43,45 +44,7 @@ public class SudokuGame extends Game
 
     @Override
     public void initUIElements(Context c) {
-        this.UIElements = new ArrayList<View>();
-        this.UILayout = new LinearLayout(c);
-
-        TextView name = new TextView(c);
-        TextView status = new TextView(c);
-
-        endGameListener = new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                if(!(isGameOn()))
-                {
-                    updateUIElement(1, "New Game");
-                    restart();
-                    generate();
-                }
-            }
-        };
-
-        status.setOnClickListener(endGameListener);
-
-        UILayout.addView(name);
-        UILayout.addView(status);
-        ((LinearLayout) UILayout).setOrientation(LinearLayout.VERTICAL);
-
-        name.setTextSize(30);
-        name.setTextColor(Color.WHITE);
-        name.setText(this.name);
-        status.setTextSize(30);
-        status.setTextColor(Color.WHITE);
-
-        UIElements.add(name);
-        UIElements.add(status);
-    }
-
-    public void updateUIElement(int i, String s)
-    {
-        ((TextView) UIElements.get(i)).setText(s);
+        this.UILayout = new UIView(c);
     }
 
     @Override
@@ -152,12 +115,12 @@ public class SudokuGame extends Game
                         if(hasGameFinished(player, iTile))
                         {
                             this.isGameOn = false;
-                            updateUIElement(1, player + " has Won.");
+                            //updateUIElement(1, player + " has Won.");
                         }
                         if(hasGameFinished())
                         {
                             this.isGameOn = false;
-                            updateUIElement(1, "Draw");
+                            //updateUIElement(1, "Draw");
                         }
 
                         player = (player == 1) ? 2 : 1;
@@ -245,6 +208,6 @@ public class SudokuGame extends Game
 
     @Override
     public void invalidate() {
-        updateUIElement(1, "New Game");
+        
     }
 }

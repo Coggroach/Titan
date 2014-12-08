@@ -22,6 +22,7 @@ import com.coggroach.titan.game.GameHelper;
 import com.coggroach.titan.game.IMediaPlayable;
 import com.coggroach.titan.graphics.renderer.TileRenderer;
 import com.coggroach.titan.graphics.views.ButtonView;
+import com.coggroach.titan.graphics.views.UIView;
 import com.coggroach.titan.tile.ITileAnimation;
 import com.coggroach.titan.tile.Tile;
 import com.coggroach.titan.tile.TileColour;
@@ -153,11 +154,6 @@ import java.util.Random;
         updateStatus("New Game");
     }
 
-    public void updateUIElement(int i, String s)
-    {
-        ((TextView) UIElements.get(i)).setText(s);
-    }
-
     @Override
     public void playSound(int index) {
         Iterator<MediaPlayer> iterator = players.iterator();
@@ -185,9 +181,7 @@ import java.util.Random;
     @Override
     public void initUIElements(Context c)
     {
-        this.UIElements = new ArrayList<View>();
-        this.UILayout = new LinearLayout(c);
-        this.UIElements.clear();
+        this.UILayout = new UIView(c);
 
         players = new ArrayList<MediaPlayer>();
        // TextView name = new TextView(c);
@@ -196,64 +190,30 @@ import java.util.Random;
         players.add(MediaPlayer.create(c, R.raw.gamemusic3));
         players.add(MediaPlayer.create(c, R.raw.gamemusic4));
 
-        isVisible = false;
-
-        TextView lives = new TextView(c);
-        TextView score = new TextView(c);
-        //TextView status = new TextView(c);
         ButtonView next = new ButtonView(c, "interface/ButtonNewGame.png", 0.5F, 0F);
-
-        LinearLayout line = new LinearLayout(c);
-
-       // line.addView(lives);
-       // line.addView(score);
-        line.setOrientation(LinearLayout.HORIZONTAL);
-
-       // name.setTextSize(30);
-        //name.setTextColor(Color.WHITE);
-        //name.setText(this.name);
-        lives.setTextSize(40);
-        lives.setTextColor(Color.CYAN);
-        score.setTextSize(30);
-        score.setTextColor(Color.CYAN);
-
-        next.setOnClickListener(endGameListener);
-
-        //UILayout.addView(name);
-        UILayout.addView(lives);
-        UILayout.addView(score);
-        UILayout.addView(next);
-        //UILayout.addView(status);
-        ((LinearLayout) UILayout).setOrientation(LinearLayout.VERTICAL);
-
-        //UIElements.add(name);
-        UIElements.add(lives);
-        UIElements.add(score);
-        UIElements.add(next);
-
     }
 
     private void updateLives()
     {
-        ((TextView) UIElements.get(0)).setText("             " + this.lives + "   ");
-        if(this.lives <= 19)
-            ((TextView) UIElements.get(0)).setTextColor(Color.YELLOW);
-        if(this.lives <= 18)
-            ((TextView) UIElements.get(0)).setTextColor(TileColour.orange.getColorValue());
-        if(this.lives <= 17)
-            ((TextView) UIElements.get(0)).setTextColor(Color.RED);
-        if(this.lives > 19)
-            ((TextView) UIElements.get(0)).setTextColor(Color.CYAN);
+        //((TextView) UIElements.get(0)).setText("             " + this.lives + "   ");
+        //if(this.lives <= 19)
+        //    ((TextView) UIElements.get(0)).setTextColor(Color.YELLOW);
+        //if(this.lives <= 18)
+        //    ((TextView) UIElements.get(0)).setTextColor(TileColour.orange.getColorValue());
+        //if(this.lives <= 17)
+         //   ((TextView) UIElements.get(0)).setTextColor(Color.RED);
+        //if(this.lives > 19)
+         //   ((TextView) UIElements.get(0)).setTextColor(Color.CYAN);
     }
 
     private void updateScore()
     {
-        ((TextView) UIElements.get(1)).setText("                  " + this.score);
+        //((TextView) UIElements.get(1)).setText("                  " + this.score);
     }
 
     private void updateStatus(String s)
     {
-        ((TextView) UIElements.get(2)).setText(s);
+        //((TextView) UIElements.get(2)).setText(s);
     }
 
     @Override

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.coggroach.titan.game.Game;
 import com.coggroach.titan.game.GameHelper;
 import com.coggroach.titan.graphics.renderer.TileRenderer;
+import com.coggroach.titan.graphics.views.UIView;
 import com.coggroach.titan.tile.Tile;
 import com.coggroach.titan.tile.ITileAnimation;
 import com.coggroach.titan.tile.TileColour;
@@ -98,62 +99,13 @@ public class RainbowGame extends Game
 
     @Override
     public void invalidate() {
-        updateScore();
-        updateStatus("New Game");
+
     }
 
     @Override
     public void initUIElements(Context c)
     {
-        this.UIElements = new ArrayList<View>();
-        this.UILayout = new LinearLayout(c);
-
-        TextView name = new TextView(c);
-        TextView score = new TextView(c);
-        TextView status = new TextView(c);
-
-        endGameListener = new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                if(!(isGameOn()))
-                {
-                    updateStatus("New Game");
-                    restart();
-                    generate();
-                }
-            }
-        };
-
-        status.setOnClickListener(endGameListener);
-
-        UILayout.addView(name);
-        UILayout.addView(score);
-        UILayout.addView(status);
-        ((LinearLayout) UILayout).setOrientation(LinearLayout.VERTICAL);
-
-        name.setTextSize(30);
-        name.setTextColor(Color.WHITE);
-        name.setText(this.name);
-        score.setTextSize(30);
-        score.setTextColor(Color.WHITE);
-        status.setTextSize(20);
-        status.setTextColor(Color.WHITE);
-
-        UIElements.add(name);
-        UIElements.add(score);
-        UIElements.add(status);
-    }
-
-    private void updateScore()
-    {
-        ((TextView) UIElements.get(1)).setText("Score: " + this.score);
-    }
-
-    private void updateStatus(String s)
-    {
-        ((TextView) UIElements.get(2)).setText(s);
+        this.UILayout = new UIView(c);
     }
 
     @Override
@@ -237,7 +189,7 @@ public class RainbowGame extends Game
                         this.getTile(iTile).getAnimation().setSaveAnimation(true);
                         this.incScore();
                         this.getTile(iTile).getStats().setPressed(true);
-                        this.updateScore();
+                        //this.updateScore();
                         v.playSoundEffect(SoundEffectConstants.CLICK);
                     }
                     if(this.getTile(iTile).getStats().isMine())
@@ -245,7 +197,7 @@ public class RainbowGame extends Game
                         this.getTile(iTile).setTextureId(1, 3);
                         this.getTile(iTile).setColour(defaultColour, 3);
                         this.setGameOn(false);
-                        this.updateStatus("Congratz, Click me to Continue!");
+                        //this.updateStatus("Congratz, Click me to Continue!");
                     }
                 }
             }

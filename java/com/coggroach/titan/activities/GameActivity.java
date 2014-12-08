@@ -162,7 +162,6 @@ public class GameActivity extends Activity implements View.OnTouchListener
     public void onRestart()
     {
         super.onRestart();
-        this.game.getUILayout().removeAllViews();
         this.onStart();
         this.mGLRender.loadTextureData();
     }
