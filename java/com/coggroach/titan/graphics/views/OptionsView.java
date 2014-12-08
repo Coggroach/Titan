@@ -26,6 +26,7 @@ public class OptionsView extends View implements View.OnTouchListener
     private Bitmap options;
     private Bitmap palette;
     private Bitmap lives;
+    private Bitmap score;
 
     private ArrayList<OptionButton> optionsList;
     private int width, height;
@@ -103,6 +104,7 @@ public class OptionsView extends View implements View.OnTouchListener
             options = BitmapFactory.decodeStream(context.getResources().getAssets().open("interface/ButtonGameOptions.png"));
             palette = BitmapFactory.decodeStream(context.getResources().getAssets().open("interface/Palette.png"));
             lives = BitmapFactory.decodeStream(context.getResources().getAssets().open("interface/TextLives.png"));
+            score = BitmapFactory.decodeStream(context.getResources().getAssets().open("interface/score.png"));
         }
         catch (IOException ex)
         {
@@ -119,7 +121,8 @@ public class OptionsView extends View implements View.OnTouchListener
             this.icon = Bitmap.createScaledBitmap(this.icon, (int) (width * 0.1F), (int) (width * 0.1F), false);
             this.options = Bitmap.createScaledBitmap(this.options, (int) (width * 0.4F), (int) (width * 0.15F), false);
             this.lives = Bitmap.createScaledBitmap(this.lives, (int) (width * 0.4F), (int) (width * 0.125F), false);
-            this.palette = Bitmap.createScaledBitmap(this.palette, (int) (0.9F*width), (int) (0.95F *(height - width)/2), false);
+            this.score = Bitmap.createScaledBitmap(this.score, (int) (0.4F*width), (int) (width * 0.15F), false);
+            this.palette = Bitmap.createScaledBitmap(this.palette, (int) (1F*width), (int) (width * 0.3F), false);
         }
     }
 
@@ -199,8 +202,9 @@ public class OptionsView extends View implements View.OnTouchListener
             }
         }
         //canvas.drawBitmap(icon, (int)(width*0.9F), 0, null);
-        canvas.drawBitmap(options, (int)(width*0.6F), 0, null);
+        canvas.drawBitmap(options, (int)(width*0.6F),(int) (height*0.0125), null);
         canvas.drawBitmap(lives, (int)(width*0F), (int) (height*0.0175), null);
-        canvas.drawBitmap(palette, (int) (width*0.05F), height - (int) ((height - width)/2 * 0.95F), null);
+        canvas.drawBitmap(score, (int)(width*0F), (int) (height*0.1), null);
+        canvas.drawBitmap(palette, (int) (width*0F), (int) (height*0.775), null);
     }
 }

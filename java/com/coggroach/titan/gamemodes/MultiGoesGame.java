@@ -249,7 +249,7 @@ import java.util.Random;
 
     private void updateScore()
     {
-        ((TextView) UIElements.get(1)).setText(" Score: " + this.score);
+        ((TextView) UIElements.get(1)).setText("                  " + this.score);
     }
 
     @Override
