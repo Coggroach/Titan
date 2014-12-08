@@ -17,10 +17,14 @@ import java.io.IOException;
 public class ButtonView extends View
 {
     private Bitmap button;
-    private int width, height, bwidth, bheight;
+    private int width, height;
     private int x, y;
     private OnButtonViewListener listener;
 
+    public ButtonView(Context context, String s, int x, int y, MenuView parent)
+    {
+        this(context, s, x, y, parent.getContextWidth(), parent.getContextHeight());
+    }
 
     public ButtonView(Context context, String s, int x, int y, int width, int height)
     {
@@ -41,8 +45,8 @@ public class ButtonView extends View
 
         if(this.button != null)
         {
-            this.bwidth = (int) ((double) button.getWidth() * this.width) / width;
-            this.bheight = (int) ((double) button.getHeight() * this.height) / height;
+            int bwidth = (int) ((double) button.getWidth() * this.width) / width;
+            int bheight = (int) ((double) button.getHeight() * this.height) / height;
 
             this.button = Bitmap.createScaledBitmap(button, bwidth, bheight, false);
         }
@@ -53,22 +57,14 @@ public class ButtonView extends View
         canvas.drawBitmap(button, x, y, null);
     }
 
-    public void onDraw(Canvas canvas) {
+    public void onDraw(Canvas canvas)
+    {
         super.onDraw(canvas);
-
         this.onDrawButton(canvas);
-
     }
 
     public boolean contains(int x, int y)
     {
-        Log.i("OnContainsButtonView", String.valueOf(x));
-        Log.i("OnContainsButtonView", String.valueOf(y));
-        Log.i("OnContainsButtonView", String.valueOf(this.x));
-        Log.i("OnContainsButtonView", String.valueOf(this.y));
-        Log.i("OnContainsButtonView", String.valueOf(this.button.getWidth()));
-        Log.i("OnContainsButtonView", String.valueOf(this.button.getHeight()));
-
         return (x > this.x && x <= this.x + this.button.getWidth() && y >  this.y &&  y <= this.y + this.button.getHeight());
     }
 

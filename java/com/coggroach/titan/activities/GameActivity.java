@@ -55,7 +55,8 @@ public class GameActivity extends Activity implements View.OnTouchListener
                 CURRENT_TIME = System.currentTimeMillis();
 
                 mGLView.requestRender();
-                game.tick();
+                if(game != null)
+                    game.tick();
             }
         }
     });
