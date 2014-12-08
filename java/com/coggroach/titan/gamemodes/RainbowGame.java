@@ -28,6 +28,12 @@ public class RainbowGame extends Game
     private boolean canRestart;
     private boolean isGameOn;
     private boolean isRendering = false;
+
+    @Override
+    public void tick() {
+
+    }
+
     private int score;
     private TileColour defaultColour = TileColour.white;
     private View.OnClickListener endGameListener;
