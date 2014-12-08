@@ -81,6 +81,11 @@ import java.util.Random;
         return false;
     }
 
+    @Override
+    public void tick() {
+
+    }
+
     protected MultiGoesGame(int w, int h)
     {
        // this.name = "MultiGoes";

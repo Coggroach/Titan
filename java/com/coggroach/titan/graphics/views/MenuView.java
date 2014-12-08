@@ -18,9 +18,9 @@ import java.util.Iterator;
  */
 public class MenuView extends View implements View.OnTouchListener
 {
-    Bitmap background;
-    int width, height;
-    ArrayList<ButtonView> buttons;
+    private Bitmap background;
+    private int width, height;
+    private ArrayList<ButtonView> buttons;
 
     public MenuView(Context context)
     {
@@ -40,11 +40,32 @@ public class MenuView extends View implements View.OnTouchListener
             width = metrics.widthPixels;
             height = metrics.heightPixels;
 
-            buttons.add(new ButtonView(context, "interface/ButtonPlay.png", (int) (0.09F * width), (int) (0.35F * height), background.getWidth(), background.getHeight()));
-            buttons.add(new ButtonView(context, "interface/ButtonOptions.png", (int) (0.09F * width), (int) (0.60F * height), background.getWidth(), background.getHeight()));
             background = Bitmap.createScaledBitmap(background, width, height, false);
             this.setOnTouchListener(this);
         }
+    }
+
+    public int getContextWidth() {
+        return width;
+    }
+
+    public int getContextHeight() {
+        return height;
+    }
+
+    public void addButton(Context c, String s, float xF, float yF)
+    {
+        this.addButton(c, s, (int) (xF * width), (int) (yF * height));
+    }
+
+    public void addButton(Context c, String s, int x, int y)
+    {
+        buttons.add(new ButtonView(c, s, x, y, this));
+    }
+
+    public void addButton(ButtonView view)
+    {
+        buttons.add(view);
     }
 
     public void onDrawBackground(Canvas canvas)

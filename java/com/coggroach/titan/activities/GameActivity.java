@@ -54,6 +54,8 @@ public class GameActivity extends Activity implements View.OnTouchListener
                 CURRENT_TIME = System.currentTimeMillis();
 
                 mGLView.requestRender();
+                if(game != null)
+                    game.tick();
             }
         }
     });
@@ -148,7 +150,6 @@ public class GameActivity extends Activity implements View.OnTouchListener
         game.updateView(true);
         game.generate();
         game.initTextureList();
-        game.invalidate();
         game.invalidate();
     }
 

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.coggroach.titan.graphics.views.ButtonView;
 import com.coggroach.titan.graphics.views.MenuView;
 import com.coggroach.titan.graphics.views.OnButtonViewListener;
 
@@ -15,11 +16,9 @@ import com.coggroach.titan.graphics.views.OnButtonViewListener;
 public class MenuActivity extends Activity implements OnButtonViewListener
 {
     MenuView mView;
-    Intent intent = new Intent(this, GameActivity.class);
 
-
-    public void onTouch(View view, MotionEvent motionEvent) {
-
+    public void onTouch(View view, MotionEvent motionEvent)
+    {
         if(motionEvent.getAction() == MotionEvent.ACTION_DOWN)
         {
             Intent intent = new Intent(this, GameActivity.class);
@@ -28,10 +27,14 @@ public class MenuActivity extends Activity implements OnButtonViewListener
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         this.getActionBar().hide();
         mView = new MenuView(this);
+
+        mView.addButton(this, "interface/ButtonPlay.png", 0.09F, 0.35F);
+        mView.addButton(this, "interface/ButtonOptions.png", 0.09F, 0.60F);
 
         mView.setOnButtonViewListener(0, this);
 
