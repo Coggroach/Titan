@@ -76,9 +76,9 @@ public class ButtonView extends View implements IContainable
 
         if(this.button != null)
         {
-            int bwidth = (int) ((double) button.getWidth() * this.width) / width;
-            int bheight = (int) ((double) button.getHeight() * this.height) / height;
-            this.button = Bitmap.createScaledBitmap(button, bwidth, bheight, false);
+           // int bwidth = (int) ((double) button.getWidth() * this.width) / width;
+           // int bheight = (int) ((double) button.getHeight() * this.height) / height;
+            this.button = Bitmap.createScaledBitmap(button, (int)(width*0.8F), (int)(width*0.3F), false);
         }
     }
 
