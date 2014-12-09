@@ -53,7 +53,7 @@ public class GameActivity extends Activity implements View.OnTouchListener
                 long dt = System.currentTimeMillis() - CURRENT_TIME;
                 if (dt < RenderSettings.PERIOD) {
                     try {
-                        Thread.sleep(RenderSettings.PERIOD / 1000);
+                        Thread.sleep((RenderSettings.PERIOD - dt), 0);
                     } catch (InterruptedException ex) {
                         ex.printStackTrace();
                     }

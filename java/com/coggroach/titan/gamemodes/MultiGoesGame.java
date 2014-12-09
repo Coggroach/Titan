@@ -23,6 +23,7 @@ import com.coggroach.titan.game.IMediaPlayable;
 import com.coggroach.titan.graphics.renderer.TileRenderer;
 import com.coggroach.titan.graphics.views.ButtonView;
 import com.coggroach.titan.graphics.views.OnButtonViewListener;
+import com.coggroach.titan.graphics.views.StringView;
 import com.coggroach.titan.graphics.views.UIView;
 import com.coggroach.titan.tile.ITileAnimation;
 import com.coggroach.titan.tile.Tile;
@@ -162,7 +163,11 @@ import java.util.Random;
         this.TextureList.clear();
 
         this.TextureList.add("tiles/BorderedWhiteTile.jpg");
+<<<<<<< HEAD
         this.TextureList.add("tiles/HOTHOTHOT.png");
+=======
+        this.TextureList.add("tiles/TargetTile.png");
+>>>>>>> origin/3DFacesEngine
     }
 
     @Override
@@ -209,20 +214,33 @@ import java.util.Random;
         players.add(MediaPlayer.create(c, R.raw.gamemusic3));
         players.add(MediaPlayer.create(c, R.raw.gamemusic4));
 
+<<<<<<< HEAD
         ButtonView next = new ButtonView(c, "interface/ButtonNextRound.png", 0.5F, 0.105F, 0.5F, 0.09F);
+=======
+        ButtonView next = new ButtonView(c, "interface/ButtonNext.png", 0.80F, 0.105F, 0.16F, 0.09F);
+>>>>>>> origin/3DFacesEngine
         ButtonView lives = new ButtonView(c, "interface/TextLives.png", 0, 0.0175F, 0.4F, 0.075F);
         ButtonView score = new ButtonView(c, "interface/score.png", 0, 0.1F, 0.4F, 0.09F);
+
+        StringView livesString = new StringView(c, "0", 0.4F, 0.0775F, 125);
+        StringView scoreString = new StringView(c, "0", 0.4F, 0.1675F, 125);
+
+        livesString.setPaint(255, 0, 150, 150);
+        scoreString.setPaint(255, 0, 150, 150);
 
         next.setOnButtonViewListener(endGameListener);
 
         UILayout.addView(next);
         UILayout.addView(lives);
         UILayout.addView(score);
+        UILayout.addView(livesString);
+        UILayout.addView(scoreString);
     }
 
     private void updateLives()
     {
-        //((TextView) UIElements.get(0)).setText("             " + this.lives + "   ");
+        ((StringView) UILayout.getUIElementAt(3)).setText(String.valueOf(this.lives));
+        UILayout.invalidate();
         //if(this.lives <= 19)
         //    ((TextView) UIElements.get(0)).setTextColor(Color.YELLOW);
         //if(this.lives <= 18)
@@ -235,7 +253,8 @@ import java.util.Random;
 
     private void updateScore()
     {
-        //((TextView) UIElements.get(1)).setText("                  " + this.score);
+        ((StringView) UILayout.getUIElementAt(4)).setText(String.valueOf(this.score));
+        UILayout.invalidate();
     }
 
     private void updateStatus(String s)

@@ -39,6 +39,11 @@ public class UIView extends View implements View.OnTouchListener
         return height;
     }
 
+    public View getUIElementAt(int i)
+    {
+        return UIElements.get(i);
+    }
+
     public void addView(View view)
     {
         if(view instanceof IContainable && UIElements != null)
