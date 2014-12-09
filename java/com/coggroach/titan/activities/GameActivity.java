@@ -81,7 +81,6 @@ public class GameActivity extends Activity implements View.OnTouchListener
             if(UICheck && !settingsCheck)
             {
                 this.FOCUSED_VIEW = FOCUS_UI;
-                Log.i("Focused;", "UI");
             }
             else if(settingsCheck && !this.IS_FOCUS_OPTIONS)
             {
@@ -90,7 +89,6 @@ public class GameActivity extends Activity implements View.OnTouchListener
                 mGLRender.setGamma(0.5F);
                 view.requestFocus();
                 view.setVisible(true);
-                Log.i("Focused;", "OPTIONS");
                 return true;
             }
             else if(settingsCheck && this.IS_FOCUS_OPTIONS)
@@ -100,28 +98,23 @@ public class GameActivity extends Activity implements View.OnTouchListener
                 mGLRender.setGamma(1.0F);
                 mGLView.requestFocus();
                 view.setVisible(false);
-                Log.i("Focused;", "GAME");
                 return true;
             }
             else if(!UICheck && !settingsCheck)
             {
                 this.FOCUSED_VIEW = FOCUS_GAME;
-                Log.i("Focused;", "GAME");
             }
 
             switch (FOCUSED_VIEW)
             {
                 case FOCUS_GAME:
                     game.onTouch(v, event);
-                    Log.i("Touched;", "Game");
                     break;
                 case FOCUS_OPTIONS:
                     view.onTouch(v, event);
-                    Log.i("Touched;", "Options");
                     break;
                 case FOCUS_UI:
                     game.getUILayout().onTouch(v, event);
-                    Log.i("Touched;", "UI");
                     break;
             }
         }

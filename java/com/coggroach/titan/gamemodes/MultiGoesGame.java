@@ -61,7 +61,25 @@ import java.util.Random;
         }
     };
     private TileColour defaultColour = TileColour.white;
-    private OnButtonViewListener endGameListener;
+    private OnButtonViewListener endGameListener = new OnButtonViewListener() {
+    @Override
+    public void onTouch(View view, MotionEvent event) {
+        if(!(isGameOn())) {
+            isRendering = false;
+            if (hasWon) {
+                incDifficulty();
+                updateStatus(" ");
+            } else {
+                resetDifficulty();
+                updateStatus("New Game");
+            }
+            updateLives();
+            updateScore();
+            restart();
+            generate();
+        }
+    }
+};
 
     public MultiGoesGame()
     {
@@ -194,26 +212,6 @@ import java.util.Random;
         ButtonView next = new ButtonView(c, "interface/ButtonNewGame.png", 0.5F, 0.105F, 0.5F, 0.09F);
         ButtonView lives = new ButtonView(c, "interface/TextLives.png", 0, 0.0175F, 0.4F, 0.075F);
         ButtonView score = new ButtonView(c, "interface/score.png", 0, 0.1F, 0.4F, 0.09F);
-
-        endGameListener = new OnButtonViewListener() {
-            @Override
-            public void onTouch(View view, MotionEvent event) {
-                if(!(isGameOn())) {
-                    isRendering = false;
-                    if (hasWon) {
-                        incDifficulty();
-                        updateStatus(" ");
-                    } else {
-                        resetDifficulty();
-                        updateStatus("New Game");
-                    }
-                    updateLives();
-                    updateScore();
-                    restart();
-                    generate();
-                }
-            }
-        };
 
         score.setOnButtonViewListener(endGameListener);
 
