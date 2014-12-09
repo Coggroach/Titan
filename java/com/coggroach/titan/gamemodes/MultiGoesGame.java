@@ -163,7 +163,7 @@ import java.util.Random;
         this.TextureList.clear();
 
         this.TextureList.add("tiles/BorderedWhiteTile.jpg");
-        this.TextureList.add("tiles/NuclearBombTile.png");
+        this.TextureList.add("tiles/TargetTile.png");
     }
 
     @Override

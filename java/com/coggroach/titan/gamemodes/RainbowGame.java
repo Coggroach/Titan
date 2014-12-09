@@ -169,7 +169,6 @@ public class RainbowGame extends Game
     @Override
     public void onTouch(View v, MotionEvent event)
     {
-
         if(event.getAction() == MotionEvent.ACTION_DOWN|| event.getAction() == MotionEvent.ACTION_MOVE)
         {
             if((this.isGameOn()))

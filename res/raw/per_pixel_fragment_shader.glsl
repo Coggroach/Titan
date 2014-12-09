@@ -26,7 +26,7 @@ void main()
         diffuse = diffuse * (1.0 / (1.0 + (0.10 * distance)));
 
         // Add ambient lighting
-        diffuse = diffuse + 0.3;
+        diffuse = diffuse + 0.4;
 
     	// Multiply the color by the diffuse illumination level and texture value to get final output color.
         gl_FragColor = (u_Color * diffuse * texture2D(u_Texture, v_TexCoordinate));
