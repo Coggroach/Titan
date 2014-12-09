@@ -62,7 +62,7 @@ public class GameHelper
         }
     }
 
-    private static ArrayList<TileColour> palette = Palette.getGradientPalette(TileColour.red, TileColour.cyan, 20, 4);
+    private static ArrayList<TileColour> palette = Palette.getGradientPalette(TileColour.red, TileColour.cyan, 20, 2, TileColour.grey);
 
     protected static boolean setColourWithinBounds(Game game, int x, int y, int i)
     {
