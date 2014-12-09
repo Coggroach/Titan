@@ -34,9 +34,13 @@ public class GameActivity extends Activity implements View.OnTouchListener
     private TileRenderer mGLRender;
     private Options options;
     private OptionsView view;
-    private boolean isOptionsFocused = false;
     private String[] gameModes = {"Restart", "Rainbow", "MultiGoes", "TicTakToe"};
     private long CURRENT_TIME = System.currentTimeMillis();
+
+    private int FOCUSED_VIEW = 0;
+    private final int FOCUS_OPTIONS = 1;
+    private final int FOCUS_UI = 2;
+    private final int FOCUS_GAME = 3;
 
     private Thread renderThread = new Thread(new Runnable()
     {
@@ -72,30 +76,36 @@ public class GameActivity extends Activity implements View.OnTouchListener
 
         if(event.getAction() == MotionEvent.ACTION_DOWN)
         {
-            if(settingsCheck && isOptionsFocused)
-            {
-                isOptionsFocused = false;
+            if(UICheck && !settingsCheck) {
+                this.FOCUSED_VIEW = FOCUS_UI;
                 mGLRender.setGamma(1.0F);
-                mGLView.requestFocus();
                 view.setVisible(false);
-                return true;
             }
-            else if (settingsCheck && !isOptionsFocused) {
-                isOptionsFocused = true;
+            else if(settingsCheck) {
+                this.FOCUSED_VIEW = FOCUS_OPTIONS;
                 mGLRender.setGamma(0.5F);
                 view.requestFocus();
                 view.setVisible(true);
-                return true;
+            }
+            else if(!UICheck && !settingsCheck) {
+                this.FOCUSED_VIEW = FOCUS_GAME;
+                mGLRender.setGamma(1.0F);
+                mGLView.requestFocus();
+                view.setVisible(false);
             }
         }
 
-        if(isOptionsFocused)
+        switch (FOCUSED_VIEW)
         {
-            view.onTouch(v, event);
-        }
-        else if(!isOptionsFocused)
-        {
-            game.onTouch(v, event);
+            case FOCUS_GAME:
+                game.onTouch(v, event);
+                break;
+            case FOCUS_OPTIONS:
+                view.onTouch(v, event);
+                break;
+            case FOCUS_UI:
+                game.getUILayout().onTouch(v, event);
+                break;
         }
         return true;
     }

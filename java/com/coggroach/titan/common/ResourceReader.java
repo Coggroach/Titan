@@ -61,8 +61,6 @@ public class ResourceReader
 
             // Load the bitmap into the bound texture.
             GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
-
-            // Recycle the bitmap, since its data has been loaded into OpenGL.
             bitmap.recycle();
         }
 

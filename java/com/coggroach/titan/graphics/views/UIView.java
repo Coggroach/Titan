@@ -28,7 +28,7 @@ public class UIView extends View implements View.OnTouchListener
         width = metrics.widthPixels;
         height = metrics.heightPixels;
 
-        this.setOnTouchListener(this);
+        //this.setOnTouchListener(this);
     }
 
     public int getContextWidth() {
@@ -37,6 +37,14 @@ public class UIView extends View implements View.OnTouchListener
 
     public int getContextHeight() {
         return height;
+    }
+
+    public void addView(View view)
+    {
+        if(view instanceof IContainable && UIElements != null)
+        {
+            UIElements.add(view);
+        }
     }
 
     @Override

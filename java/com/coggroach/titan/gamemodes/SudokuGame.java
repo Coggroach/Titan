@@ -208,6 +208,6 @@ public class SudokuGame extends Game
 
     @Override
     public void invalidate() {
-        
+
     }
 }

@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * Created by ggunn on 05/12/14.
  */
-public class ButtonView extends View
+public class ButtonView extends View implements IContainable
 {
     private Bitmap button;
     private int width, height;
