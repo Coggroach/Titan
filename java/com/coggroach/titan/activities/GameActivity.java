@@ -8,6 +8,7 @@ import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,7 @@ public class GameActivity extends Activity implements View.OnTouchListener
     private final int FOCUS_OPTIONS = 1;
     private final int FOCUS_UI = 2;
     private final int FOCUS_GAME = 3;
+    private boolean IS_FOCUS_OPTIONS = false;
 
     private Thread renderThread = new Thread(new Runnable()
     {
@@ -76,36 +78,52 @@ public class GameActivity extends Activity implements View.OnTouchListener
 
         if(event.getAction() == MotionEvent.ACTION_DOWN)
         {
-            if(UICheck && !settingsCheck) {
+            if(UICheck && !settingsCheck)
+            {
                 this.FOCUSED_VIEW = FOCUS_UI;
-                mGLRender.setGamma(1.0F);
-                view.setVisible(false);
+                Log.i("Focused;", "UI");
             }
-            else if(settingsCheck) {
+            else if(settingsCheck && !this.IS_FOCUS_OPTIONS)
+            {
                 this.FOCUSED_VIEW = FOCUS_OPTIONS;
+                this.IS_FOCUS_OPTIONS = true;
                 mGLRender.setGamma(0.5F);
                 view.requestFocus();
                 view.setVisible(true);
+                Log.i("Focused;", "OPTIONS");
+                return true;
             }
-            else if(!UICheck && !settingsCheck) {
+            else if(settingsCheck && this.IS_FOCUS_OPTIONS)
+            {
                 this.FOCUSED_VIEW = FOCUS_GAME;
+                this.IS_FOCUS_OPTIONS = false;
                 mGLRender.setGamma(1.0F);
                 mGLView.requestFocus();
                 view.setVisible(false);
+                Log.i("Focused;", "GAME");
+                return true;
             }
-        }
+            else if(!UICheck && !settingsCheck)
+            {
+                this.FOCUSED_VIEW = FOCUS_GAME;
+                Log.i("Focused;", "GAME");
+            }
 
-        switch (FOCUSED_VIEW)
-        {
-            case FOCUS_GAME:
-                game.onTouch(v, event);
-                break;
-            case FOCUS_OPTIONS:
-                view.onTouch(v, event);
-                break;
-            case FOCUS_UI:
-                game.getUILayout().onTouch(v, event);
-                break;
+            switch (FOCUSED_VIEW)
+            {
+                case FOCUS_GAME:
+                    game.onTouch(v, event);
+                    Log.i("Touched;", "Game");
+                    break;
+                case FOCUS_OPTIONS:
+                    view.onTouch(v, event);
+                    Log.i("Touched;", "Options");
+                    break;
+                case FOCUS_UI:
+                    game.getUILayout().onTouch(v, event);
+                    Log.i("Touched;", "UI");
+                    break;
+            }
         }
         return true;
     }

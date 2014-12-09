@@ -21,13 +21,29 @@ public class ButtonView extends View implements IContainable
     private int x, y;
     private OnButtonViewListener listener;
 
-    public ButtonView(Context context, String s, float xF, float yF)
+    public ButtonView(Context context, String s, float xF, float yF, float scaleX, float scaleY)
     {
         super(context);
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         this.width = metrics.widthPixels;
         this.height = metrics.heightPixels;
-        init(context, s, (int) (xF * width), (int) (yF * height), width, height);
+        try
+        {
+            this.button = BitmapFactory.decodeStream(context.getAssets().open(s));
+        }
+        catch(IOException ex)
+        {
+            ex.printStackTrace();
+        }
+        if(this.button != null)
+        {
+            this.x = (int) (width * xF);
+            this.y = (int) (height * yF);
+
+            int bWidth = (int) ( width * scaleX);
+            int bHeight = (int) ( height * scaleY);
+            this.button = Bitmap.createScaledBitmap(button, bWidth, bHeight, false);
+        }
     }
 
     public ButtonView(Context context, String s, int x, int y, MenuView parent)

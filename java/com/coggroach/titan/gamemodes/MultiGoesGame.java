@@ -22,6 +22,7 @@ import com.coggroach.titan.game.GameHelper;
 import com.coggroach.titan.game.IMediaPlayable;
 import com.coggroach.titan.graphics.renderer.TileRenderer;
 import com.coggroach.titan.graphics.views.ButtonView;
+import com.coggroach.titan.graphics.views.OnButtonViewListener;
 import com.coggroach.titan.graphics.views.UIView;
 import com.coggroach.titan.tile.ITileAnimation;
 import com.coggroach.titan.tile.Tile;
@@ -60,7 +61,7 @@ import java.util.Random;
         }
     };
     private TileColour defaultColour = TileColour.white;
-    private View.OnClickListener endGameListener;
+    private OnButtonViewListener endGameListener;
 
     public MultiGoesGame()
     {
@@ -190,7 +191,35 @@ import java.util.Random;
         players.add(MediaPlayer.create(c, R.raw.gamemusic3));
         players.add(MediaPlayer.create(c, R.raw.gamemusic4));
 
-        ButtonView next = new ButtonView(c, "interface/ButtonNewGame.png", 0.5F, 0F);
+        ButtonView next = new ButtonView(c, "interface/ButtonNewGame.png", 0.5F, 0.105F, 0.5F, 0.09F);
+        ButtonView lives = new ButtonView(c, "interface/TextLives.png", 0, 0.0175F, 0.4F, 0.075F);
+        ButtonView score = new ButtonView(c, "interface/score.png", 0, 0.1F, 0.4F, 0.09F);
+
+        endGameListener = new OnButtonViewListener() {
+            @Override
+            public void onTouch(View view, MotionEvent event) {
+                if(!(isGameOn())) {
+                    isRendering = false;
+                    if (hasWon) {
+                        incDifficulty();
+                        updateStatus(" ");
+                    } else {
+                        resetDifficulty();
+                        updateStatus("New Game");
+                    }
+                    updateLives();
+                    updateScore();
+                    restart();
+                    generate();
+                }
+            }
+        };
+
+        score.setOnButtonViewListener(endGameListener);
+
+        UILayout.addView(next);
+        UILayout.addView(lives);
+        UILayout.addView(score);
     }
 
     private void updateLives()
