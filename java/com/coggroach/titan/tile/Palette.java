@@ -17,6 +17,30 @@ public class Palette
         return null;
     }
 
+    public static ArrayList<TileColour> main (TileColour RGBinit, TileColour RGBmid, TileColour RGBfinal, int steps)
+    {
+        int i = 0;
+        ArrayList<TileColour> list = new ArrayList<TileColour>();
+        int Rinc = (int) (255*(RGBinit.R - RGBmid.R))/(steps/2);
+        int Binc = (int) (255*(RGBinit.B - RGBmid.B))/(steps/2);
+        int Ginc = (int) (255*(RGBinit.G - RGBmid.G))/(steps/2);
+        while(i < (steps/2)){
+            TileColour colour = new TileColour(RGBinit.R + (Rinc*i), RGBinit.B + (Binc*i), RGBinit.G + (Ginc*i), 255);
+            list.add(colour);
+            i++;
+        }
+        i = 0;
+        Rinc = (int) (255*(RGBmid.R - RGBfinal.R))/(steps/2);
+        Binc = (int) (255*(RGBmid.B - RGBfinal.B))/(steps/2);
+        Ginc = (int) (255*(RGBmid.G - RGBfinal.G))/(steps/2);
+        while(i < (steps/2)){
+            TileColour colour = new TileColour(RGBmid.R + (Rinc*i), RGBmid.B + (Binc*i), RGBmid.G + (Ginc*i), 255);
+            list.add(colour);
+            i++;
+        }
+        return list;
+    }
+
     public static ArrayList<TileColour> getGradientPalette(TileColour c1, TileColour c2, int steps, int codeKillColour, TileColour extrema)
     {
         ArrayList<TileColour> palette = new ArrayList<TileColour>();

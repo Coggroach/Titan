@@ -63,15 +63,15 @@ public class GameHelper
         }
     }
 
-    private static ArrayList<TileColour> palette = Palette.getGradientPalette(TileColour.red, TileColour.cyan, 8, 2, TileColour.grey);
+    private static ArrayList<TileColour> palette = Palette.main(TileColour.cyan, TileColour.grey, TileColour.red, 10);
 
     protected static boolean setColourWithinBounds(Game game, int x, int y, int i)
     {
-        //if(i >= palette.size())
-         //   return setColourWithinBounds(game, x, y, TileColour.black);
+        if(i >= palette.size())
+           return setColourWithinBounds(game, x, y, TileColour.black);
 
-        return setColourWithinBounds(game, x, y, new TileColour(700 - i * 50));
-                //palette.get(i));
+        return setColourWithinBounds(game, x, y, //new TileColour(700 - i * 50));
+                palette.get(i));
     }
 
     protected static boolean setColourWithinBounds(Game game, int x, int y, TileColour c)

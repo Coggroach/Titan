@@ -163,11 +163,7 @@ import java.util.Random;
         this.TextureList.clear();
 
         this.TextureList.add("tiles/BorderedWhiteTile.jpg");
-<<<<<<< HEAD
-        this.TextureList.add("tiles/HOTHOTHOT.png");
-=======
         this.TextureList.add("tiles/TargetTile.png");
->>>>>>> origin/3DFacesEngine
     }
 
     @Override
@@ -214,11 +210,7 @@ import java.util.Random;
         players.add(MediaPlayer.create(c, R.raw.gamemusic3));
         players.add(MediaPlayer.create(c, R.raw.gamemusic4));
 
-<<<<<<< HEAD
-        ButtonView next = new ButtonView(c, "interface/ButtonNextRound.png", 0.5F, 0.105F, 0.5F, 0.09F);
-=======
         ButtonView next = new ButtonView(c, "interface/ButtonNext.png", 0.80F, 0.105F, 0.16F, 0.09F);
->>>>>>> origin/3DFacesEngine
         ButtonView lives = new ButtonView(c, "interface/TextLives.png", 0, 0.0175F, 0.4F, 0.075F);
         ButtonView score = new ButtonView(c, "interface/score.png", 0, 0.1F, 0.4F, 0.09F);
 
