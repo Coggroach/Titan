@@ -78,7 +78,7 @@ public class GameActivity extends Activity implements View.OnTouchListener
 
         if(event.getAction() == MotionEvent.ACTION_DOWN)
         {
-            if(UICheck && !settingsCheck)
+            if(UICheck && !settingsCheck && !this.IS_FOCUS_OPTIONS)
             {
                 this.FOCUSED_VIEW = FOCUS_UI;
             }
@@ -100,7 +100,7 @@ public class GameActivity extends Activity implements View.OnTouchListener
                 view.setVisible(false);
                 return true;
             }
-            else if(!UICheck && !settingsCheck)
+            else if(!UICheck && !settingsCheck && !this.IS_FOCUS_OPTIONS)
             {
                 this.FOCUSED_VIEW = FOCUS_GAME;
             }

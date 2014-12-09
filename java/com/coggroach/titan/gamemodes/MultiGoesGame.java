@@ -213,7 +213,7 @@ import java.util.Random;
         ButtonView lives = new ButtonView(c, "interface/TextLives.png", 0, 0.0175F, 0.4F, 0.075F);
         ButtonView score = new ButtonView(c, "interface/score.png", 0, 0.1F, 0.4F, 0.09F);
 
-        score.setOnButtonViewListener(endGameListener);
+        next.setOnButtonViewListener(endGameListener);
 
         UILayout.addView(next);
         UILayout.addView(lives);
