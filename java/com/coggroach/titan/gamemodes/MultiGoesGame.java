@@ -23,6 +23,7 @@ import com.coggroach.titan.game.IMediaPlayable;
 import com.coggroach.titan.graphics.renderer.TileRenderer;
 import com.coggroach.titan.graphics.views.ButtonView;
 import com.coggroach.titan.graphics.views.OnButtonViewListener;
+import com.coggroach.titan.graphics.views.StringView;
 import com.coggroach.titan.graphics.views.UIView;
 import com.coggroach.titan.tile.ITileAnimation;
 import com.coggroach.titan.tile.Tile;
@@ -213,11 +214,19 @@ import java.util.Random;
         ButtonView lives = new ButtonView(c, "interface/TextLives.png", 0, 0.0175F, 0.4F, 0.075F);
         ButtonView score = new ButtonView(c, "interface/score.png", 0, 0.1F, 0.4F, 0.09F);
 
+        StringView livesString = new StringView(c, "0", 0.374F, 0.0775F, 125);
+        StringView scoreString = new StringView(c, "0", 0.374F, 0.1675F, 125);
+
+        livesString.setPaint(255, 0, 150, 150);
+        scoreString.setPaint(255, 0, 150, 150);
+
         next.setOnButtonViewListener(endGameListener);
 
         UILayout.addView(next);
         UILayout.addView(lives);
         UILayout.addView(score);
+        UILayout.addView(livesString);
+        UILayout.addView(scoreString);
     }
 
     private void updateLives()
