@@ -99,7 +99,7 @@ public class OptionsView extends View implements View.OnTouchListener
         try
         {
             icon = BitmapFactory.decodeStream(context.getResources().getAssets().open("interface/ButtonGamemodes.png"));
-            options = BitmapFactory.decodeStream(context.getResources().getAssets().open("interface/ButtonGameOptions.png"));
+            options = BitmapFactory.decodeStream(context.getResources().getAssets().open("interface/ButtonGear.png"));
             palette = BitmapFactory.decodeStream(context.getResources().getAssets().open("interface/Palette.png"));
         }
         catch (IOException ex)
@@ -115,7 +115,7 @@ public class OptionsView extends View implements View.OnTouchListener
 
             this.generateOptions(list, (int) (0.1F * width), (int) (0.2F * height), (int) (0.1F * width), (int) (0.05F * height));
             this.icon = Bitmap.createScaledBitmap(this.icon, (int) (width * 0.1F), (int) (width * 0.1F), false);
-            this.options = Bitmap.createScaledBitmap(this.options, (int) (width * 0.4F), (int) (width * 0.15F), false);
+            this.options = Bitmap.createScaledBitmap(this.options, (int) (width * 0.15F), (int) (width * 0.15F), false);
             this.palette = Bitmap.createScaledBitmap(this.palette, (int) (1F*width), (int) (width * 0.3F), false);
         }
     }
@@ -196,7 +196,7 @@ public class OptionsView extends View implements View.OnTouchListener
             }
         }
         //canvas.drawBitmap(icon, (int)(width*0.9F), 0, null);
-        canvas.drawBitmap(options, (int)(width*0.6F),(int) (height*0.0125), null);
+        canvas.drawBitmap(options, (int)(width*0.8F),(int) (height*0.0125), null);
         canvas.drawBitmap(palette, (int) (width*0F), (int) (height*0.775), null);
     }
 }
