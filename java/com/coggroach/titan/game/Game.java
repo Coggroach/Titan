@@ -24,8 +24,17 @@ public abstract class Game
     protected ArrayList<String> TextureList;
     protected boolean updateView;
     protected String name;
+    protected boolean isRendering;
 
-    public abstract boolean isRendering();
+    public boolean isRendering()
+    {
+        return isRendering;
+    }
+
+    public void setRendering(boolean b)
+    {
+        this.isRendering = b;
+    }
 
     public abstract void initUIElements(Context c);
     public abstract void start(int i, int j);

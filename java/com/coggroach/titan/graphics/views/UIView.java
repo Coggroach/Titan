@@ -19,6 +19,7 @@ public class UIView extends View implements View.OnTouchListener
 {
     private int width, height;
     private ArrayList<View> UIElements;
+    private boolean isVisible;
 
     public UIView(Context context)
     {
@@ -27,8 +28,19 @@ public class UIView extends View implements View.OnTouchListener
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         width = metrics.widthPixels;
         height = metrics.heightPixels;
-
+        this.isVisible = true;
         //this.setOnTouchListener(this);
+    }
+
+    public boolean isVisible()
+    {
+        return isVisible;
+    }
+
+    public void setVisible(boolean isVisible)
+    {
+        this.isVisible = isVisible;
+        this.invalidate();
     }
 
     public int getContextWidth() {
@@ -44,6 +56,28 @@ public class UIView extends View implements View.OnTouchListener
         return UIElements.get(i);
     }
 
+    public View getViewWithContains(int x, int y)
+    {
+        return UIElements.get(getIndexOfViewWithContains(x, y));
+    }
+
+    public int getIndexOfViewWithContains(int x, int y)
+    {
+        int i = 0;
+        Iterator<View> iterator = UIElements.iterator();
+        while (iterator.hasNext())
+        {
+            View temp = iterator.next();
+            if(temp instanceof IContainable)
+            {
+                if(((IContainable) temp).contains(x, y))
+                    return i;
+                i++;
+            }
+        }
+        return Integer.MIN_VALUE;
+    }
+
     public void addView(View view)
     {
         if(view instanceof IContainable && UIElements != null)
@@ -56,10 +90,12 @@ public class UIView extends View implements View.OnTouchListener
     protected void onDraw(Canvas canvas)
     {
         super.onDraw(canvas);
-        Iterator<View> iterator = UIElements.iterator();
-        while(iterator.hasNext())
+        if(isVisible)
         {
-            iterator.next().draw(canvas);
+            Iterator<View> iterator = UIElements.iterator();
+            while (iterator.hasNext()) {
+                iterator.next().draw(canvas);
+            }
         }
     }
 

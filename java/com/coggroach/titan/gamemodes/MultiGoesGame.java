@@ -44,20 +44,19 @@ import java.util.Random;
     private boolean canRestart;
     private boolean isGameOn;
     private boolean hasWon = false;
-    private boolean isRendering = false;
     private ArrayList<MediaPlayer> players;
     private boolean isVisible;
     private int score;
     private int lives;
     private static int startingLives = 20;
-    private int ANIMATION_LENGTH = 72/4;
+    private int ANIMATION_LENGTH = 90;
     private ITileAnimation animation = new ITileAnimation()
     {
         @Override
         public float[] onAnimation(int i, float[] mMVPMatrix)
         {
             //i Limit to 8 Here
-            Matrix.rotateM(mMVPMatrix, 0, (i * 5), 0.0F, 1.0F, 0.0F);
+            Matrix.rotateM(mMVPMatrix, 0, (i), 0.0F, 1.0F, 0.0F);
             return mMVPMatrix;
         }
     };
@@ -148,12 +147,6 @@ import java.util.Random;
     {
         this.isVisible = isVisible;
         this.invalidate();
-    }
-
-    @Override
-    public boolean isRendering()
-    {
-        return isRendering;
     }
 
     @Override
@@ -333,40 +326,39 @@ import java.util.Random;
 
                 if (iTile != Integer.MIN_VALUE)
                 {
-                    if (!this.getTile(iTile).getStats().isPressed())
-                    {
-                        this.getTile(iTile).getAnimation().setAnimation(this.animation);
-                        this.getTile(iTile).getAnimation().setAnimationLength(this.ANIMATION_LENGTH);
-                        this.getTile(iTile).getAnimation().setAnimationLoop(false);
-                        this.getTile(iTile).getAnimation().setAnimationTickLength(1);
-                        this.getTile(iTile).getAnimation().setSaveAnimation(true);
-                        if(!this.getTile(iTile).getStats().isMine())
-                            this.decLives();
-                        this.getTile(iTile).getStats().setPressed(true);
-                        this.updateLives();
-                        v.playSoundEffect(SoundEffectConstants.CLICK);
-                    }
-                    if(this.getLives() <= 0)
-                    {
-                        hasWon = false;
-                        this.updateStatus("Hard Luck, Click me to Play Again");
-                        this.lives = startingLives;
-                        this.score = 0;
-                        this.setGameOn(false);
-                    }
-                    if(this.getTile(iTile).getStats().isMine())
-                    {
-                        this.getTile(iTile).setTextureId(1, 3);
-                        this.getTile(iTile).setColour(defaultColour, 3);
+                    if(this.getTile(iTile) != null) {
+                        if (!this.getTile(iTile).getStats().isPressed()) {
+                            this.getTile(iTile).getAnimation().setAnimation(this.animation);
+                            this.getTile(iTile).getAnimation().setAnimationLength(this.ANIMATION_LENGTH);
+                            this.getTile(iTile).getAnimation().setAnimationLoop(false);
+                            this.getTile(iTile).getAnimation().setAnimationTickLength(3);
+                            this.getTile(iTile).getAnimation().setSaveAnimation(true);
+                            if (!this.getTile(iTile).getStats().isMine())
+                                this.decLives();
+                            this.getTile(iTile).getStats().setPressed(true);
+                            this.updateLives();
+                            v.playSoundEffect(SoundEffectConstants.CLICK);
+                        }
+                        if (this.getLives() <= 0) {
+                            hasWon = false;
+                            this.updateStatus("Hard Luck, Click me to Play Again");
+                            this.lives = startingLives;
+                            this.score = 0;
+                            this.setGameOn(false);
+                        }
+                        if (this.getTile(iTile).getStats().isMine()) {
+                            this.getTile(iTile).setTextureId(1, 3);
+                            this.getTile(iTile).setColour(defaultColour, 3);
 
-                        hasWon = true;
-                        //draw
+                            hasWon = true;
+                            //draw
 
-                        this.updateStatus("Well Done! Click me to Keep Going");
+                            this.updateStatus("Well Done! Click me to Keep Going");
 
-                        this.incLives();
-                        this.incScore();
-                        this.setGameOn(false);
+                            this.incLives();
+                            this.incScore();
+                            this.setGameOn(false);
+                        }
                     }
                 }
             }

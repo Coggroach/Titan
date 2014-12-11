@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Point;
 import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
@@ -21,9 +22,13 @@ import com.coggroach.titan.game.Options;
 import com.coggroach.titan.gamemodes.RainbowGame;
 import com.coggroach.titan.gamemodes.SudokuGame;
 import com.coggroach.titan.gamemodes.TicTakToeGame;
+import com.coggroach.titan.graphics.views.ButtonView;
+import com.coggroach.titan.graphics.views.OnButtonViewListener;
 import com.coggroach.titan.graphics.views.OptionsView;
 import com.coggroach.titan.graphics.renderer.RenderSettings;
 import com.coggroach.titan.graphics.renderer.TileRenderer;
+import com.coggroach.titan.graphics.views.StringView;
+import com.coggroach.titan.graphics.views.UIView;
 
 /**
  * Created by TARDIS on 20/11/2014.
@@ -34,8 +39,9 @@ public class GameActivity extends Activity implements View.OnTouchListener
     private GLSurfaceView mGLView;
     private TileRenderer mGLRender;
     private Options options;
-    private OptionsView view;
-    private String[] gameModes = {"Restart", "Rainbow", "MultiGoes", "TicTakToe"};
+    private UIView listView;
+    private UIView settings;
+    private String[] gameModes = {"Restart", "MultiGoes", "TicTakToe", "Rainbow"};
     private long CURRENT_TIME = System.currentTimeMillis();
 
     private int FOCUSED_VIEW = 0;
@@ -62,11 +68,33 @@ public class GameActivity extends Activity implements View.OnTouchListener
 
                 mGLView.requestRender();
                 if(game != null)
+                {
                     game.tick();
+                }
             }
         }
     });
 
+    private OnButtonViewListener settingsListener = new OnButtonViewListener()
+    {
+        @Override
+        public void onTouch(View view, MotionEvent event)
+        {
+            int i = (listView.getIndexOfViewWithContains((int) event.getX(), (int) event.getY()) - 1)/2;
+            Log.i("MODE", String.valueOf(i));
+            if(i != Integer.MIN_VALUE)
+            {
+                if(i == 0)
+                    onRestart();
+                else
+                {
+                    options.GAMEMODE = (i - 1);
+                    onRestart();
+                }
+            }
+
+        }
+    };
 
     @Override
     public boolean onTouch(View v, MotionEvent event)
@@ -87,8 +115,9 @@ public class GameActivity extends Activity implements View.OnTouchListener
                 this.FOCUSED_VIEW = FOCUS_OPTIONS;
                 this.IS_FOCUS_OPTIONS = true;
                 mGLRender.setGamma(0.5F);
-                view.requestFocus();
-                view.setVisible(true);
+                listView.requestFocus();
+                listView.setVisible(true);
+                game.setRendering(false);
                 return true;
             }
             else if(settingsCheck && this.IS_FOCUS_OPTIONS)
@@ -97,7 +126,8 @@ public class GameActivity extends Activity implements View.OnTouchListener
                 this.IS_FOCUS_OPTIONS = false;
                 mGLRender.setGamma(1.0F);
                 mGLView.requestFocus();
-                view.setVisible(false);
+                listView.setVisible(false);
+                game.setRendering(true);
                 return true;
             }
             else if(!UICheck && !settingsCheck && !this.IS_FOCUS_OPTIONS)
@@ -111,7 +141,7 @@ public class GameActivity extends Activity implements View.OnTouchListener
                     game.onTouch(v, event);
                     break;
                 case FOCUS_OPTIONS:
-                    view.onTouch(v, event);
+                    listView.onTouch(v, event);
                     break;
                 case FOCUS_UI:
                     game.getUILayout().onTouch(v, event);
@@ -125,11 +155,11 @@ public class GameActivity extends Activity implements View.OnTouchListener
     {
         switch (i)
         {
-            case 0:
-                return new RainbowGame();
-            case 1:
-                return new MultiGoesGame();
             case 2:
+                return new RainbowGame();
+            case 0:
+                return new MultiGoesGame();
+            case 1:
                 return new TicTakToeGame();
             case 3:
                 return new SudokuGame();
@@ -149,7 +179,10 @@ public class GameActivity extends Activity implements View.OnTouchListener
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         options = new Options();
         options.load(this);
-        view = new OptionsView(this, gameModes);
+        listView = new UIView(this);
+        settings = new UIView(this);
+
+        this.initSettings();
 
         mGLView = new GLSurfaceView(this);
         mGLRender = new TileRenderer(this);
@@ -159,7 +192,7 @@ public class GameActivity extends Activity implements View.OnTouchListener
         mGLView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 
         mGLView.setOnTouchListener(this);
-        view.setOnTouchListener(this);
+        listView.setOnTouchListener(this);
         renderThread.start();
     }
 
@@ -172,11 +205,40 @@ public class GameActivity extends Activity implements View.OnTouchListener
     {
         game = null;
         game = getGameFromId(i);
-        game.initUIElements(this);
         game.updateView(true);
+        game.initUIElements(this);
         game.generate();
         game.initTextureList();
         game.invalidate();
+        game.updateView(false);
+    }
+
+    public void initSettings()
+    {
+        settings.addView(new ButtonView(this, "interface/ButtonGear.png", 0.8F, 0.0125F, 0.15F, 0.15F/1.778F));
+        settings.addView(new ButtonView(this, "interface/Palette.png", 0F, 0.775F, 1F, 0.3F/1.778F));
+
+        float xPoint = 0.24F;
+        float yPoint = 0.25F;
+        int scale = 100;
+        float offset = 0.02F;
+
+        listView.addView(new ButtonView(this, "interface/BackgroundSettings.png", 0F, 0.2F, 1F, 1F/1.778F));
+        for(int i = 0; i < this.gameModes.length; i++)
+        {
+            ButtonView tempButton = new ButtonView(this, "interface/ButtonSelect.png", xPoint, yPoint, 0.1F, 0.07F);
+            StringView tempString = new StringView(this, this.gameModes[i], xPoint + 0.12F, yPoint + 0.05F, scale);
+
+            tempButton.setOnButtonViewListener(settingsListener);
+            tempString.setOnButtonViewListener(settingsListener);
+
+            listView.addView(tempButton);
+            listView.addView(tempString);
+
+            yPoint += 0.07F + offset;
+
+        }
+        listView.setVisible(false);
     }
 
     @Override
@@ -196,7 +258,8 @@ public class GameActivity extends Activity implements View.OnTouchListener
         ActionBar.LayoutParams params = new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
         this.setContentView(mGLView);
-        this.addContentView(view, params);
+        this.addContentView(settings, params);
+        this.addContentView(listView, params);
         this.addContentView(game.getUILayout(), params);
     }
 
