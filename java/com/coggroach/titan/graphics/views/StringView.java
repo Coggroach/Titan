@@ -20,7 +20,7 @@ public class StringView extends View implements IContainable
     private int width, height;
     private OnButtonViewListener listener;
 
-    public StringView(Context context, String s, float x, float y, int scale)
+    public StringView(Context context, String s, float x, float y, float scale)
     {
         super(context);
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
@@ -29,9 +29,9 @@ public class StringView extends View implements IContainable
         this.text = s;
         this.pointX = (int) (this.width * x);
         this.pointY = (int) (this.height *y);
-        this.scale = scale;
+        this.scale = (int) (this.width * scale);
         this.paint = new Paint();
-        this.paint.setTextSize(scale);
+        this.paint.setTextSize(this.scale);
         this.paint.setARGB(255, 255, 255, 255);
     }
 

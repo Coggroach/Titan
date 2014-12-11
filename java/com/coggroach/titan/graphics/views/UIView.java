@@ -58,22 +58,16 @@ public class UIView extends View implements View.OnTouchListener
 
     public View getViewWithContains(int x, int y)
     {
-        return UIElements.get(getIndexOfViewWithContains(x, y));
+        return UIElements.get(getIndexOfViewWithContains(0, x, y));
     }
 
-    public int getIndexOfViewWithContains(int x, int y)
+    public int getIndexOfViewWithContains(int start, int x, int y)
     {
-        int i = 0;
-        Iterator<View> iterator = UIElements.iterator();
-        while (iterator.hasNext())
+        for(int i = start; i < UIElements.size(); i++)
         {
-            View temp = iterator.next();
-            if(temp instanceof IContainable)
-            {
-                if(((IContainable) temp).contains(x, y))
-                    return i;
-                i++;
-            }
+            if(((IContainable) UIElements.get(i)).contains(x, y))
+                return i;
+
         }
         return Integer.MIN_VALUE;
     }

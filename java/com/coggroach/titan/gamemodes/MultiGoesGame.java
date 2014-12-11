@@ -49,14 +49,14 @@ import java.util.Random;
     private int score;
     private int lives;
     private static int startingLives = 20;
-    private int ANIMATION_LENGTH = 90;
+    private int ANIMATION_LENGTH = 45;
     private ITileAnimation animation = new ITileAnimation()
     {
         @Override
         public float[] onAnimation(int i, float[] mMVPMatrix)
         {
             //i Limit to 8 Here
-            Matrix.rotateM(mMVPMatrix, 0, (i), 0.0F, 1.0F, 0.0F);
+            Matrix.rotateM(mMVPMatrix, 0, (i*2), 0.0F, 1.0F, 0.0F);
             return mMVPMatrix;
         }
     };
@@ -169,16 +169,11 @@ import java.util.Random;
 
     @Override
     public void playSound(int index) {
-        Iterator<MediaPlayer> iterator = players.iterator();
-        while(iterator.hasNext())
+        for(int i = 0; i < players.size(); i++)
         {
-            MediaPlayer temp = iterator.next();
-            if(temp.equals(players.get(0)))
-                temp.start();
-            else
-                temp.stop();
-
+            players.get(i).pause();
         }
+        players.get(index).start();
     }
 
     @Override
@@ -203,12 +198,14 @@ import java.util.Random;
         players.add(MediaPlayer.create(c, R.raw.gamemusic3));
         players.add(MediaPlayer.create(c, R.raw.gamemusic4));
 
+        this.setLooping(true);
+
         ButtonView next = new ButtonView(c, "interface/ButtonNext.png", 0.80F, 0.105F, 0.16F, 0.09F);
         ButtonView lives = new ButtonView(c, "interface/TextLives.png", 0, 0.0175F, 0.4F, 0.075F);
         ButtonView score = new ButtonView(c, "interface/score.png", 0, 0.1F, 0.4F, 0.09F);
 
-        StringView livesString = new StringView(c, "0", 0.4F, 0.0775F, 125);
-        StringView scoreString = new StringView(c, "0", 0.4F, 0.1675F, 125);
+        StringView livesString = new StringView(c, "0", 0.4F, 0.0775F, 0.145F);
+        StringView scoreString = new StringView(c, "0", 0.4F, 0.1675F, 0.145F);
 
         livesString.setPaint(255, 0, 150, 150);
         scoreString.setPaint(255, 0, 150, 150);
@@ -225,15 +222,28 @@ import java.util.Random;
     private void updateLives()
     {
         ((StringView) UILayout.getUIElementAt(3)).setText(String.valueOf(this.lives));
+
+        if(this.lives <= 8)
+        {
+            this.playSound(1);
+            ((StringView) UILayout.getUIElementAt(3)).setPaint(255, 254, 254, 118);
+        }
+        if(this.lives <= 5)
+        {
+            this.playSound(2);
+            ((StringView) UILayout.getUIElementAt(3)).setPaint(255, 255, 194, 82);
+        }
+        if(this.lives <= 3)
+        {
+            this.playSound(3);
+            ((StringView) UILayout.getUIElementAt(3)).setPaint(255, 255, 106, 92);
+        }
+        if(this.lives > 8)
+        {
+            this.playSound(0);
+            ((StringView) UILayout.getUIElementAt(3)).setPaint(255, 0, 150, 150);
+        }
         UILayout.invalidate();
-        //if(this.lives <= 19)
-        //    ((TextView) UIElements.get(0)).setTextColor(Color.YELLOW);
-        //if(this.lives <= 18)
-        //    ((TextView) UIElements.get(0)).setTextColor(TileColour.orange.getColorValue());
-        //if(this.lives <= 17)
-         //   ((TextView) UIElements.get(0)).setTextColor(Color.RED);
-        //if(this.lives > 19)
-         //   ((TextView) UIElements.get(0)).setTextColor(Color.CYAN);
     }
 
     private void updateScore()

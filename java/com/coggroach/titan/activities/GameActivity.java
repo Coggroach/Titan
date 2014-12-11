@@ -80,7 +80,7 @@ public class GameActivity extends Activity implements View.OnTouchListener
         @Override
         public void onTouch(View view, MotionEvent event)
         {
-            int i = (listView.getIndexOfViewWithContains((int) event.getX(), (int) event.getY()) - 1)/2;
+            int i = (listView.getIndexOfViewWithContains(1, (int) event.getX(), (int) event.getY()) - 1);
             Log.i("MODE", String.valueOf(i));
             if(i != Integer.MIN_VALUE)
             {
@@ -220,20 +220,20 @@ public class GameActivity extends Activity implements View.OnTouchListener
 
         float xPoint = 0.24F;
         float yPoint = 0.25F;
-        int scale = 100;
+        float scale = 0.20F;
         float offset = 0.02F;
 
         listView.addView(new ButtonView(this, "interface/BackgroundSettings.png", 0F, 0.2F, 1F, 1F/1.778F));
         for(int i = 0; i < this.gameModes.length; i++)
         {
             ButtonView tempButton = new ButtonView(this, "interface/ButtonSelect.png", xPoint, yPoint, 0.1F, 0.07F);
-            StringView tempString = new StringView(this, this.gameModes[i], xPoint + 0.12F, yPoint + 0.05F, scale);
+           // StringView tempString = new StringView(this, this.gameModes[i], xPoint + 0.12F, yPoint + 0.05F, scale);
 
             tempButton.setOnButtonViewListener(settingsListener);
-            tempString.setOnButtonViewListener(settingsListener);
+           // tempString.setOnButtonViewListener(settingsListener);
 
             listView.addView(tempButton);
-            listView.addView(tempString);
+           // listView.addView(tempString);
 
             yPoint += 0.07F + offset;
 
