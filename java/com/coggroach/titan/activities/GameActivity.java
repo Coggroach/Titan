@@ -41,7 +41,7 @@ public class GameActivity extends Activity implements View.OnTouchListener
     private Options options;
     private UIView listView;
     private UIView settings;
-    private String[] gameModes = {"Restart", "MultiGoes", "TicTakToe", "Rainbow"};
+    private String[] gameModes = {"Restart", "Classic", "TicTakToe", "Debug"};
     private long CURRENT_TIME = System.currentTimeMillis();
 
     private int FOCUSED_VIEW = 0;
@@ -218,7 +218,7 @@ public class GameActivity extends Activity implements View.OnTouchListener
         settings.addView(new ButtonView(this, "interface/ButtonGear.png", 0.8F, 0.0125F, 0.15F, 0.15F/1.778F));
         settings.addView(new ButtonView(this, "interface/Palette.png", 0F, 0.775F, 1F, 0.3F/1.778F));
 
-        float xPoint = 0.24F;
+        float xPoint = 0.2F;
         float yPoint = 0.25F;
         float scale = 0.20F;
         float offset = 0.02F;
@@ -226,7 +226,7 @@ public class GameActivity extends Activity implements View.OnTouchListener
         listView.addView(new ButtonView(this, "interface/BackgroundSettings.png", 0F, 0.2F, 1F, 1F/1.778F));
         for(int i = 0; i < this.gameModes.length; i++)
         {
-            ButtonView tempButton = new ButtonView(this, "interface/ButtonSelect.png", xPoint, yPoint, 0.1F, 0.07F);
+            ButtonView tempButton = new ButtonView(this, "interface/Button" + gameModes[i] +  ".png", xPoint, yPoint, 0.60F, 0.1F);
            // StringView tempString = new StringView(this, this.gameModes[i], xPoint + 0.12F, yPoint + 0.05F, scale);
 
             tempButton.setOnButtonViewListener(settingsListener);
@@ -235,7 +235,7 @@ public class GameActivity extends Activity implements View.OnTouchListener
             listView.addView(tempButton);
            // listView.addView(tempString);
 
-            yPoint += 0.07F + offset;
+            yPoint += 0.1F + offset;
 
         }
         listView.setVisible(false);
