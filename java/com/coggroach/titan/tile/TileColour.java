@@ -9,6 +9,17 @@ public class TileColour
 {
     public float R, G, B, A;
 
+    public static TileColour New1 = new TileColour(0.8980392157F, 0.011F, 0.0F, 1.0F);
+    public static TileColour New2 = new TileColour(0.8078F, 0.0823F, 0.0745F, 1.0F);
+    public static TileColour New3 = new TileColour(0.7176F, 0.1568F, 0.1490F, 1.0F);
+    public static TileColour New4 = new TileColour(0.6274F, 0.2274F, 0.1843F, 1.0F);
+    public static TileColour New5 = new TileColour(0.4471F, 0.3725F, 0.3725F, 1.0F);
+    public static TileColour New6 = new TileColour(0.3568F, 0.4471F, 0.4471F, 1.0F);
+    public static TileColour New7 = new TileColour(0.2667F, 0.5176F, 0.5215F, 1.0F);
+    public static TileColour New8 = new TileColour(0.1765F, 0.5921F, 0.5971F, 1.0F);
+    public static TileColour New9 = new TileColour(0.0862F, 0.6627F, 0.6705F, 1.0F);
+    public static TileColour New10 = new TileColour(0.0F, 0.7372F, 0.7500F, 1.0F);
+
     public static TileColour red = new TileColour(1.0F, 0.0F, 0.0F, 1.0F);
     public static TileColour orange = new TileColour(1.0F, 0.5F, 0.0F, 1.0F);
     public static TileColour yellow = new TileColour(1.0F, 1.0F, 0.0F, 1.0F);

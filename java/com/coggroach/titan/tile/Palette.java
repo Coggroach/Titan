@@ -25,7 +25,7 @@ public class Palette
         int Binc = (int) (255*(RGBinit.B - RGBmid.B))/(steps/2);
         int Ginc = (int) (255*(RGBinit.G - RGBmid.G))/(steps/2);
         while(i < (steps/2)){
-            TileColour colour = new TileColour(RGBinit.R + (Rinc*i), RGBinit.B + (Binc*i), RGBinit.G + (Ginc*i), 255);
+            TileColour colour = new TileColour(RGBinit.getIntegerR() + (Rinc*i), RGBinit.getIntegerB() + (Binc*i), RGBinit.getIntegerG() + (Ginc*i), 255);
             list.add(colour);
             i++;
         }
@@ -34,7 +34,7 @@ public class Palette
         Binc = (int) (255*(RGBmid.B - RGBfinal.B))/(steps/2);
         Ginc = (int) (255*(RGBmid.G - RGBfinal.G))/(steps/2);
         while(i < (steps/2)){
-            TileColour colour = new TileColour(RGBmid.R + (Rinc*i), RGBmid.B + (Binc*i), RGBmid.G + (Ginc*i), 255);
+            TileColour colour = new TileColour(RGBmid.getIntegerR() + (Rinc*i), RGBmid.getIntegerB() + (Binc*i), RGBmid.getIntegerG() + (Ginc*i), 255);
             list.add(colour);
             i++;
         }

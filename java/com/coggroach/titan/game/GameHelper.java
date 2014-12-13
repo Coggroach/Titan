@@ -86,11 +86,11 @@ public class GameHelper
 
     protected static boolean setColourWithinBounds(Game game, int x, int y, int i)
     {
-        if(i >= palette.size())
-           return setColourWithinBounds(game, x, y, TileColour.black);
+        // if(i >= palette.size())
+        return setColourWithinBounds(game, x, y, getIndexedTileColour(i));
 
-        return setColourWithinBounds(game, x, y, //new TileColour(700 - i * 50));
-                palette.get(i));
+        // return setColourWithinBounds(game, x, y, //new TileColour(700 - i * 50));
+        // palette.get(i));
     }
 
     protected static boolean setColourWithinBounds(Game game, int x, int y, TileColour c)
@@ -106,36 +106,36 @@ public class GameHelper
 
     public static TileColour getIndexedTileColour(int i)
     {
-        if(i > 8)
+        if(i > 10)
         {
-            i = 8;
+            i = 10;
         }
         //i += (Options.PALETTE*9);
 
         switch (i)
         {
             case 0:
-                return TileColour.grey;
+                return TileColour.white;
             case 1:
-                return TileColour.red;
+                return TileColour.New1;
             case 2:
-                return TileColour.orange;
+                return TileColour.New2;
             case 3:
-                return TileColour.yellow;
+                return TileColour.New3;
             case 4:
-                return TileColour.green;
+                return TileColour.New4;
             case 5:
-                return TileColour.blue;
+                return TileColour.New5;
             case 6:
-                return TileColour.purple;
+                return TileColour.New6;
             case 7:
-                return TileColour.pink;
+                return TileColour.New7;
             case 8:
-                return TileColour.black;
+                return TileColour.New8;
             case 9:
-                return TileColour.thermalBomb;
+                return TileColour.New9;
             case 10:
-                return TileColour.thermalYellow;
+                return TileColour.New10;
             case 11:
                 return TileColour.thermalGold;
             case 12:

@@ -2,15 +2,20 @@ package com.coggroach.titan.gamemodes;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.view.MotionEvent;
 import android.view.SoundEffectConstants;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.coggroach.titan.R;
 import com.coggroach.titan.game.Game;
 import com.coggroach.titan.game.GameHelper;
 import com.coggroach.titan.graphics.renderer.TileRenderer;
+import com.coggroach.titan.graphics.views.ButtonView;
+import com.coggroach.titan.graphics.views.OnButtonViewListener;
+import com.coggroach.titan.graphics.views.StringView;
 import com.coggroach.titan.graphics.views.UIView;
 import com.coggroach.titan.tile.Tile;
 import com.coggroach.titan.tile.TileColour;
@@ -27,7 +32,6 @@ public class TicTakToeGame extends Game
     private boolean isGameOn;
     private boolean isRendering = false;
     private TileColour defaultColour = TileColour.white;
-    private View.OnClickListener endGameListener;
     private int player;
 
     public TicTakToeGame()
@@ -42,9 +46,22 @@ public class TicTakToeGame extends Game
         return isRendering;
     }
 
+    private OnButtonViewListener endGameListener = new OnButtonViewListener() {
+        @Override
+        public void onTouch(View view, MotionEvent event) {
+            if(!(isGameOn())) {
+                restart();
+                //generate();
+            }
+        }
+    };
+
     @Override
     public void initUIElements(Context c) {
         this.UILayout = new UIView(c);
+        ButtonView next = new ButtonView(c, "interface/ButtonNext.png", 0.80F, 0.105F, 0.16F, 0.09F);
+        next.setOnButtonViewListener(endGameListener);
+        UILayout.addView(next);
     }
 
     @Override
@@ -182,6 +199,32 @@ public class TicTakToeGame extends Game
         }
         if(total == 15)
             return true;
+
+        total = 0;
+        if(tile%2 == 0)
+        {
+            if(tile%4 == 0)
+            {
+                for(int i = 0; i < 3; i++)
+                    {
+                        if (tiles[i*4].getTextureId(0) == player) {
+                            total += square[i*4];
+                        }
+                    }
+            }
+            else
+            {
+                for(int i = 0; i < 3; i++)
+                    {
+                        if (tiles[2 + i*2].getTextureId(0) == player) {
+                            total += square[2 + i*2];
+                        }
+                    }
+            }
+        }
+        if(total == 15)
+            return true;
+
 
         return false;
     }
